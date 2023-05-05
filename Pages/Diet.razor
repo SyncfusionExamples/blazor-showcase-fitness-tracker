@@ -1,0 +1,432 @@
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Charts
+@using FitnessTracker.Data
+@inject FitnessService SampleService
+
+<div class="e-dashboardlayout-container e-diet-dashboardlayout-container">
+    <div class="col-md-9 e-dashboard-content">
+        <div class="col-md-12 col-sm-12">
+            <div id="meals-panel-id" class="e-panel e-meals-panel" data-row="0" data-col="0" data-sizeX="4" data-sizeY="1">
+            <div class="e-panel-container">
+                <div class="e-panel-header">
+                <div style="float: left;">5 Course Meals</div>
+                </div>
+                <div class="e-meals-card-container e-panel-content">
+                <div tabindex="0" class="e-card e-meals-card">
+                    <div class="e-card-header">
+                    <div class="e-card-header-img-container e-breakfast-card-container">
+                        <div class="e-card-header-image icon-Breakfast"></div>
+                    </div>
+                    @if (isBreakFastMenuAdded && isToday)
+                    {
+                        <div class="e-meals-edit">
+                            <div class="e-breakfast-edit icon-edit-2"></div>
+                        </div>
+                    }
+                    </div>
+                    <div class="e-card-content">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title e-meals-card-title"> Breakfast</div>
+                    </div>
+                    @if (isBreakFastMenuAdded)
+                    {
+                        <div>
+                            <div class="e-had-meals">
+                                <div class="e-meals-value" title="currentBreakFastMenuText">
+                                    @currentBreakFastMenuText
+                                </div>
+                            </div>
+                            <div class="e-calories-gain">
+                                @currentBreakFastCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="e-recom-meals-text">Recommended</div>
+                        <div class="e-recom-meals-value">
+                            @breakFastRecom <span class="e-card-cal-unit">kcal</span>
+                        </div>
+                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-breakfast-add-btn" Content="ADD MENU"></SfButton>
+                    }
+                    </div>
+                </div>
+                <div tabindex="0" class="e-card e-meals-card">
+                    <div class="e-card-header">
+                    <div class="e-card-header-img-container e-snack1-card-container">
+                        <div class="e-card-header-image icon-Snack-1"></div>
+                    </div>
+                    @if (isSnack1MenuAdded && isToday)
+                    {
+                        <div class="e-meals-edit">
+                            <div class="e-snack1-edit icon-edit-2"></div>
+                        </div>
+                    }
+                    </div>
+                    <div class="e-card-content">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title e-meals-card-title"> Snack</div>
+                    </div>
+                    @if (isSnack1MenuAdded)
+                    {
+                        <div>
+                            <div class="e-had-meals">
+                            <div class="e-meals-value" title="currentSnack1MenuText">@currentSnack1MenuText</div>
+                            </div>
+                            <div class="e-calories-gain">
+                                @currentSnack1Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="e-recom-meals-text">Recommended</div>
+                        <div class="e-recom-meals-value">
+                            @snack1Recom <span class="e-card-cal-unit">kcal</span>
+                        </div>
+                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-snack1-add-btn" Content="ADD MENU"></SfButton>
+                    }
+                    </div>
+                </div>
+                <div tabindex="0" class="e-card e-meals-card">
+                    <div class="e-card-header">
+                    <div class="e-card-header-img-container e-lunch-card-container">
+                        <div class="e-card-header-image icon-Lunch"></div>
+                    </div>
+                    @if (isLunchMenuAdded && isToday)
+                    {
+                        <div class="e-meals-edit">
+                            <div class="e-lunch-edit icon-edit-2"></div>
+                        </div>
+                    }
+                    </div>
+                    <div class="e-card-content">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title e-meals-card-title"> Lunch</div>
+                    </div>
+                    @if (isLunchMenuAdded)
+                    {
+                        <div>
+                            <div class="e-had-meals">
+                            <div class="e-meals-value" title="currentLunchMenuText">@currentLunchMenuText</div></div>
+                            <div class="e-calories-gain">
+                                @currentLunchCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="e-recom-meals-text">Recommended</div>
+                        <div class="e-recom-meals-value">
+                            @lunchRecom <span class="e-card-cal-unit">kcal</span>
+                        </div>
+                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-lunch-add-btn" Content="ADD MENU"></SfButton>
+                    }
+                    </div>
+                </div>
+                <div tabindex="0" class="e-card e-meals-card">
+                    <div class="e-card-header">
+                    <div class="e-card-header-img-container e-snack2-card-container">
+                        <div class="e-card-header-image icon-Snack-2"></div>
+                    </div>
+                    @if (isSnack2MenuAdded && isToday)
+                    {
+                        <div class="e-meals-edit">
+                            <div class="e-snack2-edit icon-edit-2"></div>
+                        </div>
+                    }
+                    </div>
+                    <div class="e-card-content">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title e-meals-card-title"> Snack</div>
+                    </div>
+                    @if (isSnack2MenuAdded)
+                    {
+                        <div>
+                            <div class="e-had-meals">
+                                <div class="e-meals-value" title="currentSnack2MenuText">@currentSnack2MenuText</div>
+                            </div>
+                            <div class="e-calories-gain">
+                                @currentSnack2Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="e-recom-meals-text">Recommended</div>
+                        <div class="e-recom-meals-value">
+                            @snack2Recom <span class="e-card-cal-unit">kcal</span>
+                        </div>
+                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-snack2-add-btn" Content="ADD MENU"></SfButton>
+                    }
+                    </div>
+                </div>
+                <div tabindex="0" class="e-card e-meals-card e-dinner-card">
+                    <div class="e-card-header">
+                    <div class="e-card-header-img-container e-dinner-card-container">
+                        <div class="e-card-header-image icon-Dinner"></div>
+                    </div>
+                    @if (isDinnerMenuAdded && isToday)
+                    {
+                        <div class="e-meals-edit">
+                            <div class="e-dinner-edit icon-edit-2" (click)="editMenu($event)"></div>
+                        </div>
+                    }
+                    </div>
+                    <div class="e-card-content">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title e-meals-card-title"> Dinner</div>
+                    </div>
+                    @if (isDinnerMenuAdded)
+                    {
+                        <div>
+                            <div class="e-had-meals">
+                            <div class="e-meals-value" title="currentDinnerMenuText">@currentDinnerMenuText</div>
+                            </div>
+                            <div class="e-calories-gain">@currentDinnerCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="e-recom-meals-text">Recommended</div>
+                            <div class="e-recom-meals-value">@dinnerRecom <span class="e-card-cal-unit">kcal</span>
+                        </div>
+                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-dinner-add-btn" Content="ADD MENU"></SfButton>
+                    }
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <div id="diet-chart-panel-id" class="e-panel e-diet-chart-panel" data-row="1" data-col="0" data-sizeX="4" data-sizeY="1">
+            <div class="e-panel-container">
+                <div class="e-panel-header">
+                <div class="col-lg-5 col-md-3 col-sm-3 col-xs-12 e-diet-panel-header-text">Calorie Diet</div>
+                <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12 e-consumed">
+                    <div class="e-consumed-wrapper-text col-lg-3 col-md-4 col-sm-4 col-xs-4">Consumed Calories</div>
+                    <div class="e-consumed-wrapper-value col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                    <span class="e-consumed-value">@SampleService.ConsumedCalories</span>
+                    <span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
+                    <span class="e-card-cal-unit e-add-cal-unit"> / @(SampleService.ExpectedCalories + " kcal")</span></div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 e-burned">
+                    <div class="e-consumed-wrapper-text col-lg-4 col-md-4 col-sm-4 col-xs-4">Burned Calories</div>
+                    <div class="e-consumed-wrapper-value col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                    @SampleService.BurnedCalories<span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
+                    </div>
+                </div>
+                </div>
+                <div class="e-diet-chart-panel-container e-panel-content">
+                <div class="e-chart-parent-div">
+                    <div class="e-pie-chart-container">
+                        @*<SfAccumulationChart ID="piecontainer" Theme="Syncfusion.Blazor.Theme.Tailwind" Width="100%" Height="80%" EnableSmartLabels="true">
+                            <AccumulationChartLegendSettings Visible="false" Position="LegendPosition.Right" Width="60%" Height="20%" ShapeHeight="20" ShapeWidth="20"></AccumulationChartLegendSettings>
+                            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+                            <AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
+                            <AccumulationChartEvents TooltipRender="OnTooltipRender"></AccumulationChartEvents>
+                            <AccumulationChartSeriesCollection>
+                                            <AccumulationChartSeries DataSource="@pieData" PointColorMapping="fill" XName="x" YName="y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
+                                    <AccumulationDataLabelSettings Visible="true" Name="Text">
+                                        <AccumulationChartDataLabelFont Color="#303343"></AccumulationChartDataLabelFont>
+                                    </AccumulationDataLabelSettings>
+                                </AccumulationChartSeries>
+                            </AccumulationChartSeriesCollection>
+                        </SfAccumulationChart>*@
+                    </div>
+                    <div class="e-nutrition-container">
+                    @if (SampleService.InnerWidth < 450)
+                    {
+                        <table class="e-nutrition-table">
+                            <tr>
+                            <td>
+                                <div class="e-nutrition-text">
+                                <div class="e-nutrition-img e-nutrition-protein-img"></div>
+                                <div>PROTEINS</div>
+                                </div>
+                                <div class="e-nutrition-value">@(currentTotalProteins + " gm")</div>
+                            </td>
+                            <td>
+                                <div class="e-nutrition-text">
+                                <div class="e-nutrition-img e-nutrition-fat-img"></div>
+                                <div>FAT</div>
+                                </div>
+                                <div class="e-nutrition-value">@currentTotalFat + " gm")</div>
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                <div class="e-nutrition-text">
+                                <div class="e-nutrition-img e-nutrition-carbo-img"></div>
+                                <div>CARBOHYDRATES</div>
+                                </div>
+                                <div class="e-nutrition-value">@(currentTotalCarbs + " gm")</div>
+                            </td>
+                            <td>
+                                <div class="e-nutrition-text">
+                                <div class="e-nutrition-img e-nutrition-calcium-img"></div>
+                                <div>CALCIUM</div>
+                                </div>
+                                <div class="e-nutrition-value">
+                                @(currentTotalCalcium < 1 ? (currentTotalCalcium * 1000) + " mg" : currentTotalCalcium + " gm") 
+                                </div>
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                <div class="e-nutrition-text">
+                                <div class="e-nutrition-img e-nutrition-sodium-img"></div>
+                                <div>SODIUM</div>
+                                </div>
+                                <div class="e-nutrition-value">
+                                @(currentTotalSodium < 1 ? (currentTotalSodium * 1000) + " mg" : currentTotalSodium + " gm")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="e-nutrition-text">
+                                <div class="e-nutrition-img e-nutrition-iron-img"></div>
+                                <div>IRON</div>
+                                </div>
+                                <div class="e-nutrition-value">
+                                @(currentTotalIron < 1 ? (currentTotalIron * 1000) + " mg" : currentTotalIron + " gm")
+                                </div>
+                            </td>
+                            </tr>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="e-nutrition-table">
+                            <tr>
+                                <td>
+                                <div class="e-nutrition-text">
+                                    <div class="e-nutrition-img e-nutrition-protein-img"></div>
+                                    <div>PROTEINS</div>
+                                </div>
+                                <div class="e-nutrition-value">@(currentTotalProteins + " gm")</div>
+                                </td>
+                                <td>
+                                <div class="e-nutrition-text">
+                                    <div class="e-nutrition-img e-nutrition-fat-img"></div>
+                                    <div>FAT</div>
+                                </div>
+                                <div class="e-nutrition-value">@(currentTotalFat + " gm")</div>
+                                </td>
+                                <td>
+                                <div class="e-nutrition-text">
+                                    <div class="e-nutrition-img e-nutrition-carbo-img"></div>
+                                    <div>CARBOHYDRATES</div>
+                                </div>
+                                <div class="e-nutrition-value">@(currentTotalCarbs + " gm")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <div class="e-nutrition-text">
+                                    <div class="e-nutrition-img e-nutrition-calcium-img"></div>
+                                    <div>CALCIUM</div>
+                                </div>
+                                <div class="e-nutrition-value">
+                                    @(currentTotalCalcium < 1 ? (currentTotalCalcium * 1000) + " mg" : currentTotalCalcium + " gm")
+                                </div>
+                                </td>
+                                <td>
+                                <div class="e-nutrition-text">
+                                    <div class="e-nutrition-img e-nutrition-sodium-img"></div>
+                                    <div>SODIUM</div>
+                                </div>
+                                <div class="e-nutrition-value">
+                                    @(currentTotalSodium < 1 ? (currentTotalSodium * 1000) + " mg" : currentTotalSodium + " gm")
+                                </div>
+                                </td>
+                                <td>
+                                <div class="e-nutrition-text">
+                                    <div class="e-nutrition-img e-nutrition-iron-img"></div>
+                                    <div>IRON</div>
+                                </div>
+                                <div class="e-nutrition-value">
+                                    @(currentTotalIron < 1 ? (currentTotalIron * 1000) + " mg" : currentTotalIron + " gm")
+                                </div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    @if (!SampleService.IsSmallDevice)
+    {
+        <div class="col-md-3">
+            <div id="diet-profile-panel-id" class="e-panel e-diet-profile-panel" data-row="0" data-col="4" data-sizeX="1" data-sizeY="3">
+                <div class="e-panel-container">
+                    <Profile></Profile>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<AddMenuDialog />
+
+@code{
+    private bool isBreakFastMenuAdded { get; set; }
+    private bool isToday { get; set; } = true;
+    private string currentBreakFastMenuText { get; set; }
+    private int currentBreakFastCalories { get; set; }
+    private int breakFastRecom { get; set; } = 440;
+    private bool isSnack1MenuAdded { get; set; } = false;
+    private string currentSnack1MenuText { get; set; }
+    private int currentSnack1Calories { get; set; }
+    private int snack1Recom { get; set; } = 165;
+    private bool isLunchMenuAdded { get; set; }
+    private string currentLunchMenuText { get; set; }
+    private int currentLunchCalories { get; set; }
+    private int lunchRecom { get; set; } = 440;
+    private bool isSnack2MenuAdded { get; set; }
+    private string currentSnack2MenuText { get; set; }
+    private int currentSnack2Calories { get; set; }
+    private int snack2Recom { get; set; } = 165;
+    private bool isDinnerMenuAdded { get; set; }
+    private string currentDinnerMenuText { get; set; }
+    private int currentDinnerCalories { get; set; }
+    private int dinnerRecom { get; set; } = 440;
+    private double currentTotalProteins { get; set; }
+    private double currentTotalFat { get; set; }
+    private double currentTotalCarbs { get; set; }
+    private double currentTotalCalcium { get; set; }
+    private double currentTotalIron { get; set; }
+    private double currentTotalSodium { get; set; }
+    private string pieChartRadius { get; set; }
+    private List<PieChartData> pieData { get; set; }
+
+    private List<PieChartData> GetPieChartData()
+    {
+        List<PieChartData> sampleChartData = new List<PieChartData>()
+        {
+            new PieChartData { X = "PROTEINS", Y = currentTotalProteins, Fill = "#4DD291" },
+            new PieChartData { X = "FAT", Y = currentTotalFat, Fill = "#FC892C" },
+            new PieChartData { X = "CARBOHYDRATES", Y = currentTotalCarbs, Fill = "#FFC147" },
+            new PieChartData { X = "CALCIUM", Y = currentTotalCalcium, Fill = "#E25641" },
+            new PieChartData { X = "SODIUM", Y = currentTotalSodium, Fill = "#901C53" },
+            new PieChartData { X = "IRON", Y = currentTotalIron, Fill = "#CB4967" },
+        };
+        return sampleChartData;
+    }
+
+    private void AddBtnClick()
+    {
+
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        pieChartRadius = SampleService.IsDevice ? "90%" : "80%";
+        pieData = GetPieChartData();
+    }
+}

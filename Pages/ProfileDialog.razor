@@ -1,0 +1,323 @@
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.CircularGauge
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.LinearGauge
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.SplitButtons
+@using FitnessTracker.Data
+@inject FitnessService SampleService;
+
+<SfDialog ID="profile-edit" CssClass="e-profile-edit-dialog" @bind-Visible="@hidden" Width="@editDialogWidth" Height="@height" IsModal="true" CloseOnEscape="true">
+    <DialogEvents OnOpen="DialogOpen" OnOverlayModalClick="OverlayClick"></DialogEvents>
+    <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+    @if (SampleService.IsDevice)
+    {
+        <DialogPositionData X="center" Y="top"></DialogPositionData>
+    }
+    else
+    {
+        <DialogPositionData X="center" Y="center"></DialogPositionData>
+    }
+    <DialogTemplates>
+        <Header>
+            <div class="e-profile-edit-icon-container">
+                <div class="e-profile-edit-icon-div">
+                    <span class="e-profile-edit-icon icon-Logo"></span>
+                </div>
+                <div class="e-profile-edit-title">GO<span>FIT</span></div>
+            </div>
+        </Header>
+        <Content>
+            <div class="e-edit-dialog-container col-md-12 col-sm-12">
+                <div class="e-profile-container col-md-6 col-sm-6">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="e-profile-back" @onclick="CloseEditDialog" @onclick:stopPropagation="true">
+                            <span class="icon-arrow-left"></span><span class="e-profile-back-text">
+                                Back to Dashboard
+                            </span>
+                        </div>
+                        <div class="e-profile-title">Profile</div>
+                    </div>
+                    <div class="e-profile-details col-md-12 col-sm-12">
+                        <div class="col-md-3">
+                            <div class="e-profile-pic-container e-avatar e-avatar-circle">
+                                <img src="css/assets/Profile/02.png" alt="JW" />
+                            </div>
+                        </div>
+                        <div class="e-profile-container col-md-9">
+                            <div class="e-profile-label">Name</div>
+                            <div class="e-profile-value">
+                                <SfTextBox Width="80%" Value="@SampleService.ProfileStats.Name" CssClass="e-profile-input" Input="OnNameChange"></SfTextBox>
+                            </div>
+                            <div class="e-profile-label">Age</div>
+                            <div class="e-age-edit e-profile-value">
+                                <div class="e-age-minus icon-minus" @onclick="AgeMinusClick" @onclick:stopPropagation="true"></div>
+                                <div class="e-age-count">@SampleService.ProfileStats.Age</div>
+                                <div class="e-age-plus icon-plus" @onclick="AgePlusClick" @onclick:stopPropagation="true"></div>
+                            </div>
+                            <div class="e-profile-label">Weight</div>
+                            <div class="e-profile-value">
+                                <SfTextBox Width="80%" Value="@(SampleService.ProfileStats.Weight + " " + SampleService.ProfileStats.WeightMes)" Readonly="true" CssClass="e-profile-input e-weight-text"></SfTextBox>
+                                <SfButton CssClass="e-weight-change-btn" OnClick="ChangeWeight">
+                                    <span>CHANGE</span><span class="e-change-right icon-chevron-right"></span>
+                                </SfButton>
+                            </div>
+                            <div class="e-profile-label">Set your Goal</div>
+                            <div class="e-profile-value">
+                                <SfTextBox Width="80%" Value="@(SampleService.ProfileStats.Goal + " " + SampleService.ProfileStats.GoalMes)" Readonly="true" CssClass="e-profile-input e-goal-text"></SfTextBox>
+                                <SfButton CssClass="e-goal-change-btn" OnClick="ChangeGoal">
+                                    <span>CHANGE</span><span class="e-change-right icon-chevron-right"></span>
+                                </SfButton>
+                            </div>
+                            <div class="e-profile-label">Height</div>
+                            <div class="e-profile-value">
+                                <SfTextBox Width="80%" Value="@(SampleService.ProfileStats.Height + " " + SampleService.ProfileStats.HeightMes)" Readonly="true" CssClass="e-profile-input e-height-text"></SfTextBox>
+                                <SfButton CssClass="e-height-change-btn" OnClick="ChangeHeight">
+                                    <span>CHANGE</span><span class="e-change-right icon-chevron-right"></span>
+                                </SfButton>
+                            </div>
+                            <div class="e-profile-label">Location</div>
+                            <div class="e-profile-value">
+                                <SfTextBox Width="100%" Value="@SampleService.ProfileStats.Location" CssClass="e-profile-input" Input="OnLocationChange"></SfTextBox>
+                            </div>
+                            <div class="e-profile-label">Email</div>
+                            <div class="e-profile-value">
+                                <SfTextBox Width="100%" Value="@SampleService.ProfileStats.Email" Type="InputType.Email" CssClass="e-profile-input" Input="OnEmailChange"></SfTextBox>
+                            </div>
+                            <div class="e-profile-label">Theme</div>
+                            <div class="e-profile-value e-radio-container">
+                                <SfRadioButton TChecked="string" CssClass="e-light-radio" Label="Light" Name="dashboard-theme" Value="Light" Checked="@Theme" ValueChange="ChangeHandler"></SfRadioButton>
+                                <SfRadioButton TChecked="string" CssClass="e-dark-radio" Label="Dark" Name="dashboard-theme" Value="Dark" ValueChange="ChangeHandler"></SfRadioButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="e-modify-container col-md-6 col-sm-6">
+                    <div class="e-modify-title">@modifyHeaderTitle</div>
+                    <div class='e-weight-modify-btn-group e-btn-group e-outline'>
+                        <input type="radio" id="KG" name="modifyunit" value="KG" checked="true" @onchange="HandleChange" />
+                        <label class="e-btn" for="KG">KG</label>
+                        <input type="radio" id="LB" name="modifyunit" value="LB" @onchange="HandleChange" />
+                        <label class="e-btn" for="LB">LB</label>
+                    </div>
+                    <div class='e-height-modify-btn-group e-btn-group e-outline e-hidden'>
+                        <input type="radio" id="CM" name="modifyunit" value="CM" checked="true" @onchange="@HandleChange" />
+                        <label class="e-btn" for="CM">CM</label>
+                        <input type="radio" id="FT" name="modifyunit" value="FT" @onchange="HandleChange" />
+                        <label class="e-btn" for="FT">FT</label>
+                    </div>
+                    <div class="e-weight-gauge-container">
+                        <SfCircularGauge ID="weightgauge" Theme="Syncfusion.Blazor.Theme.Tailwind" Width="100%" Height="300px" CenterX="50%" CenterY="50%" Background="@weightGaugeBackground">
+                            <CircularGaugeAxes>
+                                <CircularGaugeAxis Radius="85%" Minimum="0" Maximum="120" StartAngle="210" EndAngle="150">
+                                    <CircularGaugeAxisLineStyle Width="0"></CircularGaugeAxisLineStyle>
+                                    <CircularGaugeAxisMajorTicks Interval="10" Height="5" Offset="20" Position="Syncfusion.Blazor.CircularGauge.Position.Inside"></CircularGaugeAxisMajorTicks>
+                                    <CircularGaugeAxisMinorTicks Width="0"></CircularGaugeAxisMinorTicks>
+                                    <CircularGaugeAxisLabelStyle Offset="10">
+                                        <CircularGaugeAxisLabelFont FontFamily="Roboto" Size="0px" FontWeight="Regular"></CircularGaugeAxisLabelFont>
+                                    </CircularGaugeAxisLabelStyle>
+                                    <CircularGaugeRanges>
+                                        <CircularGaugeRange Start="0" End="@SampleService.ProfileStats.Weight" StartWidth="18" EndWidth="18" Color="#F43F5E" RoundedCornerRadius="10">
+                                            <Syncfusion.Blazor.CircularGauge.LinearGradient StartValue="0%" EndValue="100%">
+                                                <Syncfusion.Blazor.CircularGauge.ColorStops>
+                                                    <Syncfusion.Blazor.CircularGauge.ColorStop Color="#4075F2" Offset="0%"></Syncfusion.Blazor.CircularGauge.ColorStop>
+                                                    <Syncfusion.Blazor.CircularGauge.ColorStop Color="#FB9906" Offset="35%"></Syncfusion.Blazor.CircularGauge.ColorStop>
+                                                    <Syncfusion.Blazor.CircularGauge.ColorStop Color="#F9623A" Offset="70%"></Syncfusion.Blazor.CircularGauge.ColorStop>
+                                                    <Syncfusion.Blazor.CircularGauge.ColorStop Color="#C24287" Offset="100%"></Syncfusion.Blazor.CircularGauge.ColorStop>
+                                                </Syncfusion.Blazor.CircularGauge.ColorStops>
+                                            </Syncfusion.Blazor.CircularGauge.LinearGradient>
+                                        </CircularGaugeRange>
+                                    </CircularGaugeRanges>
+                                    <CircularGaugeAnnotations>
+                                        <CircularGaugeAnnotation Radius="85%" Angle="180" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-weight-gauge-annotation">@(SampleService.ProfileStats.Weight + SampleService.ProfileStats.WeightMes)</div>
+                                            </ContentTemplate>
+                                        </CircularGaugeAnnotation>
+                                    </CircularGaugeAnnotations>
+                                    <CircularGaugePointers>
+                                        <CircularGaugePointer PointerWidth="12" Value="@SampleService.ProfileStats.Weight" Radius="85%" Color="#F43F5E">
+                                            <CircularGaugePointerAnimation Enable="false"></CircularGaugePointerAnimation>
+                                        </CircularGaugePointer>
+                                    </CircularGaugePointers>
+                                </CircularGaugeAxis>
+                            </CircularGaugeAxes>
+                        </SfCircularGauge>
+                        <div class="slider-container">
+                            <SfSlider ID="weightrange" TValue="int" Value="@SampleService.ProfileStats.Weight" Type="SliderType.MinRange" Width="50%" Min="0" Max="120" CssClass="weight-slider-container">
+                                <SliderLimits Enabled="true" MinStart="@(currentWtUnit == "KG" ? 10 : 20)"></SliderLimits>
+                                <SliderEvents TValue="int" OnChange="SliderChange"></SliderEvents>
+                            </SfSlider>
+                        </div>
+                        <div class="e-add-weight">
+                            <SfButton IsPrimary="true" OnClick="UpdateWeight" Content="UPDATE WEIGHT"></SfButton>
+                        </div>
+                        <div class="e-cancel-weight">
+                            <SfButton CssClass="e-outline" OnClick="CancelWeight" Content="CANCEL"></SfButton>
+                        </div>
+                    </div>
+                    <div class="e-height-gauge-container e-hidden">
+                        <div class="e-base-container">
+                            <div class="e-height-img-container">
+                                <div class="e-age-edit e-profile-height-label">
+                                    @SampleService.ProfileStats.Height <span>@SampleService.ProfileStats.HeightMes</span>
+                                </div>
+                                <img id="height-svg" src="@("css/assets/Profile/" + @humanImg + ".svg")" alt="Height" />
+                            </div>
+                            <SfLinearGauge ID="heightgauge" Orientation="Orientation.Vertical" Width="100px" Height="400px" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                                <LinearGaugeAxes>
+                                    <LinearGaugeAxis Minimum="0" Maximum="230" OpposedPosition="true">
+                                        <LinearGaugeMajorTicks Interval="20" Color="#7D96A6"></LinearGaugeMajorTicks>
+                                        <LinearGaugeMinorTicks Interval="5" Color="#7D96A6"></LinearGaugeMinorTicks>
+                                        <LinearGaugePointers>
+                                            <LinearGaugePointer Type="Point.Bar" PointerValue="@SampleService.ProfileStats.Height" Width="80">
+                                                <Syncfusion.Blazor.LinearGauge.LinearGradient StartValue="0%" EndValue="100%">
+                                                    <Syncfusion.Blazor.LinearGauge.ColorStops>
+                                                        <Syncfusion.Blazor.LinearGauge.ColorStop Color="#B2CFE0" Offset="0%" Opacity="0.5"></Syncfusion.Blazor.LinearGauge.ColorStop>
+                                                    </Syncfusion.Blazor.LinearGauge.ColorStops>
+                                                </Syncfusion.Blazor.LinearGauge.LinearGradient>
+                                            </LinearGaugePointer>
+                                            <LinearGaugePointer Type="Point.Bar" Height="390" PointerValue="230" Width="5" Color="#7D96A6" Offset="-25" RoundedCornerRadius="0"></LinearGaugePointer>
+                                        </LinearGaugePointers>
+                                    </LinearGaugeAxis>
+                                </LinearGaugeAxes>
+                            </SfLinearGauge>
+                            <div class="slider-container" style="height: 390px; width: 50px; margin-top: 5px;">
+                                <SfSlider ID="heightrange" TValue="int" Value="@SampleService.ProfileStats.Height" Type="SliderType.MinRange" Width="100px" Min="0" Max="200" CssClass="height-slider-container" Orientation="SliderOrientation.Vertical">
+                                    <SliderLimits Enabled="true" MinStart="@(currentWtUnit == "CM" ? 30 : 1)"></SliderLimits>
+                                    <SliderEvents TValue="int" OnChange="SliderHeightChange"></SliderEvents>
+                                </SfSlider>
+                            </div>
+                        </div>
+                        <div class="e-add-height">
+                            <SfButton IsPrimary="true" OnClick="UpdateHeight" Content="UPDATE HEIGHT"></SfButton>
+                        </div>
+                        <div class="e-cancel-height">
+                            <SfButton CssClass="e-outline" OnClick="CancelHeight" Content="CANCEL"></SfButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Content>
+    </DialogTemplates>
+</SfDialog>
+
+@code {
+    private bool hidden { get; set; }
+    private string editDialogWidth { get; set; }
+    private string height { get; set; }
+    private string modifyHeaderTitle { get; set; } = "Change Your Weight";
+    private string weightGaugeBackground { get; set; } = "#FFF7EC";
+    private string currentWtUnit { get; set; } = "KG";
+    private string humanImg { get; set; } = "LightHuman";
+    private string Theme { get; set; } = "Light";
+
+    private void DialogOpen(BeforeOpenEventArgs args)
+    {
+        
+    }
+
+    private void OverlayClick(OverlayModalClickEventArgs args)
+    {
+
+    }
+
+    private void CloseEditDialog()
+    {
+        hidden = false;
+    }
+
+    private void OnNameChange(InputEventArgs args)
+    {
+
+    }
+
+    private void AgeMinusClick()
+    {
+
+    }
+
+    private void AgePlusClick()
+    {
+
+    }
+
+    private void ChangeWeight()
+    {
+
+    }
+
+    private void ChangeGoal()
+    {
+
+    }
+
+    private void ChangeHeight()
+    {
+
+    }
+
+    private void OnLocationChange(InputEventArgs args)
+    {
+
+    }
+
+    private void OnEmailChange(InputEventArgs args)
+    {
+
+    }
+
+    private void ChangeHandler(ChangeArgs<string> args)
+    {
+
+    }
+
+    private void HandleChange(ChangeEventArgs args)
+    {
+
+    }
+
+    private void SliderChange(SliderChangeEventArgs<int> args)
+    {
+
+    }
+
+    private void UpdateWeight()
+    {
+
+    }
+
+    private void CancelWeight()
+    {
+
+    }
+
+    private void SliderHeightChange(SliderChangeEventArgs<int> args)
+    {
+
+    }
+
+    private void UpdateHeight()
+    {
+
+    }
+
+    private void CancelHeight()
+    {
+
+    }
+
+    internal void ShowDialog()
+    {
+        hidden = true;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SampleService.ProfileDialogRef = this;
+        editDialogWidth = SampleService.IsDevice ? "100%" : "1000px";
+        height = SampleService.IsDevice ? "100%" : "auto";
+    }
+}

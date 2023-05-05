@@ -1,0 +1,236 @@
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Grids
+@using FitnessTracker.Data
+@inject FitnessService SampleService;
+
+<div class="e-dashboardlayout-container  e-activity-dashboardlayout-container">
+    <div class="col-md-9 e-dashboard-content">
+        <div class="col-md-12 col-sm-12">
+            <div id="activity-panel-id" class="e-panel e-my-activities-panel" data-row="0" data-col="0" data-sizeY="1">
+                <div class="e-panel-container">
+                    <div class="e-panel-header col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                        <div class="col-md-3 col-sm-6 col-xs-6 col-lg-3 e-my-activities-header">My Activities</div>
+                        <div class="col-md-3 col-sm-6 col-xs-6 col-lg-3 e-my-activities-date">
+                            <SfDatePicker TValue="DateTime?" @bind-Value="@SampleService.CurrentDate" Max="DateTime.Now" ShowClearButton="true"></SfDatePicker>
+                        </div>
+                    </div>
+                    <div class="e-panel-content e-activity-card-container">
+                        <div tabindex="0" class="e-card e-heart-rate-card">
+                            <div class="e-card-header" style="width: 100%">
+                                <div class="e-card-header-image icon-Heart e-card-corner"></div>
+                                <div class="e-card-header-caption" style="width: 100%">
+                                    <div>
+                                        <div class="e-card-header-title e-activity-card-title"> Heart Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-bpm-value">@heartRate<span>bpm</span></div>
+                                <div class="e-progress-annotation"><img src="css/assets/Profile/Heart-1.svg" alt="JW" /></div>
+                            </div>
+                        </div>
+                        <div tabindex="0" class="e-card e-steps-card">
+                            <div class="e-card-header" style="width: 100%">
+                                <div class="e-card-header-image icon-Steps e-card-corner"></div>
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-steps-card-title"> Steps</div>
+                                </div>
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-activity-actual">@steps</div>
+                                <div class="e-activity-goal">6000</div>
+                            </div>
+                        </div>
+                        <div tabindex="0" class="e-card e-calories-card">
+                            <div class="e-card-header" style="width: 100%">
+                                <div class="e-card-header-image icon-Calories e-card-corner"></div>
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-calories-card-title"> Calories</div>
+                                </div>
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-activity-actual">
+                                    @SampleService.ConsumedCalories
+                                    <span class="e-activity-actual-unit"> kcal</span>
+                                </div>
+                                <div class="e-activity-goal">@(SampleService.ExpectedCalories.ToString() + " kcal")</div>
+                            </div>
+                        </div>
+                        <div tabindex="0" class="e-card e-sleep-card">
+                            <div class="e-card-header" style="width: 100%">
+                                <div class="e-card-header-image icon-Sleep e-card-corner"></div>
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-sleep-card-title"> Sleep</div>
+                                </div>
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-activity-actual">@sleepInHours</div>
+                                <div class="e-activity-goal">8h</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <div id="activity-chart-panel-id" class="e-panel e-activity-panel" data-row="1" data-col="0" data-sizeY="1">
+                <div class="e-panel-container">
+                    <div class="e-panel-header col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                        <div class="col-md-5 col-sm-6 col-xs-8 col-lg-4 e-activity-chart-header-text">Activity Statistics</div>
+                        <div class="e-chart-dropdown col-md-3 col-sm-4 col-xs-4 col-lg-3">
+                            <SfDropDownList ID="chartdropdown" TValue="string" TItem="string" @bind-Value="@chartDropDownValue" DataSource="@dropDownData">
+                                <DropDownListEvents TValue="string" TItem="string" ValueChange="OnDropDownChange"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="e-chart-panel-content">
+                        @*<SfChart CustomClass="e-activity-chart" Width="101%" Height="70%" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Interval="1" IntervalType="@IntervalType.Days" LabelFormat="MMM dd" LabelIntersectAction="LabelIntersectAction.Hide" EdgeLabelPlacement="@EdgeLabelPlacement.Shift">
+                                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                                <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
+                            </ChartPrimaryXAxis>
+                            <ChartPrimaryXAxis Interval="50" Maximum="100" IntervalType="@IntervalType.Days" LabelFormat="{value}%">
+                                <ChartAxisMajorGridLines DashArray="10,5"></ChartAxisMajorGridLines>
+                                <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
+                            </ChartPrimaryXAxis>
+                            <ChartLegendSettings Position="@LegendPosition.Top"></ChartLegendSettings>
+                            <ChartTooltipSettings Enable="true" Shared="true" Format="${series.name} : ${point.y}">
+                                <ChartTooltipTextStyle FontFamily="Inter"></ChartTooltipTextStyle>
+                            </ChartTooltipSettings>
+                            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical" DashArray="10,5">
+                                <ChartCrosshairLine Color="#EE4769"></ChartCrosshairLine>
+                            </ChartCrosshairSettings>
+                            <ChartSeriesCollection>
+                                <ChartSeries DataSource="@chartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="x" YName="y" Name="Diet" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#2084FE">
+                                    <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
+                                </ChartSeries>
+                                <ChartSeries DataSource="@chartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="x" YName="y" Name="Workout" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#F547A8">
+                                    <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
+                                </ChartSeries>
+                                <ChartSeries DataSource="@chartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="x" YName="y" Fill="url(#gradient-diet-chart)"></ChartSeries>
+                                <ChartSeries DataSource="@chartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="x" YName="y" Fill="url(#gradient-activity-chart)"></ChartSeries>
+                            </ChartSeriesCollection>
+                        </SfChart>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <div id="workout-panel-id" class="e-panel e-workout-panel" data-row="2" data-col="0" data-sizeY="1">
+                <div class="e-panel-container">
+                    <div class="e-panel-header" style="margin-bottom: 5px;">
+                        <div>Recent Workout</div>
+                    </div>
+                    <div>
+                        <SfGrid DataSource="@gridData" Height="100%" Width="100%" GridLines="GridLine.None" RowHeight="60">
+                            <GridColumns>
+                                <GridColumn Field="@nameof(GridData.Workout)" HeaderText="Workout" TextAlign="@TextAlign.Left" Width="@gridColumnWidth"></GridColumn>
+                                <GridColumn Field="@nameof(GridData.Distance)" HeaderText="Distance (kms)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###.# km"></GridColumn>
+                                <GridColumn Field="@nameof(GridData.Duration)" HeaderText="Duration (minutes)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="### mins"></GridColumn>
+                                <GridColumn Field="@nameof(GridData.Date)" HeaderText="Date & Time" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="MMM dd,yyyy hh:mm a"></GridColumn>
+                                <GridColumn Field="@nameof(GridData.Completion)" HeaderText="Completion" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###'%'"></GridColumn>
+                            </GridColumns>
+                        </SfGrid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (!SampleService.IsSmallDevice)
+    {
+        <div class="col-md-3">
+            <div id="activity-profile-panel-id" class="e-panel e-activity-profile-panel" data-row="0" data-col="4" data-sizeX="1" data-sizeY="3">
+                <div class="e-panel-container">
+                    <Profile></Profile>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code{
+    private int heartRate { get; set; } = 80;
+    private int steps { get; set; } = 1240;
+    private int sleepInMinutes { get; set; } = 350;
+    private string sleepInHours { get; set; }
+    private string[] dropDownData { get; set; } = new string[] { "Weekly", "Monthly" };
+    private List<ChartData> chartData { get; set; }
+    private List<ChartData> chartDietData { get; set; }
+    private string chartDropDownValue { get; set; } = "Weekly";
+    private string gridColumnWidth { get; set; } = "200";
+    private List<GridData> gridData { get; set; } = new List<GridData>();
+
+    private void OnDropDownChange(ChangeEventArgs<string, string> args)
+    {
+
+    }
+
+    private string getSleepInHours(double minutes)
+    {
+        return Math.Floor(minutes / 60) + "h " + (minutes % 60) + "m";
+    }
+
+    private List<GridData> GetData()
+    {
+        List<GridData> sampleData = new List<GridData>();
+        string[] workout = new string[] { "Running", "Swimming", "Walking", "Yoga" };
+        int[] average = new int[] { 10, 18, 22 };
+        int[] hours = new int[] { 8, 7, 6, 6 };
+        int[] minutes = new int[] { 0, 0, 30, 0 };
+        int[] caloriesBurned = new int[] { 10, 15, 30 };
+        int count = 1;
+        SampleService.BurnedCalories = 0;
+        DateTime date = SampleService.CurrentDate.Value;
+        Random random = new Random();
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < workout.Length; j++)
+            {
+                TimeSpan span = new TimeSpan(hours[j], minutes[j], 0);
+                DateTime time = date.Date.Add(span);
+                double distance = workout[j] == "Yoga" ? 0 : workout[j] == "Running" ? random.NextDouble() * (5 - 1) + 1 : random.NextDouble() * (2 - 1) + 1;
+                GridData data = new GridData()
+                    {
+                        Workout = workout[j],
+                        Distance = distance,
+                        Duration = workout[j] == "Yoga" ? random.NextDouble() * (30 - 10) + 10 : (distance * average[j]),
+                        Date = time,
+                        Completion = random.NextDouble() * (100 - 50) + 50
+                    };
+                sampleData.Add(data);
+                SampleService.BurnedCalories += workout[j] == "Yoga" ? 0 : (int)Math.Round((double)(data.Duration / caloriesBurned[j]) * 100);
+            }
+        }
+        return sampleData;
+    }
+
+    private List<ChartData> GetChartData()
+    {
+        int count = chartDropDownValue == "Monthly" ? 30 : 7;
+        List<ChartData> sampleChartData = new List<ChartData>();
+        Random random = new Random();
+        for (int i = count - 1; i >= 0; i--)
+        {
+            ChartData currentData = new ChartData()
+                {
+                    //X = new DateTime(currentDate.Value.Year, currentDate.Value.Month, currentDate.Value.Day - i),
+                    X = SampleService.CurrentDate.Value.AddDays(-i),
+                    Y = random.NextDouble() * (90 - 50) + 50
+                };
+            sampleChartData.Add(currentData);
+        }
+        return sampleChartData;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        sleepInHours = getSleepInHours(sleepInMinutes);
+        chartData = GetChartData();
+        chartDietData = GetChartData();
+        gridData = GetData();
+    }
+}
