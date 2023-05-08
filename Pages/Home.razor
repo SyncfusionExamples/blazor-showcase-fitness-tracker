@@ -1,0 +1,118 @@
+﻿@page "/"
+
+@using Syncfusion.Blazor.Navigations
+@using FitnessTracker.Data
+@inject IJSRuntime JSRuntime;
+@inject FitnessService SampleService;
+
+@if (SampleService.IsSmallDevice)
+{
+    <div class="e-tab-header-mobile-icon-container">
+        <div class="e-tab-header-icon-div">
+            <span class="e-tab-header-icon icon-Logo"></span>
+        </div>
+        <div class="e-tab-title">GO<span>FIT</span></div>
+    </div>
+    <div class="separator-div"></div>
+}
+<SfTab ID="fitness-tab" CssClass="tab-container" HeaderPlacement="@headerPlacement" @bind-SelectedItem="@tabSelectedItem">
+    <TabEvents Created="@Created"></TabEvents>
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="ACTIVITIES" IconCss="icon-Activities" IconPosition="top"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <Activities></Activities>
+            </ContentTemplate>
+        </TabItem>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="DIET" IconCss="icon-Diet" IconPosition="top"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <Diet></Diet>
+            </ContentTemplate>
+        </TabItem>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="FASTING" IconCss="icon-Fasting" IconPosition="top"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <Fasting></Fasting>
+            </ContentTemplate>
+        </TabItem>
+        @if (SampleService.IsSmallDevice)
+        {
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="PROFILE" IconCss="icon-Profile" IconPosition="top"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <div class="e-dashboardlayout-container  e-profile-dashboardlayout-container">
+                      <div class="col-md-12 col-sm-12 e-profile-panel">
+                        <div id="profile-panel-id" class="e-panel e-profile-panel" data-row="0" data-col="0" data-sizeX="1" data-sizeY="1">
+                          <div class="e-panel-container">
+                            <Profile></Profile>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </ContentTemplate>
+            </TabItem>
+        }
+    </TabItems>
+</SfTab>
+
+<ProfileDialog />
+
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="gradient-activity-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="gradient-diet-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>
+
+@code{
+    private int tabSelectedItem { get; set; } = 0;
+    private HeaderPosition headerPlacement { get; set; } = HeaderPosition.Top;
+
+    private async Task Created()
+    {
+        await JSRuntime.InvokeVoidAsync("blazorFitnessTraker.renderTabChild");
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SampleService.ActivitiesData.ChartData = SampleService.GetChartData("Weekly");
+        SampleService.ActivitiesData.ChartDietData = SampleService.GetChartData("Weekly");
+        SampleService.ActivitiesData.GridData = SampleService.GetData();
+        SampleService.ActivitiesData.ActivityChartMonthData = new List<ChartData>();
+        SampleService.ActivitiesData.ActivityChartWeekData = new List<ChartData>();
+        Random random = new Random();
+        List<FitnessTracker.Data.MenuItems> currentBreakFastMenu = SampleService.GetBreakfastMenu().OrderBy(x => random.NextDouble()).ToList();
+        SampleService.DietData.CurrentBreakFastMenu = currentBreakFastMenu.Skip(0).Take(3).ToList();
+        List<FitnessTracker.Data.MenuItems> currentSnack1Menu = SampleService.GetSnackMenu().OrderBy(x => random.NextDouble()).ToList();
+        SampleService.DietData.CurrentSnack1Menu = currentSnack1Menu.Skip(0).Take(3).ToList();
+        List<FitnessTracker.Data.MenuItems> currentLunchMenu = SampleService.GetLunchMenu().OrderBy(x => random.NextDouble()).ToList();
+        SampleService.DietData.CurrentLunchMenu = currentLunchMenu.Skip(0).Take(3).ToList();
+        SampleService.FastingData.WeightChartData = SampleService.GetWeightChartData();
+        SampleService.ProfileStats = SampleService.GetProfileStats();
+        SampleService.DietData.IsBreakFastMenuAdded = true;
+        SampleService.DietData.IsSnack1MenuAdded = true;
+        SampleService.DietData.IsLunchMenuAdded = true;
+        SampleService.UpdateConsumedCalories();
+        SampleService.GetInitialData();
+    }
+}
