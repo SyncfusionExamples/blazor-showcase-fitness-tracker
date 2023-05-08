@@ -78,7 +78,7 @@
         else
         {
             countStartDate = currentDate.Date.AddDays(-1).Add(new TimeSpan(18, 0, 0));
-            countDownDate = new DateTime(currentDate.Year, currentDate.Month, countStartDate.Day, countStartDate.Hour + 16, 0, 0);
+            countDownDate = new DateTime(currentDate.Year, currentDate.Month, countStartDate.Day).Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
         }
         minimumDate = currentDate.Date;
         maximumDate = minimumDate.AddDays(1).Add(new TimeSpan(24, 0, 0));

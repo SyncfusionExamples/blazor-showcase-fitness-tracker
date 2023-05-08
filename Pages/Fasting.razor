@@ -160,20 +160,20 @@
                                             <LinearGaugeAxisLabelFont Opacity="0"></LinearGaugeAxisLabelFont>
                                         </LinearGaugeAxisLabelStyle>
                                         <LinearGaugePointers>
-                                            <LinearGaugePointer PointerValue="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100))" Type="Point.Bar" Height="50" Width="50" Color="#61a9f7" RoundedCornerRadius="35"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="8" Height="5" Width="5" Offset="-60" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 8 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="15" Height="4" Width="4" Offset="-80" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 15 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="21" Height="7" Width="7" Offset="-75" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 21 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="27" Height="8" Width="8" Offset="-65" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 27 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="37" Height="4" Width="4" Offset="@(SampleService.IsDevice ? "-85" : "-55")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 37 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="42" Height="6" Width="6" Offset="-75" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 42 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="48" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-80" : "-58")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 48 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="56" Height="5" Width="5" Offset="-72" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 56 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="64" Height="6" Width="6" Offset="-79" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 64 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="72" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-85" : "-55")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 72 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="80" Height="5" Width="5" Offset="-70" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 80 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="86" Height="6" Width="6" Offset="-77" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 86 ? 1 : 0)"></LinearGaugePointer>
-                                            <LinearGaugePointer PointerValue="94" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-80" : "-54")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(consumedWaterAmount / expectedWaterAmount) * 100) > 94 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100))" Type="Point.Bar" Height="50" Width="50" Color="#61a9f7" RoundedCornerRadius="35"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="8" Height="5" Width="5" Offset="-60" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 8 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="15" Height="4" Width="4" Offset="-80" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 15 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="21" Height="7" Width="7" Offset="-75" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 21 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="27" Height="8" Width="8" Offset="-65" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 27 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="37" Height="4" Width="4" Offset="@(SampleService.IsDevice ? "-85" : "-55")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 37 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="42" Height="6" Width="6" Offset="-75" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 42 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="48" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-80" : "-58")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 48 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="56" Height="5" Width="5" Offset="-72" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 56 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="64" Height="6" Width="6" Offset="-79" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 64 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="72" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-85" : "-55")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 72 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="80" Height="5" Width="5" Offset="-70" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 80 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="86" Height="6" Width="6" Offset="-77" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 86 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="94" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-80" : "-54")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 94 ? 1 : 0)"></LinearGaugePointer>
                                         </LinearGaugePointers>
                                     </LinearGaugeAxis>
                                 </LinearGaugeAxes>
@@ -181,13 +181,13 @@
                             <div class="e-water-label-container">
                                 <div class="e-water-minus icon-minus" @onclick="MinusClick" @onclick:stopPropagation="true"></div>
                                 <div class="e-water-image icon-Water"></div>
-                                <div class="e-water-count">@("X " + consumedWaterCount)</div>
+                                <div class="e-water-count">@("X " + SampleService.FastingData.ConsumedWaterCount)</div>
                                 <div class="e-water-plus icon-plus" @onclick="PlusClick" @onclick:stopPropagation="true"></div>
                             </div>
                             <div class="e-water-value-container">
                                 <div class="e-water-consumed-text">CONSUMED WATER</div>
                                 <div class="e-water-consumed-value">
-                                    @consumedWaterAmount <span class="e-water-consumed-expect">@("ml / " + expectedWaterAmount + " ml")</span>
+                                    @SampleService.FastingData.ConsumedWaterAmount <span class="e-water-consumed-expect">@("ml / " + SampleService.FastingData.ExpectedWaterAmount + " ml")</span>
                                 </div>
                             </div>
                         </div>
@@ -216,8 +216,8 @@
                             </ChartPrimaryYAxis>
                             <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
                             <ChartSeriesCollection>
-                                <ChartSeries DataSource="@weightChartData" Type="ChartSeriesType.SplineArea" Fill="url(#gradient-chart)" XName="X" YName="Y"></ChartSeries>
-                                <ChartSeries DataSource="@weightChartData" Type="ChartSeriesType.Spline" Fill="#8983F1" XName="X" YName="Y" Width="3">
+                                <ChartSeries DataSource="@SampleService.FastingData.WeightChartData" Type="ChartSeriesType.SplineArea" Fill="url(#gradient-chart)" XName="X" YName="Y"></ChartSeries>
+                                <ChartSeries DataSource="@SampleService.FastingData.WeightChartData" Type="ChartSeriesType.Spline" Fill="#8983F1" XName="X" YName="Y" Width="3">
                                     <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
                                 </ChartSeries>
                             </ChartSeriesCollection>
@@ -245,10 +245,6 @@
     private string fastStartTime { get; set; }
     private string fastEndTime { get; set; }
     private string changeTimeBtnText { get; set; } = "CHANGE TIME";
-    private int consumedWaterCount { get; set; } = 4;
-    private int consumedWaterAmount { get; set; } = 600;
-    private int expectedWaterAmount { get; set; } = 2400;
-    private List<ChartData> weightChartData { get; set; }
     public Syncfusion.Blazor.LinearGauge.Orientation gaugeOrientation { get; set; } 
     public string gaugeHeight { get; set; }
 
@@ -277,28 +273,9 @@
         args.Text = args.Data.PointX + ": " + ((int)args.Data.PointY < 1 ? (((int)args.Data.PointY * 1000) + " mg") : (args.Data.PointY + " gm"));
     }
 
-    private List<ChartData> GetWeightChartData()
-    {
-        List<ChartData> sampleChartData = new List<ChartData>();
-        int count = 12;
-        Random random = new Random();
-        DateTime date = SampleService.CurrentDate.HasValue ? SampleService.CurrentDate.Value : DateTime.Now;
-        for (int i = count - 1; i >= 0; i--)
-        {
-            ChartData data = new ChartData()
-            {
-                X = date.AddMonths(-i),
-                Y = Math.Round(70 + (i * (random.NextDouble() * (3.5 - 2) + 2)))
-            };
-            sampleChartData.Add(data);
-        }
-        return sampleChartData;
-    }
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        weightChartData = GetWeightChartData();
         gaugeOrientation = SampleService.IsDevice ? Syncfusion.Blazor.LinearGauge.Orientation.Vertical : Syncfusion.Blazor.LinearGauge.Orientation.Horizontal;
         gaugeHeight = SampleService.IsDevice ? "100%" : "250px";
     }

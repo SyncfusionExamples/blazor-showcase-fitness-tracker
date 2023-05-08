@@ -57,7 +57,7 @@
         </div>
     </div>
     <div class="profile-diet-card-container">
-        @foreach (Activity activity in SampleService.Activities)
+        @foreach (Activity activity in SampleService.TodayActivities)
         {
             <div tabindex="0" class="e-card e-diet-card">
                 <div class="e-card-header" style="width: 100%">
@@ -83,12 +83,5 @@
     private void OnProfileEdit()
     {
         SampleService.ProfileDialogRef.ShowDialog();
-    }
-
-    protected override void OnInitialized()
-    {
-        SampleService.CurrentDate = DateTime.Now;
-        SampleService.ProfileStats = SampleService.GetProfileStats();
-        SampleService.Activities = SampleService.GetActivities();
     }
 }

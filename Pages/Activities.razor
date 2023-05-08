@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             <div class="e-card-content">
-                                <div class="e-bpm-value">@heartRate<span>bpm</span></div>
+                                <div class="e-bpm-value">@SampleService.ActivitiesData.HeartRate<span>bpm</span></div>
                                 <div class="e-progress-annotation"><img src="css/assets/Profile/Heart-1.svg" alt="JW" /></div>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="e-card-content">
-                                <div class="e-activity-actual">@steps</div>
+                                <div class="e-activity-actual">@SampleService.ActivitiesData.Steps</div>
                                 <div class="e-activity-goal">6000</div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="e-card-content">
                                 <div class="e-activity-actual">
-                                    @SampleService.ConsumedCalories
+                                    @SampleService.DietData.ConsumedCalories
                                     <span class="e-activity-actual-unit"> kcal</span>
                                 </div>
                                 <div class="e-activity-goal">@(SampleService.ExpectedCalories.ToString() + " kcal")</div>
@@ -104,14 +104,14 @@
                                 <ChartCrosshairLine Color="#EE4769"></ChartCrosshairLine>
                             </ChartCrosshairSettings>
                             <ChartSeriesCollection>
-                                <ChartSeries DataSource="@chartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="x" YName="y" Name="Diet" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#2084FE">
+                                <ChartSeries DataSource="@SampleService.ChartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="x" YName="y" Name="Diet" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#2084FE">
                                     <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
                                 </ChartSeries>
-                                <ChartSeries DataSource="@chartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="x" YName="y" Name="Workout" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#F547A8">
+                                <ChartSeries DataSource="@SampleService.ChartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="x" YName="y" Name="Workout" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#F547A8">
                                     <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
                                 </ChartSeries>
-                                <ChartSeries DataSource="@chartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="x" YName="y" Fill="url(#gradient-diet-chart)"></ChartSeries>
-                                <ChartSeries DataSource="@chartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="x" YName="y" Fill="url(#gradient-activity-chart)"></ChartSeries>
+                                <ChartSeries DataSource="@SampleService.ChartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="x" YName="y" Fill="url(#gradient-diet-chart)"></ChartSeries>
+                        <ChartSeries DataSource="@SampleService.ChartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="x" YName="y" Fill="url(#gradient-activity-chart)"></ChartSeries>
                             </ChartSeriesCollection>
                         </SfChart>*@
                     </div>
@@ -125,13 +125,13 @@
                         <div>Recent Workout</div>
                     </div>
                     <div>
-                        <SfGrid DataSource="@gridData" Height="100%" Width="100%" GridLines="GridLine.None" RowHeight="60">
+                        <SfGrid DataSource="@SampleService.ActivitiesData.GridData" Height="100%" Width="100%" GridLines="GridLine.None" RowHeight="60">
                             <GridColumns>
-                                <GridColumn Field="@nameof(GridData.Workout)" HeaderText="Workout" TextAlign="@TextAlign.Left" Width="@gridColumnWidth"></GridColumn>
-                                <GridColumn Field="@nameof(GridData.Distance)" HeaderText="Distance (kms)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###.# km"></GridColumn>
-                                <GridColumn Field="@nameof(GridData.Duration)" HeaderText="Duration (minutes)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="### mins"></GridColumn>
-                                <GridColumn Field="@nameof(GridData.Date)" HeaderText="Date & Time" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="MMM dd,yyyy hh:mm a"></GridColumn>
-                                <GridColumn Field="@nameof(GridData.Completion)" HeaderText="Completion" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###'%'"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Workout)" HeaderText="Workout" TextAlign="@TextAlign.Left" Width="@gridColumnWidth"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Distance)" HeaderText="Distance (kms)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###.# km"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Duration)" HeaderText="Duration (minutes)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="### mins"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Date)" HeaderText="Date & Time" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="MMM dd,yyyy hh:mm a"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Completion)" HeaderText="Completion" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###'%'"></GridColumn>
                             </GridColumns>
                         </SfGrid>
                     </div>
@@ -152,16 +152,10 @@
 </div>
 
 @code{
-    private int heartRate { get; set; } = 80;
-    private int steps { get; set; } = 1240;
-    private int sleepInMinutes { get; set; } = 350;
     private string sleepInHours { get; set; }
     private string[] dropDownData { get; set; } = new string[] { "Weekly", "Monthly" };
-    private List<ChartData> chartData { get; set; }
-    private List<ChartData> chartDietData { get; set; }
     private string chartDropDownValue { get; set; } = "Weekly";
     private string gridColumnWidth { get; set; } = "200";
-    private List<GridData> gridData { get; set; } = new List<GridData>();
 
     private void OnDropDownChange(ChangeEventArgs<string, string> args)
     {
@@ -173,64 +167,9 @@
         return Math.Floor(minutes / 60) + "h " + (minutes % 60) + "m";
     }
 
-    private List<GridData> GetData()
-    {
-        List<GridData> sampleData = new List<GridData>();
-        string[] workout = new string[] { "Running", "Swimming", "Walking", "Yoga" };
-        int[] average = new int[] { 10, 18, 22 };
-        int[] hours = new int[] { 8, 7, 6, 6 };
-        int[] minutes = new int[] { 0, 0, 30, 0 };
-        int[] caloriesBurned = new int[] { 10, 15, 30 };
-        int count = 1;
-        SampleService.BurnedCalories = 0;
-        DateTime date = SampleService.CurrentDate.Value;
-        Random random = new Random();
-        for (int i = 0; i < count; i++)
-        {
-            for (int j = 0; j < workout.Length; j++)
-            {
-                TimeSpan span = new TimeSpan(hours[j], minutes[j], 0);
-                DateTime time = date.Date.Add(span);
-                double distance = workout[j] == "Yoga" ? 0 : workout[j] == "Running" ? random.NextDouble() * (5 - 1) + 1 : random.NextDouble() * (2 - 1) + 1;
-                GridData data = new GridData()
-                    {
-                        Workout = workout[j],
-                        Distance = distance,
-                        Duration = workout[j] == "Yoga" ? random.NextDouble() * (30 - 10) + 10 : (distance * average[j]),
-                        Date = time,
-                        Completion = random.NextDouble() * (100 - 50) + 50
-                    };
-                sampleData.Add(data);
-                SampleService.BurnedCalories += workout[j] == "Yoga" ? 0 : (int)Math.Round((double)(data.Duration / caloriesBurned[j]) * 100);
-            }
-        }
-        return sampleData;
-    }
-
-    private List<ChartData> GetChartData()
-    {
-        int count = chartDropDownValue == "Monthly" ? 30 : 7;
-        List<ChartData> sampleChartData = new List<ChartData>();
-        Random random = new Random();
-        for (int i = count - 1; i >= 0; i--)
-        {
-            ChartData currentData = new ChartData()
-                {
-                    //X = new DateTime(currentDate.Value.Year, currentDate.Value.Month, currentDate.Value.Day - i),
-                    X = SampleService.CurrentDate.Value.AddDays(-i),
-                    Y = random.NextDouble() * (90 - 50) + 50
-                };
-            sampleChartData.Add(currentData);
-        }
-        return sampleChartData;
-    }
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        sleepInHours = getSleepInHours(sleepInMinutes);
-        chartData = GetChartData();
-        chartDietData = GetChartData();
-        gridData = GetData();
+        sleepInHours = getSleepInHours(SampleService.ActivitiesData.SleepInMinutes);
     }
 }

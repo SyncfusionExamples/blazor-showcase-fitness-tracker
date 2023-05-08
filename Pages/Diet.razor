@@ -17,7 +17,7 @@
                     <div class="e-card-header-img-container e-breakfast-card-container">
                         <div class="e-card-header-image icon-Breakfast"></div>
                     </div>
-                    @if (isBreakFastMenuAdded && isToday)
+                    @if (SampleService.DietData.IsBreakFastMenuAdded && isToday)
                     {
                         <div class="e-meals-edit">
                             <div class="e-breakfast-edit icon-edit-2"></div>
@@ -28,16 +28,16 @@
                     <div class="e-card-header-caption">
                         <div class="e-card-header-title e-meals-card-title"> Breakfast</div>
                     </div>
-                    @if (isBreakFastMenuAdded)
+                    @if (SampleService.DietData.IsBreakFastMenuAdded)
                     {
                         <div>
                             <div class="e-had-meals">
-                                <div class="e-meals-value" title="currentBreakFastMenuText">
-                                    @currentBreakFastMenuText
+                                <div class="e-meals-value" title="@SampleService.DietData.CurrentBreakFastMenuText">
+                                    @SampleService.DietData.CurrentBreakFastMenuText
                                 </div>
                             </div>
                             <div class="e-calories-gain">
-                                @currentBreakFastCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                @SampleService.DietData.CurrentBreakFastCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
                             </div>
                         </div>
                     }
@@ -56,7 +56,7 @@
                     <div class="e-card-header-img-container e-snack1-card-container">
                         <div class="e-card-header-image icon-Snack-1"></div>
                     </div>
-                    @if (isSnack1MenuAdded && isToday)
+                    @if (SampleService.DietData.IsSnack1MenuAdded && isToday)
                     {
                         <div class="e-meals-edit">
                             <div class="e-snack1-edit icon-edit-2"></div>
@@ -67,14 +67,14 @@
                     <div class="e-card-header-caption">
                         <div class="e-card-header-title e-meals-card-title"> Snack</div>
                     </div>
-                    @if (isSnack1MenuAdded)
+                    @if (SampleService.DietData.IsSnack1MenuAdded)
                     {
                         <div>
                             <div class="e-had-meals">
-                            <div class="e-meals-value" title="currentSnack1MenuText">@currentSnack1MenuText</div>
+                                <div class="e-meals-value" title="@SampleService.DietData.CurrentSnack1MenuText">@SampleService.DietData.CurrentSnack1MenuText</div>
                             </div>
                             <div class="e-calories-gain">
-                                @currentSnack1Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                @SampleService.DietData.CurrentSnack1Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
                             </div>
                         </div>
                     }
@@ -93,7 +93,7 @@
                     <div class="e-card-header-img-container e-lunch-card-container">
                         <div class="e-card-header-image icon-Lunch"></div>
                     </div>
-                    @if (isLunchMenuAdded && isToday)
+                    @if (SampleService.DietData.IsLunchMenuAdded && isToday)
                     {
                         <div class="e-meals-edit">
                             <div class="e-lunch-edit icon-edit-2"></div>
@@ -104,13 +104,14 @@
                     <div class="e-card-header-caption">
                         <div class="e-card-header-title e-meals-card-title"> Lunch</div>
                     </div>
-                    @if (isLunchMenuAdded)
+                    @if (SampleService.DietData.IsLunchMenuAdded)
                     {
                         <div>
                             <div class="e-had-meals">
-                            <div class="e-meals-value" title="currentLunchMenuText">@currentLunchMenuText</div></div>
+                                <div class="e-meals-value" title="@SampleService.DietData.CurrentLunchMenuText">@SampleService.DietData.CurrentLunchMenuText</div>
+                            </div>
                             <div class="e-calories-gain">
-                                @currentLunchCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                @SampleService.DietData.CurrentLunchCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
                             </div>
                         </div>
                     }
@@ -129,7 +130,7 @@
                     <div class="e-card-header-img-container e-snack2-card-container">
                         <div class="e-card-header-image icon-Snack-2"></div>
                     </div>
-                    @if (isSnack2MenuAdded && isToday)
+                    @if (SampleService.DietData.IsSnack2MenuAdded && isToday)
                     {
                         <div class="e-meals-edit">
                             <div class="e-snack2-edit icon-edit-2"></div>
@@ -140,14 +141,14 @@
                     <div class="e-card-header-caption">
                         <div class="e-card-header-title e-meals-card-title"> Snack</div>
                     </div>
-                    @if (isSnack2MenuAdded)
+                    @if (SampleService.DietData.IsSnack2MenuAdded)
                     {
                         <div>
                             <div class="e-had-meals">
-                                <div class="e-meals-value" title="currentSnack2MenuText">@currentSnack2MenuText</div>
+                                <div class="e-meals-value" title="@SampleService.DietData.CurrentSnack2MenuText">@SampleService.DietData.CurrentSnack2MenuText</div>
                             </div>
                             <div class="e-calories-gain">
-                                @currentSnack2Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                @SampleService.DietData.CurrentSnack2Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
                             </div>
                         </div>
                     }
@@ -166,10 +167,10 @@
                     <div class="e-card-header-img-container e-dinner-card-container">
                         <div class="e-card-header-image icon-Dinner"></div>
                     </div>
-                    @if (isDinnerMenuAdded && isToday)
+                    @if (SampleService.DietData.IsDinnerMenuAdded && isToday)
                     {
                         <div class="e-meals-edit">
-                            <div class="e-dinner-edit icon-edit-2" (click)="editMenu($event)"></div>
+                            <div class="e-dinner-edit icon-edit-2"></div>
                         </div>
                     }
                     </div>
@@ -177,13 +178,13 @@
                     <div class="e-card-header-caption">
                         <div class="e-card-header-title e-meals-card-title"> Dinner</div>
                     </div>
-                    @if (isDinnerMenuAdded)
+                    @if (SampleService.DietData.IsDinnerMenuAdded)
                     {
                         <div>
                             <div class="e-had-meals">
-                            <div class="e-meals-value" title="currentDinnerMenuText">@currentDinnerMenuText</div>
+                                <div class="e-meals-value" title="@SampleService.DietData.CurrentDinnerMenuText">@SampleService.DietData.CurrentDinnerMenuText</div>
                             </div>
-                            <div class="e-calories-gain">@currentDinnerCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span></div>
+                            <div class="e-calories-gain">@SampleService.DietData.CurrentDinnerCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span></div>
                         </div>
                     }
                     else
@@ -207,14 +208,14 @@
                 <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12 e-consumed">
                     <div class="e-consumed-wrapper-text col-lg-3 col-md-4 col-sm-4 col-xs-4">Consumed Calories</div>
                     <div class="e-consumed-wrapper-value col-lg-9 col-md-8 col-sm-8 col-xs-6">
-                    <span class="e-consumed-value">@SampleService.ConsumedCalories</span>
+                    <span class="e-consumed-value">@SampleService.DietData.ConsumedCalories</span>
                     <span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
                     <span class="e-card-cal-unit e-add-cal-unit"> / @(SampleService.ExpectedCalories + " kcal")</span></div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 e-burned">
                     <div class="e-consumed-wrapper-text col-lg-4 col-md-4 col-sm-4 col-xs-4">Burned Calories</div>
                     <div class="e-consumed-wrapper-value col-lg-8 col-md-8 col-sm-8 col-xs-6">
-                    @SampleService.BurnedCalories<span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
+                    @SampleService.DietData.BurnedCalories<span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
                     </div>
                 </div>
                 </div>
@@ -227,7 +228,7 @@
                             <AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
                             <AccumulationChartEvents TooltipRender="OnTooltipRender"></AccumulationChartEvents>
                             <AccumulationChartSeriesCollection>
-                                            <AccumulationChartSeries DataSource="@pieData" PointColorMapping="fill" XName="x" YName="y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
+                                <AccumulationChartSeries DataSource="@pieData" PointColorMapping="fill" XName="X" YName="Y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
                                     <AccumulationDataLabelSettings Visible="true" Name="Text">
                                         <AccumulationChartDataLabelFont Color="#303343"></AccumulationChartDataLabelFont>
                                     </AccumulationDataLabelSettings>
@@ -245,14 +246,14 @@
                                 <div class="e-nutrition-img e-nutrition-protein-img"></div>
                                 <div>PROTEINS</div>
                                 </div>
-                                <div class="e-nutrition-value">@(currentTotalProteins + " gm")</div>
+                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalProteins + " gm")</div>
                             </td>
                             <td>
                                 <div class="e-nutrition-text">
                                 <div class="e-nutrition-img e-nutrition-fat-img"></div>
                                 <div>FAT</div>
                                 </div>
-                                <div class="e-nutrition-value">@currentTotalFat + " gm")</div>
+                                <div class="e-nutrition-value">@SampleService.DietData.CurrentTotalFat + " gm")</div>
                             </td>
                             </tr>
                             <tr>
@@ -261,7 +262,7 @@
                                 <div class="e-nutrition-img e-nutrition-carbo-img"></div>
                                 <div>CARBOHYDRATES</div>
                                 </div>
-                                <div class="e-nutrition-value">@(currentTotalCarbs + " gm")</div>
+                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalCarbs + " gm")</div>
                             </td>
                             <td>
                                 <div class="e-nutrition-text">
@@ -269,7 +270,7 @@
                                 <div>CALCIUM</div>
                                 </div>
                                 <div class="e-nutrition-value">
-                                @(currentTotalCalcium < 1 ? (currentTotalCalcium * 1000) + " mg" : currentTotalCalcium + " gm") 
+                                @(SampleService.DietData.CurrentTotalCalcium < 1 ? (SampleService.DietData.CurrentTotalCalcium * 1000) + " mg" : SampleService.DietData.CurrentTotalCalcium + " gm")
                                 </div>
                             </td>
                             </tr>
@@ -280,7 +281,7 @@
                                 <div>SODIUM</div>
                                 </div>
                                 <div class="e-nutrition-value">
-                                @(currentTotalSodium < 1 ? (currentTotalSodium * 1000) + " mg" : currentTotalSodium + " gm")
+                                @(SampleService.DietData.CurrentTotalSodium < 1 ? (SampleService.DietData.CurrentTotalSodium * 1000) + " mg" : SampleService.DietData.CurrentTotalSodium + " gm")
                                 </div>
                             </td>
                             <td>
@@ -289,7 +290,7 @@
                                 <div>IRON</div>
                                 </div>
                                 <div class="e-nutrition-value">
-                                @(currentTotalIron < 1 ? (currentTotalIron * 1000) + " mg" : currentTotalIron + " gm")
+                                @(SampleService.DietData.CurrentTotalIron < 1 ? (SampleService.DietData.CurrentTotalIron * 1000) + " mg" : SampleService.DietData.CurrentTotalIron + " gm")
                                 </div>
                             </td>
                             </tr>
@@ -304,21 +305,21 @@
                                     <div class="e-nutrition-img e-nutrition-protein-img"></div>
                                     <div>PROTEINS</div>
                                 </div>
-                                <div class="e-nutrition-value">@(currentTotalProteins + " gm")</div>
+                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalProteins + " gm")</div>
                                 </td>
                                 <td>
                                 <div class="e-nutrition-text">
                                     <div class="e-nutrition-img e-nutrition-fat-img"></div>
                                     <div>FAT</div>
                                 </div>
-                                <div class="e-nutrition-value">@(currentTotalFat + " gm")</div>
+                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalFat + " gm")</div>
                                 </td>
                                 <td>
                                 <div class="e-nutrition-text">
                                     <div class="e-nutrition-img e-nutrition-carbo-img"></div>
                                     <div>CARBOHYDRATES</div>
                                 </div>
-                                <div class="e-nutrition-value">@(currentTotalCarbs + " gm")</div>
+                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalCarbs + " gm")</div>
                                 </td>
                             </tr>
                             <tr>
@@ -328,7 +329,7 @@
                                     <div>CALCIUM</div>
                                 </div>
                                 <div class="e-nutrition-value">
-                                    @(currentTotalCalcium < 1 ? (currentTotalCalcium * 1000) + " mg" : currentTotalCalcium + " gm")
+                                    @(SampleService.DietData.CurrentTotalCalcium < 1 ? (SampleService.DietData.CurrentTotalCalcium * 1000) + " mg" : SampleService.DietData.CurrentTotalCalcium + " gm")
                                 </div>
                                 </td>
                                 <td>
@@ -337,7 +338,7 @@
                                     <div>SODIUM</div>
                                 </div>
                                 <div class="e-nutrition-value">
-                                    @(currentTotalSodium < 1 ? (currentTotalSodium * 1000) + " mg" : currentTotalSodium + " gm")
+                                    @(SampleService.DietData.CurrentTotalSodium < 1 ? (SampleService.DietData.CurrentTotalSodium * 1000) + " mg" : SampleService.DietData.CurrentTotalSodium + " gm")
                                 </div>
                                 </td>
                                 <td>
@@ -346,7 +347,7 @@
                                     <div>IRON</div>
                                 </div>
                                 <div class="e-nutrition-value">
-                                    @(currentTotalIron < 1 ? (currentTotalIron * 1000) + " mg" : currentTotalIron + " gm")
+                                    @(SampleService.DietData.CurrentTotalIron < 1 ? (SampleService.DietData.CurrentTotalIron * 1000) + " mg" : SampleService.DietData.CurrentTotalIron + " gm")
                                 </div>
                                 </td>
                             </tr>
@@ -374,33 +375,13 @@
 <AddMenuDialog />
 
 @code{
-    private bool isBreakFastMenuAdded { get; set; }
     private bool isToday { get; set; } = true;
-    private string currentBreakFastMenuText { get; set; }
-    private int currentBreakFastCalories { get; set; }
     private int breakFastRecom { get; set; } = 440;
-    private bool isSnack1MenuAdded { get; set; } = false;
-    private string currentSnack1MenuText { get; set; }
-    private int currentSnack1Calories { get; set; }
-    private int snack1Recom { get; set; } = 165;
-    private bool isLunchMenuAdded { get; set; }
-    private string currentLunchMenuText { get; set; }
-    private int currentLunchCalories { get; set; }
+    private int snack1Recom { get; set; } = 165; 
     private int lunchRecom { get; set; } = 440;
-    private bool isSnack2MenuAdded { get; set; }
-    private string currentSnack2MenuText { get; set; }
-    private int currentSnack2Calories { get; set; }
     private int snack2Recom { get; set; } = 165;
-    private bool isDinnerMenuAdded { get; set; }
-    private string currentDinnerMenuText { get; set; }
-    private int currentDinnerCalories { get; set; }
     private int dinnerRecom { get; set; } = 440;
-    private double currentTotalProteins { get; set; }
-    private double currentTotalFat { get; set; }
-    private double currentTotalCarbs { get; set; }
-    private double currentTotalCalcium { get; set; }
-    private double currentTotalIron { get; set; }
-    private double currentTotalSodium { get; set; }
+
     private string pieChartRadius { get; set; }
     private List<PieChartData> pieData { get; set; }
 
@@ -408,12 +389,12 @@
     {
         List<PieChartData> sampleChartData = new List<PieChartData>()
         {
-            new PieChartData { X = "PROTEINS", Y = currentTotalProteins, Fill = "#4DD291" },
-            new PieChartData { X = "FAT", Y = currentTotalFat, Fill = "#FC892C" },
-            new PieChartData { X = "CARBOHYDRATES", Y = currentTotalCarbs, Fill = "#FFC147" },
-            new PieChartData { X = "CALCIUM", Y = currentTotalCalcium, Fill = "#E25641" },
-            new PieChartData { X = "SODIUM", Y = currentTotalSodium, Fill = "#901C53" },
-            new PieChartData { X = "IRON", Y = currentTotalIron, Fill = "#CB4967" },
+            new PieChartData { X = "PROTEINS", Y = SampleService.DietData.CurrentTotalProteins, Fill = "#4DD291" },
+            new PieChartData { X = "FAT", Y = SampleService.DietData.CurrentTotalFat, Fill = "#FC892C" },
+            new PieChartData { X = "CARBOHYDRATES", Y = SampleService.DietData.CurrentTotalCarbs, Fill = "#FFC147" },
+            new PieChartData { X = "CALCIUM", Y = SampleService.DietData.CurrentTotalCalcium, Fill = "#E25641" },
+            new PieChartData { X = "SODIUM", Y = SampleService.DietData.CurrentTotalSodium, Fill = "#901C53" },
+            new PieChartData { X = "IRON", Y = SampleService.DietData.CurrentTotalIron, Fill = "#CB4967" },
         };
         return sampleChartData;
     }
@@ -421,6 +402,11 @@
     private void AddBtnClick()
     {
 
+    }
+
+    private void OnTooltipRender(TooltipRenderEventArgs args)
+    {
+        
     }
 
     protected override void OnInitialized()
