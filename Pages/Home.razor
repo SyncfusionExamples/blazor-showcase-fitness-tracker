@@ -95,11 +95,11 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SampleService.ActivitiesData.ChartData = SampleService.GetChartData("Weekly");
-        SampleService.ActivitiesData.ChartDietData = SampleService.GetChartData("Weekly");
+        SampleService.ActivitiesData.ActivityChartMonthData = new ChartPeriodData();
+        SampleService.ActivitiesData.ActivityChartWeekData = new ChartPeriodData();
+        SampleService.ActivitiesData.ChartData = SampleService.GetChartData("Weekly", "Diet");
+        SampleService.ActivitiesData.ChartDietData = SampleService.GetChartData("Weekly", "Workout");
         SampleService.ActivitiesData.GridData = SampleService.GetData();
-        SampleService.ActivitiesData.ActivityChartMonthData = new List<ChartData>();
-        SampleService.ActivitiesData.ActivityChartWeekData = new List<ChartData>();
         Random random = new Random();
         List<FitnessTracker.Data.MenuItems> currentBreakFastMenu = SampleService.GetBreakfastMenu().OrderBy(x => random.NextDouble()).ToList();
         SampleService.DietData.CurrentBreakFastMenu = currentBreakFastMenu.Skip(0).Take(3).ToList();

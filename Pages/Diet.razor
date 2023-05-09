@@ -7,356 +7,358 @@
     <div class="col-md-9 e-dashboard-content">
         <div class="col-md-12 col-sm-12">
             <div id="meals-panel-id" class="e-panel e-meals-panel" data-row="0" data-col="0" data-sizeX="4" data-sizeY="1">
-            <div class="e-panel-container">
-                <div class="e-panel-header">
-                <div style="float: left;">5 Course Meals</div>
-                </div>
-                <div class="e-meals-card-container e-panel-content">
-                <div tabindex="0" class="e-card e-meals-card">
-                    <div class="e-card-header">
-                    <div class="e-card-header-img-container e-breakfast-card-container">
-                        <div class="e-card-header-image icon-Breakfast"></div>
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+                        <div style="float: left;">5 Course Meals</div>
                     </div>
-                    @if (SampleService.DietData.IsBreakFastMenuAdded && isToday)
-                    {
-                        <div class="e-meals-edit">
-                            <div class="e-breakfast-edit icon-edit-2"></div>
-                        </div>
-                    }
-                    </div>
-                    <div class="e-card-content">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title e-meals-card-title"> Breakfast</div>
-                    </div>
-                    @if (SampleService.DietData.IsBreakFastMenuAdded)
-                    {
-                        <div>
-                            <div class="e-had-meals">
-                                <div class="e-meals-value" title="@SampleService.DietData.CurrentBreakFastMenuText">
-                                    @SampleService.DietData.CurrentBreakFastMenuText
+                    <div class="e-meals-card-container e-panel-content">
+                        <div tabindex="0" class="e-card e-meals-card">
+                            <div class="e-card-header">
+                                <div class="e-card-header-img-container e-breakfast-card-container">
+                                    <div class="e-card-header-image icon-Breakfast"></div>
                                 </div>
+                                @if (SampleService.DietData.IsBreakFastMenuAdded && isToday)
+                                {
+                                    <div class="e-meals-edit">
+                                        <div class="e-breakfast-edit icon-edit-2" @onclick="@(() => EditMenu("breakfast"))" @onclick:stopPropagation="true"></div>
+                                    </div>
+                                }
                             </div>
-                            <div class="e-calories-gain">
-                                @SampleService.DietData.CurrentBreakFastCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                            <div class="e-card-content">
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-meals-card-title"> Breakfast</div>
+                                </div>
+                                @if (SampleService.DietData.IsBreakFastMenuAdded)
+                                {
+                                    <div>
+                                        <div class="e-had-meals">
+                                            <div class="e-meals-value" title="@SampleService.DietData.CurrentBreakFastMenuText">
+                                                @SampleService.DietData.CurrentBreakFastMenuText
+                                            </div>
+                                        </div>
+                                        <div class="e-calories-gain">
+                                            @SampleService.DietData.CurrentBreakFastCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="e-recom-meals-text">Recommended</div>
+                                    <div class="e-recom-meals-value">
+                                        @breakFastRecom <span class="e-card-cal-unit">kcal</span>
+                                    </div>
+                                    <SfButton OnClick="@(() => AddBtnClick("breakfast"))" CssClass="e-add-menu-btn e-breakfast-add-btn" Content="ADD MENU"></SfButton>
+                                }
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="e-recom-meals-text">Recommended</div>
-                        <div class="e-recom-meals-value">
-                            @breakFastRecom <span class="e-card-cal-unit">kcal</span>
+                        <div tabindex="0" class="e-card e-meals-card">
+                            <div class="e-card-header">
+                                <div class="e-card-header-img-container e-snack1-card-container">
+                                    <div class="e-card-header-image icon-Snack-1"></div>
+                                </div>
+                                @if (SampleService.DietData.IsSnack1MenuAdded && isToday)
+                                {
+                                    <div class="e-meals-edit">
+                                        <div class="e-snack1-edit icon-edit-2" @onclick="@(() => EditMenu("snack1"))" @onclick:stopPropagation="true"></div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-meals-card-title"> Snack</div>
+                                </div>
+                                @if (SampleService.DietData.IsSnack1MenuAdded)
+                                {
+                                    <div>
+                                        <div class="e-had-meals">
+                                            <div class="e-meals-value" title="@SampleService.DietData.CurrentSnack1MenuText">@SampleService.DietData.CurrentSnack1MenuText</div>
+                                        </div>
+                                        <div class="e-calories-gain">
+                                            @SampleService.DietData.CurrentSnack1Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="e-recom-meals-text">Recommended</div>
+                                    <div class="e-recom-meals-value">
+                                        @snack1Recom <span class="e-card-cal-unit">kcal</span>
+                                    </div>
+                                    <SfButton OnClick="@(() => AddBtnClick("snack1"))" CssClass="e-add-menu-btn e-snack1-add-btn" Content="ADD MENU"></SfButton>
+                                }
+                            </div>
                         </div>
-                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-breakfast-add-btn" Content="ADD MENU"></SfButton>
-                    }
+                        <div tabindex="0" class="e-card e-meals-card">
+                            <div class="e-card-header">
+                                <div class="e-card-header-img-container e-lunch-card-container">
+                                    <div class="e-card-header-image icon-Lunch"></div>
+                                </div>
+                                @if (SampleService.DietData.IsLunchMenuAdded && isToday)
+                                {
+                                    <div class="e-meals-edit">
+                                        <div class="e-lunch-edit icon-edit-2" @onclick="@(() => EditMenu("lunch"))" @onclick:stopPropagation="true"></div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-meals-card-title"> Lunch</div>
+                                </div>
+                                @if (SampleService.DietData.IsLunchMenuAdded)
+                                {
+                                    <div>
+                                        <div class="e-had-meals">
+                                            <div class="e-meals-value" title="@SampleService.DietData.CurrentLunchMenuText">@SampleService.DietData.CurrentLunchMenuText</div>
+                                        </div>
+                                        <div class="e-calories-gain">
+                                            @SampleService.DietData.CurrentLunchCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="e-recom-meals-text">Recommended</div>
+                                    <div class="e-recom-meals-value">
+                                        @lunchRecom <span class="e-card-cal-unit">kcal</span>
+                                    </div>
+                                    <SfButton OnClick="@(() => AddBtnClick("lunch"))" CssClass="e-add-menu-btn e-lunch-add-btn" Content="ADD MENU"></SfButton>
+                                }
+                            </div>
+                        </div>
+                        <div tabindex="0" class="e-card e-meals-card">
+                            <div class="e-card-header">
+                                <div class="e-card-header-img-container e-snack2-card-container">
+                                    <div class="e-card-header-image icon-Snack-2"></div>
+                                </div>
+                                @if (SampleService.DietData.IsSnack2MenuAdded && isToday)
+                                {
+                                    <div class="e-meals-edit">
+                                        <div class="e-snack2-edit icon-edit-2" @onclick="@(() => EditMenu("snack2"))" @onclick:stopPropagation="true"></div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-meals-card-title"> Snack</div>
+                                </div>
+                                @if (SampleService.DietData.IsSnack2MenuAdded)
+                                {
+                                    <div>
+                                        <div class="e-had-meals">
+                                            <div class="e-meals-value" title="@SampleService.DietData.CurrentSnack2MenuText">@SampleService.DietData.CurrentSnack2MenuText</div>
+                                        </div>
+                                        <div class="e-calories-gain">
+                                            @SampleService.DietData.CurrentSnack2Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="e-recom-meals-text">Recommended</div>
+                                    <div class="e-recom-meals-value">
+                                        @snack2Recom <span class="e-card-cal-unit">kcal</span>
+                                    </div>
+                                    <SfButton OnClick="@(() => AddBtnClick("snack2"))" CssClass="e-add-menu-btn e-snack2-add-btn" Content="ADD MENU"></SfButton>
+                                }
+                            </div>
+                        </div>
+                        <div tabindex="0" class="e-card e-meals-card e-dinner-card">
+                            <div class="e-card-header">
+                                <div class="e-card-header-img-container e-dinner-card-container">
+                                    <div class="e-card-header-image icon-Dinner"></div>
+                                </div>
+                                @if (SampleService.DietData.IsDinnerMenuAdded && isToday)
+                                {
+                                    <div class="e-meals-edit">
+                                        <div class="e-dinner-edit icon-edit-2" @onclick="@(() => EditMenu("dinner"))" @onclick:stopPropagation="true"></div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="e-card-content">
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title e-meals-card-title"> Dinner</div>
+                                </div>
+                                @if (SampleService.DietData.IsDinnerMenuAdded)
+                                {
+                                    <div>
+                                        <div class="e-had-meals">
+                                            <div class="e-meals-value" title="@SampleService.DietData.CurrentDinnerMenuText">@SampleService.DietData.CurrentDinnerMenuText</div>
+                                        </div>
+                                        <div class="e-calories-gain">@SampleService.DietData.CurrentDinnerCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span></div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="e-recom-meals-text">Recommended</div>
+                                    <div class="e-recom-meals-value">
+                                        @dinnerRecom <span class="e-card-cal-unit">kcal</span>
+                                    </div>
+                                    <SfButton OnClick="@(() => AddBtnClick("dinner"))" CssClass="e-add-menu-btn e-dinner-add-btn" Content="ADD MENU"></SfButton>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div tabindex="0" class="e-card e-meals-card">
-                    <div class="e-card-header">
-                    <div class="e-card-header-img-container e-snack1-card-container">
-                        <div class="e-card-header-image icon-Snack-1"></div>
-                    </div>
-                    @if (SampleService.DietData.IsSnack1MenuAdded && isToday)
-                    {
-                        <div class="e-meals-edit">
-                            <div class="e-snack1-edit icon-edit-2"></div>
-                        </div>
-                    }
-                    </div>
-                    <div class="e-card-content">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title e-meals-card-title"> Snack</div>
-                    </div>
-                    @if (SampleService.DietData.IsSnack1MenuAdded)
-                    {
-                        <div>
-                            <div class="e-had-meals">
-                                <div class="e-meals-value" title="@SampleService.DietData.CurrentSnack1MenuText">@SampleService.DietData.CurrentSnack1MenuText</div>
-                            </div>
-                            <div class="e-calories-gain">
-                                @SampleService.DietData.CurrentSnack1Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="e-recom-meals-text">Recommended</div>
-                        <div class="e-recom-meals-value">
-                            @snack1Recom <span class="e-card-cal-unit">kcal</span>
-                        </div>
-                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-snack1-add-btn" Content="ADD MENU"></SfButton>
-                    }
-                    </div>
-                </div>
-                <div tabindex="0" class="e-card e-meals-card">
-                    <div class="e-card-header">
-                    <div class="e-card-header-img-container e-lunch-card-container">
-                        <div class="e-card-header-image icon-Lunch"></div>
-                    </div>
-                    @if (SampleService.DietData.IsLunchMenuAdded && isToday)
-                    {
-                        <div class="e-meals-edit">
-                            <div class="e-lunch-edit icon-edit-2"></div>
-                        </div>
-                    }
-                    </div>
-                    <div class="e-card-content">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title e-meals-card-title"> Lunch</div>
-                    </div>
-                    @if (SampleService.DietData.IsLunchMenuAdded)
-                    {
-                        <div>
-                            <div class="e-had-meals">
-                                <div class="e-meals-value" title="@SampleService.DietData.CurrentLunchMenuText">@SampleService.DietData.CurrentLunchMenuText</div>
-                            </div>
-                            <div class="e-calories-gain">
-                                @SampleService.DietData.CurrentLunchCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="e-recom-meals-text">Recommended</div>
-                        <div class="e-recom-meals-value">
-                            @lunchRecom <span class="e-card-cal-unit">kcal</span>
-                        </div>
-                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-lunch-add-btn" Content="ADD MENU"></SfButton>
-                    }
-                    </div>
-                </div>
-                <div tabindex="0" class="e-card e-meals-card">
-                    <div class="e-card-header">
-                    <div class="e-card-header-img-container e-snack2-card-container">
-                        <div class="e-card-header-image icon-Snack-2"></div>
-                    </div>
-                    @if (SampleService.DietData.IsSnack2MenuAdded && isToday)
-                    {
-                        <div class="e-meals-edit">
-                            <div class="e-snack2-edit icon-edit-2"></div>
-                        </div>
-                    }
-                    </div>
-                    <div class="e-card-content">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title e-meals-card-title"> Snack</div>
-                    </div>
-                    @if (SampleService.DietData.IsSnack2MenuAdded)
-                    {
-                        <div>
-                            <div class="e-had-meals">
-                                <div class="e-meals-value" title="@SampleService.DietData.CurrentSnack2MenuText">@SampleService.DietData.CurrentSnack2MenuText</div>
-                            </div>
-                            <div class="e-calories-gain">
-                                @SampleService.DietData.CurrentSnack2Calories <span class="e-card-cal-unit e-add-cal-unit">kcal</span>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="e-recom-meals-text">Recommended</div>
-                        <div class="e-recom-meals-value">
-                            @snack2Recom <span class="e-card-cal-unit">kcal</span>
-                        </div>
-                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-snack2-add-btn" Content="ADD MENU"></SfButton>
-                    }
-                    </div>
-                </div>
-                <div tabindex="0" class="e-card e-meals-card e-dinner-card">
-                    <div class="e-card-header">
-                    <div class="e-card-header-img-container e-dinner-card-container">
-                        <div class="e-card-header-image icon-Dinner"></div>
-                    </div>
-                    @if (SampleService.DietData.IsDinnerMenuAdded && isToday)
-                    {
-                        <div class="e-meals-edit">
-                            <div class="e-dinner-edit icon-edit-2"></div>
-                        </div>
-                    }
-                    </div>
-                    <div class="e-card-content">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title e-meals-card-title"> Dinner</div>
-                    </div>
-                    @if (SampleService.DietData.IsDinnerMenuAdded)
-                    {
-                        <div>
-                            <div class="e-had-meals">
-                                <div class="e-meals-value" title="@SampleService.DietData.CurrentDinnerMenuText">@SampleService.DietData.CurrentDinnerMenuText</div>
-                            </div>
-                            <div class="e-calories-gain">@SampleService.DietData.CurrentDinnerCalories <span class="e-card-cal-unit e-add-cal-unit">kcal</span></div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="e-recom-meals-text">Recommended</div>
-                            <div class="e-recom-meals-value">@dinnerRecom <span class="e-card-cal-unit">kcal</span>
-                        </div>
-                        <SfButton OnClick="AddBtnClick" CssClass="e-add-menu-btn e-dinner-add-btn" Content="ADD MENU"></SfButton>
-                    }
-                    </div>
-                </div>
-                </div>
-            </div>
             </div>
         </div>
         <div class="col-md-12 col-sm-12">
             <div id="diet-chart-panel-id" class="e-panel e-diet-chart-panel" data-row="1" data-col="0" data-sizeX="4" data-sizeY="1">
-            <div class="e-panel-container">
-                <div class="e-panel-header">
-                <div class="col-lg-5 col-md-3 col-sm-3 col-xs-12 e-diet-panel-header-text">Calorie Diet</div>
-                <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12 e-consumed">
-                    <div class="e-consumed-wrapper-text col-lg-3 col-md-4 col-sm-4 col-xs-4">Consumed Calories</div>
-                    <div class="e-consumed-wrapper-value col-lg-9 col-md-8 col-sm-8 col-xs-6">
-                    <span class="e-consumed-value">@SampleService.DietData.ConsumedCalories</span>
-                    <span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
-                    <span class="e-card-cal-unit e-add-cal-unit"> / @(SampleService.ExpectedCalories + " kcal")</span></div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 e-burned">
-                    <div class="e-consumed-wrapper-text col-lg-4 col-md-4 col-sm-4 col-xs-4">Burned Calories</div>
-                    <div class="e-consumed-wrapper-value col-lg-8 col-md-8 col-sm-8 col-xs-6">
-                    @SampleService.DietData.BurnedCalories<span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+                        <div class="col-lg-5 col-md-3 col-sm-3 col-xs-12 e-diet-panel-header-text">Calorie Diet</div>
+                        <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12 e-consumed">
+                            <div class="e-consumed-wrapper-text col-lg-3 col-md-4 col-sm-4 col-xs-4">Consumed Calories</div>
+                            <div class="e-consumed-wrapper-value col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <span class="e-consumed-value">@SampleService.DietData.ConsumedCalories</span>
+                                <span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
+                                <span class="e-card-cal-unit e-add-cal-unit"> / @(SampleService.ExpectedCalories + " kcal")</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 e-burned">
+                            <div class="e-consumed-wrapper-text col-lg-4 col-md-4 col-sm-4 col-xs-4">Burned Calories</div>
+                            <div class="e-consumed-wrapper-value col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                @SampleService.DietData.BurnedCalories<span class="e-card-cal-unit e-add-cal-unit"> kcal</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                </div>
-                <div class="e-diet-chart-panel-container e-panel-content">
-                <div class="e-chart-parent-div">
-                    <div class="e-pie-chart-container">
-                        @*<SfAccumulationChart ID="piecontainer" Theme="Syncfusion.Blazor.Theme.Tailwind" Width="100%" Height="80%" EnableSmartLabels="true">
-                            <AccumulationChartLegendSettings Visible="false" Position="LegendPosition.Right" Width="60%" Height="20%" ShapeHeight="20" ShapeWidth="20"></AccumulationChartLegendSettings>
-                            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
-                            <AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
-                            <AccumulationChartEvents TooltipRender="OnTooltipRender"></AccumulationChartEvents>
-                            <AccumulationChartSeriesCollection>
-                                <AccumulationChartSeries DataSource="@pieData" PointColorMapping="fill" XName="X" YName="Y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
-                                    <AccumulationDataLabelSettings Visible="true" Name="Text">
-                                        <AccumulationChartDataLabelFont Color="#303343"></AccumulationChartDataLabelFont>
-                                    </AccumulationDataLabelSettings>
+                    <div class="e-diet-chart-panel-container e-panel-content">
+                        <div class="e-chart-parent-div">
+                            <div class="e-pie-chart-container">
+                                @*<SfAccumulationChart ID="piecontainer" Theme="Syncfusion.Blazor.Theme.Tailwind" Width="100%" Height="80%" EnableSmartLabels="true">
+                                <AccumulationChartLegendSettings Visible="false" Position="LegendPosition.Right"  Width="60%" Height="20%" ShapeHeight="20" ShapeWidth="20"></AccumulationChartLegendSettings>
+                                <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+                                <AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
+                                <AccumulationChartEvents TooltipRender="OnTooltipRender"></AccumulationChartEvents>
+                                <AccumulationChartSeriesCollection>
+                                <AccumulationChartSeries DataSource="@pieData" PointColorMapping="Fill" XName="X" YName="Y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
+                                <AccumulationDataLabelSettings Visible="true">
+                                <AccumulationChartDataLabelFont Color="#303343"></AccumulationChartDataLabelFont>
+                                </AccumulationDataLabelSettings>
                                 </AccumulationChartSeries>
-                            </AccumulationChartSeriesCollection>
-                        </SfAccumulationChart>*@
-                    </div>
-                    <div class="e-nutrition-container">
-                    @if (SampleService.InnerWidth < 450)
-                    {
-                        <table class="e-nutrition-table">
-                            <tr>
-                            <td>
-                                <div class="e-nutrition-text">
-                                <div class="e-nutrition-img e-nutrition-protein-img"></div>
-                                <div>PROTEINS</div>
-                                </div>
-                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalProteins + " gm")</div>
-                            </td>
-                            <td>
-                                <div class="e-nutrition-text">
-                                <div class="e-nutrition-img e-nutrition-fat-img"></div>
-                                <div>FAT</div>
-                                </div>
-                                <div class="e-nutrition-value">@SampleService.DietData.CurrentTotalFat + " gm")</div>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>
-                                <div class="e-nutrition-text">
-                                <div class="e-nutrition-img e-nutrition-carbo-img"></div>
-                                <div>CARBOHYDRATES</div>
-                                </div>
-                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalCarbs + " gm")</div>
-                            </td>
-                            <td>
-                                <div class="e-nutrition-text">
-                                <div class="e-nutrition-img e-nutrition-calcium-img"></div>
-                                <div>CALCIUM</div>
-                                </div>
-                                <div class="e-nutrition-value">
-                                @(SampleService.DietData.CurrentTotalCalcium < 1 ? (SampleService.DietData.CurrentTotalCalcium * 1000) + " mg" : SampleService.DietData.CurrentTotalCalcium + " gm")
-                                </div>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>
-                                <div class="e-nutrition-text">
-                                <div class="e-nutrition-img e-nutrition-sodium-img"></div>
-                                <div>SODIUM</div>
-                                </div>
-                                <div class="e-nutrition-value">
-                                @(SampleService.DietData.CurrentTotalSodium < 1 ? (SampleService.DietData.CurrentTotalSodium * 1000) + " mg" : SampleService.DietData.CurrentTotalSodium + " gm")
-                                </div>
-                            </td>
-                            <td>
-                                <div class="e-nutrition-text">
-                                <div class="e-nutrition-img e-nutrition-iron-img"></div>
-                                <div>IRON</div>
-                                </div>
-                                <div class="e-nutrition-value">
-                                @(SampleService.DietData.CurrentTotalIron < 1 ? (SampleService.DietData.CurrentTotalIron * 1000) + " mg" : SampleService.DietData.CurrentTotalIron + " gm")
-                                </div>
-                            </td>
-                            </tr>
-                        </table>
-                    }
-                    else
-                    {
-                        <table class="e-nutrition-table">
-                            <tr>
-                                <td>
-                                <div class="e-nutrition-text">
-                                    <div class="e-nutrition-img e-nutrition-protein-img"></div>
-                                    <div>PROTEINS</div>
-                                </div>
-                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalProteins + " gm")</div>
-                                </td>
-                                <td>
-                                <div class="e-nutrition-text">
-                                    <div class="e-nutrition-img e-nutrition-fat-img"></div>
-                                    <div>FAT</div>
-                                </div>
-                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalFat + " gm")</div>
-                                </td>
-                                <td>
-                                <div class="e-nutrition-text">
-                                    <div class="e-nutrition-img e-nutrition-carbo-img"></div>
-                                    <div>CARBOHYDRATES</div>
-                                </div>
-                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalCarbs + " gm")</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <div class="e-nutrition-text">
-                                    <div class="e-nutrition-img e-nutrition-calcium-img"></div>
-                                    <div>CALCIUM</div>
-                                </div>
-                                <div class="e-nutrition-value">
-                                    @(SampleService.DietData.CurrentTotalCalcium < 1 ? (SampleService.DietData.CurrentTotalCalcium * 1000) + " mg" : SampleService.DietData.CurrentTotalCalcium + " gm")
-                                </div>
-                                </td>
-                                <td>
-                                <div class="e-nutrition-text">
-                                    <div class="e-nutrition-img e-nutrition-sodium-img"></div>
-                                    <div>SODIUM</div>
-                                </div>
-                                <div class="e-nutrition-value">
-                                    @(SampleService.DietData.CurrentTotalSodium < 1 ? (SampleService.DietData.CurrentTotalSodium * 1000) + " mg" : SampleService.DietData.CurrentTotalSodium + " gm")
-                                </div>
-                                </td>
-                                <td>
-                                <div class="e-nutrition-text">
-                                    <div class="e-nutrition-img e-nutrition-iron-img"></div>
-                                    <div>IRON</div>
-                                </div>
-                                <div class="e-nutrition-value">
-                                    @(SampleService.DietData.CurrentTotalIron < 1 ? (SampleService.DietData.CurrentTotalIron * 1000) + " mg" : SampleService.DietData.CurrentTotalIron + " gm")
-                                </div>
-                                </td>
-                            </tr>
-                        </table>
-                    }
+                                </AccumulationChartSeriesCollection>
+                                </SfAccumulationChart>*@
+                            </div>
+                            <div class="e-nutrition-container">
+                                @if (SampleService.InnerWidth < 450)
+                                {
+                                    <table class="e-nutrition-table">
+                                        <tr>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-protein-img"></div>
+                                                    <div>PROTEINS</div>
+                                                </div>
+                                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalProteins + " gm")</div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-fat-img"></div>
+                                                    <div>FAT</div>
+                                                </div>
+                                                <div class="e-nutrition-value">@SampleService.DietData.CurrentTotalFat + " gm")</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-carbo-img"></div>
+                                                    <div>CARBOHYDRATES</div>
+                                                </div>
+                                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalCarbs + " gm")</div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-calcium-img"></div>
+                                                    <div>CALCIUM</div>
+                                                </div>
+                                                <div class="e-nutrition-value">
+                                                    @(SampleService.DietData.CurrentTotalCalcium < 1 ? (SampleService.DietData.CurrentTotalCalcium * 1000) + " mg" : SampleService.DietData.CurrentTotalCalcium + " gm")
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-sodium-img"></div>
+                                                    <div>SODIUM</div>
+                                                </div>
+                                                <div class="e-nutrition-value">
+                                                    @(SampleService.DietData.CurrentTotalSodium < 1 ? (SampleService.DietData.CurrentTotalSodium * 1000) + " mg" : SampleService.DietData.CurrentTotalSodium + " gm")
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-iron-img"></div>
+                                                    <div>IRON</div>
+                                                </div>
+                                                <div class="e-nutrition-value">
+                                                    @(SampleService.DietData.CurrentTotalIron < 1 ? (SampleService.DietData.CurrentTotalIron * 1000) + " mg" : SampleService.DietData.CurrentTotalIron + " gm")
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <table class="e-nutrition-table">
+                                        <tr>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-protein-img"></div>
+                                                    <div>PROTEINS</div>
+                                                </div>
+                                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalProteins + " gm")</div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-fat-img"></div>
+                                                    <div>FAT</div>
+                                                </div>
+                                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalFat + " gm")</div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-carbo-img"></div>
+                                                    <div>CARBOHYDRATES</div>
+                                                </div>
+                                                <div class="e-nutrition-value">@(SampleService.DietData.CurrentTotalCarbs + " gm")</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-calcium-img"></div>
+                                                    <div>CALCIUM</div>
+                                                </div>
+                                                <div class="e-nutrition-value">
+                                                    @(SampleService.DietData.CurrentTotalCalcium < 1 ? (SampleService.DietData.CurrentTotalCalcium * 1000) + " mg" : SampleService.DietData.CurrentTotalCalcium + " gm")
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-sodium-img"></div>
+                                                    <div>SODIUM</div>
+                                                </div>
+                                                <div class="e-nutrition-value">
+                                                    @(SampleService.DietData.CurrentTotalSodium < 1 ? (SampleService.DietData.CurrentTotalSodium * 1000) + " mg" : SampleService.DietData.CurrentTotalSodium + " gm")
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="e-nutrition-text">
+                                                    <div class="e-nutrition-img e-nutrition-iron-img"></div>
+                                                    <div>IRON</div>
+                                                </div>
+                                                <div class="e-nutrition-value">
+                                                    @(SampleService.DietData.CurrentTotalIron < 1 ? (SampleService.DietData.CurrentTotalIron * 1000) + " mg" : SampleService.DietData.CurrentTotalIron + " gm")
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
-                </div>
-            </div>
             </div>
         </div>
     </div>
@@ -372,7 +374,7 @@
     }
 </div>
 
-<AddMenuDialog />
+<AddMenuDialog StateChange="StateChange" />
 
 @code{
     private bool isToday { get; set; } = true;
@@ -399,14 +401,125 @@
         return sampleChartData;
     }
 
-    private void AddBtnClick()
+    private void AddBtnClick(string clickedMenu)
     {
+        if (SampleService.MenuDialogRef != null)
+        {
+            switch(clickedMenu)
+            {
+                case "breakfast":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
+                    SampleService.MenuDialogRef.CurrentRecom = breakFastRecom;
+                    SampleService.MenuDialogRef.CurrentAddedMenu = "Breakfast";
+                    break;
+                case "snack1":
+                case "snack2":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
+                    if (clickedMenu == "snack1")
+                    {
+                        SampleService.MenuDialogRef.CurrentRecom = snack1Recom;
+                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 1";
+                    }
+                    else
+                    {
+                        SampleService.MenuDialogRef.CurrentRecom = snack2Recom;
+                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 2";
+                    }
+                    break;
+                case "lunch":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    SampleService.MenuDialogRef.CurrentRecom = lunchRecom;
+                    SampleService.MenuDialogRef.CurrentAddedMenu = "Lunch";
+                    break;
+                case "dinner":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    SampleService.MenuDialogRef.CurrentRecom = dinnerRecom;
+                    SampleService.MenuDialogRef.CurrentAddedMenu = "Dinner";
+                    break;
+            }
+            SampleService.MenuDialogRef.ShowDialog();
+        }
+    }
 
+    private void EditMenu(string clickedMenu)
+    {
+        if (SampleService.MenuDialogRef != null)
+        {
+            switch(clickedMenu)
+            {
+                case "breakfast":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
+                    UpdateCurrentMenu(SampleService.DietData.CurrentBreakFastMenu);
+                    SampleService.MenuDialogRef.CurrentRecom = breakFastRecom;
+                    SampleService.MenuDialogRef.CurrentAddedMenu = "Breakfast";
+                    break;
+                case "snack1":
+                case "snack2":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
+                    if (clickedMenu == "snack1")
+                    {
+                        UpdateCurrentMenu(SampleService.DietData.CurrentSnack1Menu);
+                        SampleService.MenuDialogRef.CurrentRecom = snack1Recom;
+                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 1";
+                    }
+                    else
+                    {
+                        UpdateCurrentMenu(SampleService.DietData.CurrentSnack2Menu);
+                        SampleService.MenuDialogRef.CurrentRecom = snack2Recom;
+                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 2";
+                    }
+                    break;
+                case "lunch":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    UpdateCurrentMenu(SampleService.DietData.CurrentLunchMenu);
+                    SampleService.MenuDialogRef.CurrentRecom = lunchRecom;
+                    SampleService.MenuDialogRef.CurrentAddedMenu = "Lunch";
+                    break;
+                case "dinner":
+                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
+                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    UpdateCurrentMenu(SampleService.DietData.CurrentDinnerMenu);
+                    SampleService.MenuDialogRef.CurrentRecom = dinnerRecom;
+                    SampleService.MenuDialogRef.CurrentAddedMenu = "Dinner";
+                    break;
+            };
+            SampleService.MenuDialogRef.UpdateTotalCal();
+            SampleService.MenuDialogRef.ShowDialog();
+        }
+    }
+
+    private void UpdateCurrentMenu(List<MenuItems> menu)
+    {
+        for (int i = 0; i < menu.Count; i++)
+        {
+            for (int j = 0; j < SampleService.MenuDialogRef.CurrentMenu.Count; j++)
+            {
+                if (menu[i].Item == SampleService.MenuDialogRef.CurrentMenu[j].Item)
+                {
+                    SampleService.MenuDialogRef.CurrentMenu[j].IsAdded = true;
+                    SampleService.MenuDialogRef.CurrentMenu[j].Quantity = menu[i].Quantity.HasValue ? menu[i].Quantity.Value : 1;
+                    break;
+                }
+            }
+        }
     }
 
     private void OnTooltipRender(TooltipRenderEventArgs args)
     {
-        
+
+    }
+
+    private void StateChange()
+    {
+        pieData = GetPieChartData();
+        StateHasChanged();
     }
 
     protected override void OnInitialized()

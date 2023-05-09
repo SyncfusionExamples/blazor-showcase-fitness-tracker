@@ -87,7 +87,10 @@
                     </div>
                     <div class="e-chart-panel-content">
                         <SfChart CustomClass="e-activity-chart" Width="101%" Height="70%" Theme="Syncfusion.Blazor.Theme.Tailwind">
-                            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                            <ChartEvents SharedTooltipRender="ChartTooltipRender" OnLegendClick="LegendClick"></ChartEvents>
+                            <ChartArea>
+                                <ChartAreaBorder Width="0"></ChartAreaBorder>
+                            </ChartArea>
                             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Interval="1" IntervalType="@IntervalType.Days" LabelFormat="MMM dd" LabelIntersectAction="LabelIntersectAction.Hide" EdgeLabelPlacement="@EdgeLabelPlacement.Shift">
                                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                                 <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
@@ -110,8 +113,8 @@
                                 <ChartSeries DataSource="@SampleService.ActivitiesData.ChartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.Spline" Width="4" XName="X" YName="Y" Name="Workout" LegendShape="Syncfusion.Blazor.Charts.LegendShape.Circle" Fill="#F547A8">
                                     <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
                                 </ChartSeries>
-                                <ChartSeries DataSource="@SampleService.ActivitiesData.ChartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="X" YName="Y" Fill="url(#gradient-diet-chart)"></ChartSeries>
-                                <ChartSeries DataSource="@SampleService.ActivitiesData.ChartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="X" YName="Y" Fill="url(#gradient-activity-chart)"></ChartSeries>
+                                <ChartSeries DataSource="@SampleService.ActivitiesData.ChartDietData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="X" YName="Y" Fill="url(#gradient-diet-chart)" Visible="@dietChartVisible"></ChartSeries>
+                                <ChartSeries DataSource="@SampleService.ActivitiesData.ChartData" Type="Syncfusion.Blazor.Charts.ChartSeriesType.SplineArea" XName="X" YName="Y" Fill="url(#gradient-activity-chart)" Visible="@workoutChartVisible"></ChartSeries>
                             </ChartSeriesCollection>
                         </SfChart>
                     </div>
@@ -130,8 +133,8 @@
                                 <GridColumn Field="@nameof(GridListData.Workout)" HeaderText="Workout" TextAlign="@TextAlign.Left" Width="@gridColumnWidth"></GridColumn>
                                 <GridColumn Field="@nameof(GridListData.Distance)" HeaderText="Distance (kms)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###.# km"></GridColumn>
                                 <GridColumn Field="@nameof(GridListData.Duration)" HeaderText="Duration (minutes)" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="### mins"></GridColumn>
-                                <GridColumn Field="@nameof(GridListData.Date)" HeaderText="Date & Time" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="MMM dd,yyyy hh:mm a"></GridColumn>
-                                <GridColumn Field="@nameof(GridListData.Completion)" HeaderText="Completion" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###'%'"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Date)" HeaderText="Date & Time" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="MMM dd,yyyy hh:mm tt"></GridColumn>
+                                <GridColumn Field="@nameof(GridListData.Completion)" HeaderText="Completion" TextAlign="@TextAlign.Left" Width="@gridColumnWidth" Format="###'%'" CustomAttributes="@CustomAttributes"></GridColumn>
                             </GridColumns>
                         </SfGrid>
                     </div>
@@ -156,10 +159,41 @@
     private string[] dropDownData { get; set; } = new string[] { "Weekly", "Monthly" };
     private string chartDropDownValue { get; set; } = "Weekly";
     private string gridColumnWidth { get; set; } = "200";
+    private bool dietChartVisible { get; set; } = true;
+    private bool workoutChartVisible { get; set; } = true;
+    private Dictionary<string, object> CustomAttributes = new Dictionary<string, object>()
+    {
+        { "class", "completion-color" }
+    };
 
     private void OnDropDownChange(ChangeEventArgs<string, string> args)
     {
+        SampleService.ActivitiesData.ChartData = SampleService.GetChartData(args.Value, "Diet");
+        SampleService.ActivitiesData.ChartDietData = SampleService.GetChartData(args.Value, "Workout");
+    }
 
+    private void ChartTooltipRender(SharedTooltipRenderEventArgs args)
+    {
+        if (dietChartVisible && workoutChartVisible)
+        {
+            args.Text = args.Text.Skip(0).Take(2).ToList();
+        }
+        else if (dietChartVisible || workoutChartVisible)
+        {
+            args.Text = args.Text.Skip(0).Take(1).ToList();
+        }
+    }
+
+    private void LegendClick(LegendClickEventArgs args)
+    {
+        if (args.LegendText == "Diet")
+        {
+            dietChartVisible = !dietChartVisible;
+        }
+        else if (args.LegendText == "Workout")
+        {
+            workoutChartVisible = !workoutChartVisible;
+        }
     }
 
     private string getSleepInHours(double minutes)
