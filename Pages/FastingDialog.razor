@@ -4,7 +4,7 @@
 @inject FitnessService SampleService
 
 <SfDialog ID="fasting-dialog" CssClass="e-fasting-dialog" Header="Fasting" @bind-Visible="@hidden" ShowCloseIcon="true" Width="@fastingDialogwidth" IsModal="true">
-    <DialogEvents OnOpen="DialogOpen" OnOverlayModalClick="FastingOverlayClick"></DialogEvents>
+    <DialogEvents OnOverlayModalClick="FastingOverlayClick"></DialogEvents>
     <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
     <DialogPositionData X="center" Y="center"></DialogPositionData>
     <DialogTemplates>
@@ -36,14 +36,9 @@
     private string fastingDialogwidth { get; set; }
     private int diff { get; set; } = 16;
     private DateTime countStartDate { get; set; }
-    private DateTime countDownDate { get; set ;}
+    private DateTime countDownDate { get; set; }
     private DateTime minimumDate { get; set; }
     private DateTime maximumDate { get; set; }
-
-    private void DialogOpen(BeforeOpenEventArgs args)
-    {
-
-    }
 
     private void FastingOverlayClick(OverlayModalClickEventArgs args)
     {

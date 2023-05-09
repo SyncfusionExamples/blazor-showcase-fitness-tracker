@@ -104,6 +104,7 @@
                         </div>
                         <div class="e-panel-content">
                             <SfLinearGauge ID="waterGaugeId" Width="100%" Height="@gaugeHeight" Orientation="@gaugeOrientation" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                                <LinearGaugeContainer Width="50" RoundedCornerRadius="35" Type="ContainerType.RoundedRectangle" BackgroundColor="#3993F5"></LinearGaugeContainer>
                                 <LinearGaugeAnnotations>
                                     @if (SampleService.IsDevice)
                                     {
@@ -154,6 +155,7 @@
                                 </LinearGaugeAnnotations>
                                 <LinearGaugeAxes>
                                     <LinearGaugeAxis Minimum="0" Maximum="100" OpposedPosition="true">
+                                        <LinearGaugeLine Width="0"></LinearGaugeLine>
                                         <LinearGaugeMajorTicks Interval="10" Color="#3993F5" Offset="5"></LinearGaugeMajorTicks>
                                         <LinearGaugeMinorTicks Interval="2" Color="#3993F5" Offset="5"></LinearGaugeMinorTicks>
                                         <LinearGaugeAxisLabelStyle>

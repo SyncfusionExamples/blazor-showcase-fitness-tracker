@@ -34,7 +34,7 @@ namespace FitnessTracker.Data
     public class GridListData
     {
         public string Workout { get; set; }
-        public double Distance { get; set; }
+        public double? Distance { get; set; }
         public double Duration { get; set; }
         public DateTime Date { get; set; }
         public double Completion { get; set; }
@@ -58,6 +58,7 @@ namespace FitnessTracker.Data
         public double Iron { get; set; }
         public double Calcium { get; set; }
         public bool IsAdded { get; set; }
+        public int? Quantity { get; set; }
     }
 
     public class ActivitiesData
@@ -69,8 +70,14 @@ namespace FitnessTracker.Data
         public List<ChartData> ChartData { get; set; }
         public List<ChartData> ChartDietData { get; set; }
         public int MorningWalk { get; set; }
-        public List<ChartData> ActivityChartMonthData { get; set; }
-        public List<ChartData> ActivityChartWeekData { get; set; }
+        public ChartPeriodData ActivityChartMonthData { get; set; }
+        public ChartPeriodData ActivityChartWeekData { get; set; }
+    }
+
+    public class ChartPeriodData
+    {
+        public List<ChartData> Diet { get; set; }
+        public List<ChartData> Workout { get; set; }
     }
 
     public class DietData

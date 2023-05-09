@@ -13,13 +13,12 @@ namespace FitnessTracker.Data
         
         public int ExpectedCalories { get; set; } = 3000;
         
-        public List<MenuItems> CurrentMenu { get; set; }
-        
         public List<FitnessService> MasterData { get; set; }
         internal ActivitiesData ActivitiesData { get; set; } = new ActivitiesData();
         internal DietData DietData { get; set; } = new DietData();
         internal FastingData FastingData { get; set; } = new FastingData();
         internal ProfileDialog ProfileDialogRef { get; set; }
+        internal AddMenuDialog MenuDialogRef { get; set; }
 
 
         internal void GetInitialData()
@@ -267,7 +266,7 @@ namespace FitnessTracker.Data
             int[] caloriesBurned = new int[] { 10, 15, 30 };
             int count = 1;
             DietData.BurnedCalories = 0;
-            DateTime date = CurrentDate.Value;
+            DateTime date = CurrentDate.HasValue ? CurrentDate.Value : DateTime.Now;
             Random random = new Random();
             for (int i = 0; i < count; i++)
             {
@@ -275,14 +274,14 @@ namespace FitnessTracker.Data
                 {
                     TimeSpan span = new TimeSpan(hours[j], minutes[j], 0);
                     DateTime time = date.Date.Add(span);
-                    double distance = workout[j] == "Yoga" ? 0 : workout[j] == "Running" ? random.NextDouble() * (5 - 1) + 1 : random.NextDouble() * (2 - 1) + 1;
+                    double? distance = workout[j] == "Yoga" ? null : workout[j] == "Running" ? random.NextDouble() * (5 - 1) + 1 : random.NextDouble() * (2 - 1) + 1;
                     GridListData data = new GridListData()
                     {
                         Workout = workout[j],
                         Distance = distance,
-                        Duration = workout[j] == "Yoga" ? random.NextDouble() * (30 - 10) + 10 : (distance * average[j]),
+                        Duration = workout[j] == "Yoga" ? random.NextDouble() * (30 - 10) + 10 : (distance.Value * average[j]),
                         Date = time,
-                        Completion = random.NextDouble() * (100 - 50) + 50
+                        Completion = random.NextDouble() * (30 - 10) + 10
                     };
                     sampleData.Add(data);
                     DietData.BurnedCalories += workout[j] == "Yoga" ? 0 : (int)Math.Round((double)(data.Duration / caloriesBurned[j]) * 100);
@@ -291,20 +290,68 @@ namespace FitnessTracker.Data
             return sampleData;
         }
 
-        internal List<ChartData> GetChartData(string chartDropDownValue)
+        internal List<ChartData> GetChartData(string chartDropDownValue, string action)
         {
             int count = chartDropDownValue == "Monthly" ? 30 : 7;
             List<ChartData> sampleChartData = new List<ChartData>();
+            if (chartDropDownValue == "Monthly")
+            {
+                if (action == "Diet" && ActivitiesData.ActivityChartMonthData.Diet?.Count > 0)
+                {
+                    sampleChartData = ActivitiesData.ActivityChartMonthData.Diet;
+                }
+                else if (action == "Workout" && ActivitiesData.ActivityChartMonthData.Workout?.Count > 0)
+                {
+                    sampleChartData = ActivitiesData.ActivityChartMonthData.Workout;
+                }
+            }
+            else
+            {
+                if (action == "Diet" && ActivitiesData.ActivityChartWeekData.Diet?.Count > 0)
+                {
+                    sampleChartData = ActivitiesData.ActivityChartWeekData.Diet;
+                }
+                else if (action == "Workout" && ActivitiesData.ActivityChartWeekData.Workout?.Count > 0)
+                {
+                    sampleChartData = ActivitiesData.ActivityChartWeekData.Workout;
+                }
+            }
+            if (sampleChartData.Any())
+            {
+                return sampleChartData;
+            }
             Random random = new Random();
+            DateTime date = CurrentDate.HasValue ? CurrentDate.Value : DateTime.Now;
             for (int i = count - 1; i >= 0; i--)
             {
                 ChartData currentData = new ChartData()
                 {
-                    //X = new DateTime(currentDate.Value.Year, currentDate.Value.Month, currentDate.Value.Day - i),
-                    X = CurrentDate.Value.AddDays(-i),
-                    Y = random.NextDouble() * (90 - 50) + 50
+                    X = date.Date.AddDays(-i),
+                    Y = Convert.ToDouble((random.NextDouble() * (90 - 50) + 50).ToString("0.00").Replace(".00", string.Empty))
                 };
                 sampleChartData.Add(currentData);
+            }
+            if (chartDropDownValue == "Monthly")
+            {
+                if (action == "Diet")
+                {
+                    ActivitiesData.ActivityChartMonthData.Diet = sampleChartData;
+                }
+                else
+                {
+                    ActivitiesData.ActivityChartMonthData.Workout = sampleChartData;
+                }
+            }
+            else
+            {
+                if (action == "Diet")
+                {
+                    ActivitiesData.ActivityChartWeekData.Diet = sampleChartData;
+                }
+                else
+                {
+                    ActivitiesData.ActivityChartWeekData.Workout = sampleChartData;
+                }
             }
             return sampleChartData;
         }
