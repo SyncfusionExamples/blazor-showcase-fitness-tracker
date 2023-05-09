@@ -1,0 +1,282 @@
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.CircularGauge
+@using Syncfusion.Blazor.LinearGauge
+@using FitnessTracker.Data
+@inject FitnessService SampleService
+
+<div class="e-dashboardlayout-container e-fasting-dashboardlayout-container">
+    <div class="col-md-9 e-fasting-gauge-container  e-dashboard-content">
+        <div class="e-fasting-header">Fasting</div>
+        <div class="col-md-12 col-sm-12">
+            <div class="col-md-5 e-fasting-panel-container">
+                <div id="fasting-panel-id" class="e-panel e-fasting-panel" data-row="0" data-col="0" data-sizeX="2" data-sizeY="2">
+                    <div class="e-panel-container">
+                        <div class="e-panel-header">
+                            <div class="e-fasting-panel-header-text">Fasting</div>
+                        </div>
+                        <div class="e-panel-content">
+                            <SfCircularGauge ID="fastingGaugeId" Width="100%" Height="300px" CenterX="50%" CenterY="50%" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                                <CircularGaugeAxes>
+                                    <CircularGaugeAxis Minimum="0" Radius="100%" Maximum="100" StartAngle="5" EndAngle="355">
+                                        <CircularGaugeAxisMajorTicks Height="0"></CircularGaugeAxisMajorTicks>
+                                        <CircularGaugeAxisMinorTicks Height="0"></CircularGaugeAxisMinorTicks>
+                                        <CircularGaugeAxisLabelStyle Position="Syncfusion.Blazor.CircularGauge.Position.Inside" UseRangeColor="true">
+                                            <CircularGaugeAxisLabelFont Size="0px" Color="white" FontFamily="Roboto" FontStyle="Regular"></CircularGaugeAxisLabelFont>
+                                        </CircularGaugeAxisLabelStyle>
+                                        <CircularGaugeAxisLineStyle Width="0"></CircularGaugeAxisLineStyle>
+                                        <CircularGaugeRanges>
+                                            <CircularGaugeRange Start="0" End="100" Radius="100%" StartWidth="30" EndWidth="30" Color="#E1E9ED" RoundedCornerRadius="15"></CircularGaugeRange>
+                                            <CircularGaugeRange Start="0" End="100" Radius="100%" StartWidth="30" EndWidth="30" Color="#CDD9E0" RoundedCornerRadius="15">
+                                                <Syncfusion.Blazor.CircularGauge.LinearGradient StartValue="0%" EndValue="100%">
+                                                    <Syncfusion.Blazor.CircularGauge.ColorStops>
+                                                        <Syncfusion.Blazor.CircularGauge.ColorStop Color="#FB5F64" Offset="0%" Opacity="0.9"></Syncfusion.Blazor.CircularGauge.ColorStop>
+                                                        <Syncfusion.Blazor.CircularGauge.ColorStop Color="#FC9662" Offset="70%" Opacity="0.9"></Syncfusion.Blazor.CircularGauge.ColorStop>
+                                                    </Syncfusion.Blazor.CircularGauge.ColorStops>
+                                                </Syncfusion.Blazor.CircularGauge.LinearGradient>
+                                            </CircularGaugeRange>
+                                            <CircularGaugeRange Start="2" End="98" Radius="91%" StartWidth="5" EndWidth="5" Color="#FFFFFF" RoundedCornerRadius="2" Opacity="0.35"></CircularGaugeRange>
+                                        </CircularGaugeRanges>
+                                        <CircularGaugeAnnotations>
+                                            @if (SampleService.IsDevice)
+                                            {
+                                                <CircularGaugeAnnotation Angle="0" ZIndex="1" Radius="0%"></CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="350" ZIndex="1" Radius="91%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-percent-img icon-Calories"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="60" ZIndex="1" Radius="91%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-status-img icon-Diet"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="280" ZIndex="1" Radius="91%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-status-img icon-Thunder"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                            }
+                                            else
+                                            {
+                                                <CircularGaugeAnnotation Angle="0" ZIndex="1" Radius="0%"></CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="350" ZIndex="1" Radius="90%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-percent-img icon-Calories"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="60" ZIndex="1" Radius="89%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-status-img icon-Diet"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="280" ZIndex="1" Radius="89%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-status-img icon-Thunder"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>                                                        
+                                            }
+                                        </CircularGaugeAnnotations>
+                                    </CircularGaugeAxis>
+                                </CircularGaugeAxes>
+                            </SfCircularGauge>
+                            <div class="e-fasting-label-container">
+                                <div>Started Fasting</div>
+                                <div>End Fasting</div>
+                            </div>
+                            <div class="e-fasting-value-container">
+                                <div>@fastStartTime</div>
+                                <div>@fastEndTime</div>
+                            </div>
+                            <div class="e-fasting-button-container">
+                                <SfButton OnClick="ModifyFasting" CssClass="e-fast-time-btn" Content="@changeTimeBtnText" width="100%"></SfButton>
+                                <SfButton OnClick="ClearFasting" CssClass="e-fast-end-btn" Content="END FASTING" width="100%"></SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 e-water-panel-container">
+                <div id="water-panel-id" class="e-panel e-water-panel" data-row="0" data-col="2" data-sizeX="2" data-sizeY="2">
+                    <div class="e-panel-container">
+                        <div class="e-panel-header">
+                            <div class="e-water-panel-header-text">Water</div>
+                        </div>
+                        <div class="e-panel-content">
+                            <SfLinearGauge ID="waterGaugeId" Width="100%" Height="@gaugeHeight" Orientation="@gaugeOrientation" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                                <LinearGaugeAnnotations>
+                                    @if (SampleService.IsDevice)
+                                    {
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="5" X="60" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Poor</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="40" X="60" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Good</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="70" X="60" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Almost</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="95" X="60" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Perfect!</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                    }
+                                    else
+                                    {
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="5" Y="50" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Poor</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="40" Y="50" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Good</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="70" Y="50" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Almost</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                        <LinearGaugeAnnotation AxisIndex="0" AxisValue="95" Y="50" ZIndex="1">
+                                            <ContentTemplate>
+                                                <div class="e-water-annotation-text">Perfect!</div>
+                                            </ContentTemplate>
+                                        </LinearGaugeAnnotation>
+                                    }
+                                </LinearGaugeAnnotations>
+                                <LinearGaugeAxes>
+                                    <LinearGaugeAxis Minimum="0" Maximum="100" OpposedPosition="true">
+                                        <LinearGaugeMajorTicks Interval="10" Color="#3993F5" Offset="5"></LinearGaugeMajorTicks>
+                                        <LinearGaugeMinorTicks Interval="2" Color="#3993F5" Offset="5"></LinearGaugeMinorTicks>
+                                        <LinearGaugeAxisLabelStyle>
+                                            <LinearGaugeAxisLabelFont Opacity="0"></LinearGaugeAxisLabelFont>
+                                        </LinearGaugeAxisLabelStyle>
+                                        <LinearGaugePointers>
+                                            <LinearGaugePointer PointerValue="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100))" Type="Point.Bar" Height="50" Width="50" Color="#61a9f7" RoundedCornerRadius="35"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="8" Height="5" Width="5" Offset="-60" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 8 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="15" Height="4" Width="4" Offset="-80" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 15 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="21" Height="7" Width="7" Offset="-75" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 21 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="27" Height="8" Width="8" Offset="-65" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 27 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="37" Height="4" Width="4" Offset="@(SampleService.IsDevice ? "-85" : "-55")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 37 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="42" Height="6" Width="6" Offset="-75" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 42 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="48" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-80" : "-58")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 48 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="56" Height="5" Width="5" Offset="-72" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 56 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="64" Height="6" Width="6" Offset="-79" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 64 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="72" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-85" : "-55")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 72 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="80" Height="5" Width="5" Offset="-70" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 80 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="86" Height="6" Width="6" Offset="-77" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 86 ? 1 : 0)"></LinearGaugePointer>
+                                            <LinearGaugePointer PointerValue="94" Height="8" Width="8" Offset="@(SampleService.IsDevice ? "-80" : "-54")" Color="#87CEFA" MarkerType="MarkerType.Circle" Opacity="@(Math.Round((double)(SampleService.FastingData.ConsumedWaterAmount / SampleService.FastingData.ExpectedWaterAmount) * 100) > 94 ? 1 : 0)"></LinearGaugePointer>
+                                        </LinearGaugePointers>
+                                    </LinearGaugeAxis>
+                                </LinearGaugeAxes>
+                            </SfLinearGauge>
+                            <div class="e-water-label-container">
+                                <div class="e-water-minus icon-minus" @onclick="MinusClick" @onclick:stopPropagation="true"></div>
+                                <div class="e-water-image icon-Water"></div>
+                                <div class="e-water-count">@("X " + SampleService.FastingData.ConsumedWaterCount)</div>
+                                <div class="e-water-plus icon-plus" @onclick="PlusClick" @onclick:stopPropagation="true"></div>
+                            </div>
+                            <div class="e-water-value-container">
+                                <div class="e-water-consumed-text">CONSUMED WATER</div>
+                                <div class="e-water-consumed-value">
+                                    @SampleService.FastingData.ConsumedWaterAmount <span class="e-water-consumed-expect">@("ml / " + SampleService.FastingData.ExpectedWaterAmount + " ml")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div id="fasting-chart-panel-id" class="e-panel e-fasting-chart-panel" data-row="2" data-col="0" data-sizeX="4" data-sizeY="1">
+                <div class="e-panel-container">
+                    <div class="e-panel-header">
+                        <div class="e-weight-chart-header-text">Weight Journey</div>
+                    </div>
+                    <div class="e-panel-content">
+                        <SfChart ID="weightchart" CustomClass="e-weight-chart" Width="100%" Height="70%" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                            <ChartArea>
+                                <ChartAreaBorder Width="0"></ChartAreaBorder>
+                            </ChartArea>
+                            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="MMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                                <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
+                                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                            </ChartPrimaryXAxis>
+                            <ChartPrimaryYAxis LabelFormat="{value} KG" Maximum="120" Minimum="0" Interval="20">
+                                <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
+                                <ChartAxisMajorGridLines DashArray="10,5"></ChartAxisMajorGridLines>
+                            </ChartPrimaryYAxis>
+                            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                            <ChartSeriesCollection>
+                                <ChartSeries DataSource="@SampleService.FastingData.WeightChartData" Type="ChartSeriesType.SplineArea" Fill="url(#gradient-chart)" XName="X" YName="Y"></ChartSeries>
+                                <ChartSeries DataSource="@SampleService.FastingData.WeightChartData" Type="ChartSeriesType.Spline" Fill="#8983F1" XName="X" YName="Y" Width="3">
+                                    <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
+                                </ChartSeries>
+                            </ChartSeriesCollection>
+                        </SfChart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (!SampleService.IsSmallDevice)
+    {
+        <div class="col-md-3">
+            <div id="fasting-profile-panel-id" class="e-panel e-fasting-profile-panel" data-row="0" data-col="4" data-sizeX="1" data-sizeY="3">
+                <div class="e-panel-container">
+                    <Profile></Profile>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<FastingDialog></FastingDialog>
+
+@code{
+    private string fastStartTime { get; set; }
+    private string fastEndTime { get; set; }
+    private string changeTimeBtnText { get; set; } = "CHANGE TIME";
+    public Syncfusion.Blazor.LinearGauge.Orientation gaugeOrientation { get; set; } 
+    public string gaugeHeight { get; set; }
+
+    private void ModifyFasting()
+    {
+
+    }
+
+    private void ClearFasting()
+    {
+
+    }
+
+    private void MinusClick()
+    {
+
+    }
+
+    private void PlusClick()
+    {
+
+    }
+
+    private void OnTooltipRender(Syncfusion.Blazor.Charts.TooltipRenderEventArgs args)
+    {
+        args.Text = args.Data.PointX + ": " + ((int)args.Data.PointY < 1 ? (((int)args.Data.PointY * 1000) + " mg") : (args.Data.PointY + " gm"));
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        gaugeOrientation = SampleService.IsDevice ? Syncfusion.Blazor.LinearGauge.Orientation.Vertical : Syncfusion.Blazor.LinearGauge.Orientation.Horizontal;
+        gaugeHeight = SampleService.IsDevice ? "100%" : "250px";
+    }
+}

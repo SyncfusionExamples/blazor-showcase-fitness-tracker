@@ -1,0 +1,66 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime;
+@using Microsoft.JSInterop;
+@using FitnessTracker.Data;
+@using System.Text.Json;
+@inject FitnessService SampleService;
+@implements IDisposable;
+
+@if (!isRendered)
+{
+	<div class="main-content-overlay">
+		<div class="app-loading">
+			<svg class="circular" height="40" width="40">
+				<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
+			</svg>
+		</div>
+		<div class="app-caption">
+			<h4 class="my-4">Fitness tracker initializing...</h4>
+		</div>
+	</div>
+}
+else
+{
+	@Body
+}
+
+@code{
+	[Inject]
+	protected IJSRuntime JsRuntime { get; set; }
+
+	private DotNetObjectReference<object> dotnetObjectRef { get; set; }
+
+	private bool isRendered { get; set; }
+
+	[JSInvokable]
+	public void OnResize(double windowWidth)
+	{
+		SampleService.InnerWidth = windowWidth;
+		SampleService.IsSmallDevice = SampleService.InnerWidth <= 820;
+		StateHasChanged();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await base.OnAfterRenderAsync(firstRender);
+		if (firstRender)
+		{
+			dotnetObjectRef = DotNetObjectReference.Create<object>(this);
+			isRendered = true;
+			string clientDetails = await JSRuntime.InvokeAsync<string>("blazorFitnessTraker.getClientDetails", dotnetObjectRef);
+			if (!string.IsNullOrEmpty(clientDetails))
+			{
+				Dictionary<string, object> clientProps = JsonSerializer.Deserialize<Dictionary<string, object>>(clientDetails);
+				SampleService.IsDevice = Convert.ToBoolean(clientProps["isDevice"].ToString());
+				SampleService.InnerWidth = Convert.ToDouble(clientProps["innerWidth"].ToString());
+				SampleService.IsSmallDevice = SampleService.InnerWidth <= 820;
+			}
+			StateHasChanged();
+		}
+	}
+
+	public void Dispose()
+	{
+		dotnetObjectRef?.Dispose();
+	}
+}

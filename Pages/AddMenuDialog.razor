@@ -1,0 +1,113 @@
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Popups
+@using FitnessTracker.Data
+@inject FitnessService SampleService
+
+<SfDialog ID="add-menu-dialog" CssClass="e-add-menu-dialog" @bind-Visible="@hidden" ShowCloseIcon="true" Width="@dialogwidth" IsModal="true" Header="@currentMenuHeader">
+    <DialogEvents OnOverlayModalClick="MenuOverlayClick"></DialogEvents>
+    <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+    <DialogPositionData X="center" Y="center"></DialogPositionData>
+    <DialogTemplates>
+        <Content>
+            <div class="e-select-menu-label">Select Menu</div>
+            <div class="e-current-menu-container">
+                @foreach (MenuItems menu in SampleService.CurrentMenu)
+                {
+                    <div tabindex="0" class="@(menu.IsAdded ? "e-card e-menu-card e-card-select" : "e-card e-menu-card")" @onclick="OnMenuCardSelect" @onclick:stopPropagation="true">
+                        <div class="e-card-content">
+                            <div class="e-menu-div">@menu.Item</div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="e-quantity-label-container">
+                <div class="e-quantity-label">Quantity</div>
+                <div class="e-total-label">Total kcal</div>
+                <div class="e-recommended-label">Recommended kcal</div>
+            </div>
+            <div class="e-quantity-value-container">
+                <div class="e-quantity-container">
+                    <div class="e-quantity-value">
+                        <div class="e-quantity-minus icon-minus" @onclick="QuantityMinusClick"></div>
+                        <div class=" e-quantity-count">@currentQuantity</div>
+                        <div class="e-quantity-plus icon-plus" @onclick="QuantityPlusClick"></div>
+                    </div>
+                </div>
+                <div class="e-quantity-total-container">
+                    <div class="e-quantity-total">@(currentTotalCal + " kcal")</div>
+                </div>
+                <div class="e-quantity-recom-container">
+                    <div class="e-quantity-recom">@(currentRecom + " kcal")</div>
+                </div>
+            </div>
+            <div class="e-quantity-date-label-container">
+                <div class="e-quantity-date-label">Date</div>
+                <div class="e-quantity-time-label">Time</div>
+            </div>
+            <div class="e-quantity-date-value-container">
+                <div class="e-quantity-date-value">
+                    <SfDatePicker ID="quantity-datepicker" Width="@dateWidth" Value="@today" Enabled="false"></SfDatePicker>
+                </div>
+                <div class="e-quantity-time-value">
+                    <SfTimePicker ID="quantity-timepicker" Width="@timeWidth" Value="@today"></SfTimePicker>
+                </div>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton OnClick="MenuCancelBtnClick" Content="CANCEL" CssClass="e-menu-cancel"></DialogButton>
+        <DialogButton OnClick="MenuDlgBtnClick" Content="ADD MENU" CssClass="e-menu-add"></DialogButton>
+    </DialogButtons>
+</SfDialog>
+
+@code{
+    private bool hidden { get; set; }
+    private string dialogwidth { get; set; }
+    private string dateWidth { get; set; }
+    private DateTime today { get; set; }
+    private string timeWidth { get; set; }
+    private List<MenuItems> currentMenu { get; set; }
+    private int currentQuantity { get; set; } = 1;
+    private int currentTotalCal { get; set; } = 0;
+    private int currentRecom { get; set; } = 0;
+    private string currentMenuHeader { get; set; }
+
+    private void MenuOverlayClick(OverlayModalClickEventArgs args)
+    {
+        hidden = false;
+    }
+
+    private void MenuCancelBtnClick()
+    {
+
+    }
+
+    private void MenuDlgBtnClick()
+    {
+
+    }
+
+    private void QuantityMinusClick()
+    {
+
+    }
+
+    private void QuantityPlusClick()
+    {
+
+    }
+
+    private void OnMenuCardSelect()
+    {
+        
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        dialogwidth = SampleService.IsDevice ? "100%" : "700px";
+        dateWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "80%";
+        today = DateTime.Now;
+        timeWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "160px";
+    }
+}

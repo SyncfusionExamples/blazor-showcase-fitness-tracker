@@ -1,0 +1,86 @@
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Popups
+@using FitnessTracker.Data
+@inject FitnessService SampleService
+
+<SfDialog ID="fasting-dialog" CssClass="e-fasting-dialog" Header="Fasting" @bind-Visible="@hidden" ShowCloseIcon="true" Width="@fastingDialogwidth" IsModal="true">
+    <DialogEvents OnOpen="DialogOpen" OnOverlayModalClick="FastingOverlayClick"></DialogEvents>
+    <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+    <DialogPositionData X="center" Y="center"></DialogPositionData>
+    <DialogTemplates>
+        <Content>
+            <div class="e-fast-start-label">Start Time</div>
+            <div class="e-fast-start-date">
+                <SfDateTimePicker TValue="DateTime" ID="fast-start-date" Value="@countStartDate" Min="@minimumDate" Max="@maximumDate">
+                    <DateTimePickerEvents TValue="DateTime" ValueChange="onFastDateChange"></DateTimePickerEvents>
+                </SfDateTimePicker>
+            </div>
+            <div class="e-fast-end-label">End Time</div>
+            <div class="e-fast-end-date">
+                <SfDateTimePicker TValue="DateTime" ID="fast-end-date" Value="@countDownDate" Min="@minimumDate" Max="@maximumDate">
+                    <DateTimePickerEvents TValue="DateTime" ValueChange="onFastDateChange"></DateTimePickerEvents>
+                </SfDateTimePicker>
+            </div>
+            <div class="e-fast-total-label">Total Hours</div>
+            <div class="e-fast-total-value">@(diff +"h")</div>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton OnClick="FastingCancelBtnClick" Content="CANCEL" CssClass="e-fasting-cancel"></DialogButton>
+        <DialogButton OnClick="FastingDlgBtnClick" Content="START FASTING" CssClass="e-start-fast"></DialogButton>
+    </DialogButtons>
+</SfDialog>
+
+@code{
+    private bool hidden { get; set; }
+    private string fastingDialogwidth { get; set; }
+    private int diff { get; set; } = 16;
+    private DateTime countStartDate { get; set; }
+    private DateTime countDownDate { get; set ;}
+    private DateTime minimumDate { get; set; }
+    private DateTime maximumDate { get; set; }
+
+    private void DialogOpen(BeforeOpenEventArgs args)
+    {
+
+    }
+
+    private void FastingOverlayClick(OverlayModalClickEventArgs args)
+    {
+        hidden = false;
+    }
+
+    private void onFastDateChange(ChangedEventArgs<DateTime> args)
+    {
+
+    }
+
+    private void FastingCancelBtnClick()
+    {
+
+    }
+
+    private void FastingDlgBtnClick()
+    {
+
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        fastingDialogwidth = SampleService.IsDevice ? "100%" : "400px";
+        DateTime currentDate = DateTime.Now;
+        if (currentDate.Hour >= 17)
+        {
+            countStartDate = currentDate.Date.Add(new TimeSpan(18, 0, 0));
+            countDownDate = currentDate.Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
+        }
+        else
+        {
+            countStartDate = currentDate.Date.AddDays(-1).Add(new TimeSpan(18, 0, 0));
+            countDownDate = new DateTime(currentDate.Year, currentDate.Month, countStartDate.Day).Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
+        }
+        minimumDate = currentDate.Date;
+        maximumDate = minimumDate.AddDays(1).Add(new TimeSpan(24, 0, 0));
+    }
+}
