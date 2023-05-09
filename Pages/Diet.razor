@@ -374,9 +374,10 @@
     }
 </div>
 
-<AddMenuDialog StateChange="StateChange" />
+<AddMenuDialog @ref="@MenuDialogRef" StateChange="StateChange" />
 
 @code{
+    private AddMenuDialog MenuDialogRef;
     private bool isToday { get; set; } = true;
     private int breakFastRecom { get; set; } = 440;
     private int snack1Recom { get; set; } = 165; 
@@ -403,95 +404,95 @@
 
     private void AddBtnClick(string clickedMenu)
     {
-        if (SampleService.MenuDialogRef != null)
+        if (MenuDialogRef != null)
         {
             switch(clickedMenu)
             {
                 case "breakfast":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
-                    SampleService.MenuDialogRef.CurrentRecom = breakFastRecom;
-                    SampleService.MenuDialogRef.CurrentAddedMenu = "Breakfast";
+                    MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
+                    MenuDialogRef.CurrentRecom = breakFastRecom;
+                    MenuDialogRef.CurrentAddedMenu = "Breakfast";
                     break;
                 case "snack1":
                 case "snack2":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
+                    MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
                     if (clickedMenu == "snack1")
                     {
-                        SampleService.MenuDialogRef.CurrentRecom = snack1Recom;
-                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 1";
+                        MenuDialogRef.CurrentRecom = snack1Recom;
+                        MenuDialogRef.CurrentAddedMenu = "Snack 1";
                     }
                     else
                     {
-                        SampleService.MenuDialogRef.CurrentRecom = snack2Recom;
-                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 2";
+                        MenuDialogRef.CurrentRecom = snack2Recom;
+                        MenuDialogRef.CurrentAddedMenu = "Snack 2";
                     }
                     break;
                 case "lunch":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
-                    SampleService.MenuDialogRef.CurrentRecom = lunchRecom;
-                    SampleService.MenuDialogRef.CurrentAddedMenu = "Lunch";
+                    MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentRecom = lunchRecom;
+                    MenuDialogRef.CurrentAddedMenu = "Lunch";
                     break;
                 case "dinner":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
-                    SampleService.MenuDialogRef.CurrentRecom = dinnerRecom;
-                    SampleService.MenuDialogRef.CurrentAddedMenu = "Dinner";
+                    MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentRecom = dinnerRecom;
+                    MenuDialogRef.CurrentAddedMenu = "Dinner";
                     break;
             }
-            SampleService.MenuDialogRef.ShowDialog();
+            MenuDialogRef.ShowDialog();
         }
     }
 
     private void EditMenu(string clickedMenu)
     {
-        if (SampleService.MenuDialogRef != null)
+        if (MenuDialogRef != null)
         {
             switch(clickedMenu)
             {
                 case "breakfast":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
+                    MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
                     UpdateCurrentMenu(SampleService.DietData.CurrentBreakFastMenu);
-                    SampleService.MenuDialogRef.CurrentRecom = breakFastRecom;
-                    SampleService.MenuDialogRef.CurrentAddedMenu = "Breakfast";
+                    MenuDialogRef.CurrentRecom = breakFastRecom;
+                    MenuDialogRef.CurrentAddedMenu = "Breakfast";
                     break;
                 case "snack1":
                 case "snack2":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
+                    MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
                     if (clickedMenu == "snack1")
                     {
                         UpdateCurrentMenu(SampleService.DietData.CurrentSnack1Menu);
-                        SampleService.MenuDialogRef.CurrentRecom = snack1Recom;
-                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 1";
+                        MenuDialogRef.CurrentRecom = snack1Recom;
+                        MenuDialogRef.CurrentAddedMenu = "Snack 1";
                     }
                     else
                     {
                         UpdateCurrentMenu(SampleService.DietData.CurrentSnack2Menu);
-                        SampleService.MenuDialogRef.CurrentRecom = snack2Recom;
-                        SampleService.MenuDialogRef.CurrentAddedMenu = "Snack 2";
+                        MenuDialogRef.CurrentRecom = snack2Recom;
+                        MenuDialogRef.CurrentAddedMenu = "Snack 2";
                     }
                     break;
                 case "lunch":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
                     UpdateCurrentMenu(SampleService.DietData.CurrentLunchMenu);
-                    SampleService.MenuDialogRef.CurrentRecom = lunchRecom;
-                    SampleService.MenuDialogRef.CurrentAddedMenu = "Lunch";
+                    MenuDialogRef.CurrentRecom = lunchRecom;
+                    MenuDialogRef.CurrentAddedMenu = "Lunch";
                     break;
                 case "dinner":
-                    SampleService.MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
-                    SampleService.MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
+                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
                     UpdateCurrentMenu(SampleService.DietData.CurrentDinnerMenu);
-                    SampleService.MenuDialogRef.CurrentRecom = dinnerRecom;
-                    SampleService.MenuDialogRef.CurrentAddedMenu = "Dinner";
+                    MenuDialogRef.CurrentRecom = dinnerRecom;
+                    MenuDialogRef.CurrentAddedMenu = "Dinner";
                     break;
             };
-            SampleService.MenuDialogRef.UpdateTotalCal();
-            SampleService.MenuDialogRef.ShowDialog();
+            MenuDialogRef.UpdateTotalCal();
+            MenuDialogRef.ShowDialog();
         }
     }
 
@@ -499,12 +500,12 @@
     {
         for (int i = 0; i < menu.Count; i++)
         {
-            for (int j = 0; j < SampleService.MenuDialogRef.CurrentMenu.Count; j++)
+            for (int j = 0; j < MenuDialogRef.CurrentMenu.Count; j++)
             {
-                if (menu[i].Item == SampleService.MenuDialogRef.CurrentMenu[j].Item)
+                if (menu[i].Item == MenuDialogRef.CurrentMenu[j].Item)
                 {
-                    SampleService.MenuDialogRef.CurrentMenu[j].IsAdded = true;
-                    SampleService.MenuDialogRef.CurrentMenu[j].Quantity = menu[i].Quantity.HasValue ? menu[i].Quantity.Value : 1;
+                    MenuDialogRef.CurrentMenu[j].IsAdded = true;
+                    MenuDialogRef.CurrentMenu[j].Quantity = menu[i].Quantity.HasValue ? menu[i].Quantity.Value : 1;
                     break;
                 }
             }

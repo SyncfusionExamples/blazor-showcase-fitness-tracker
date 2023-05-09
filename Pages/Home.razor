@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Navigations
 @using FitnessTracker.Data
 @inject IJSRuntime JSRuntime;
@@ -17,6 +18,10 @@
 }
 <SfTab ID="fitness-tab" CssClass="tab-container" HeaderPlacement="@headerPlacement" @bind-SelectedItem="@tabSelectedItem">
     <TabEvents Created="@Created"></TabEvents>
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None"></TabAnimationNext>
+    </TabAnimationSettings>
     <TabItems>
         <TabItem>
             <ChildContent>

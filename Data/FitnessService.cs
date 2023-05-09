@@ -18,8 +18,6 @@ namespace FitnessTracker.Data
         internal DietData DietData { get; set; } = new DietData();
         internal FastingData FastingData { get; set; } = new FastingData();
         internal ProfileDialog ProfileDialogRef { get; set; }
-        internal AddMenuDialog MenuDialogRef { get; set; }
-
 
         internal void GetInitialData()
         {

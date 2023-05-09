@@ -3,7 +3,7 @@
 @using FitnessTracker.Data
 @inject FitnessService SampleService
 
-<SfDialog ID="add-menu-dialog" CssClass="e-add-menu-dialog" @bind-Visible="@hidden" ShowCloseIcon="true" Width="@dialogwidth" IsModal="true" Header="@CurrentMenuHeader">
+<SfDialog ID="add-menu-dialog" CssClass="e-add-menu-dialog" @bind-Visible="@visible" ShowCloseIcon="true" Width="@dialogwidth" IsModal="true" Header="@CurrentMenuHeader">
     <DialogEvents OnOverlayModalClick="MenuOverlayClick"></DialogEvents>
     <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
     <DialogPositionData X="center" Y="center"></DialogPositionData>
@@ -67,7 +67,7 @@
 @code{
     [Parameter]
     public EventCallback StateChange { get; set; }
-    private bool hidden { get; set; }
+    private bool visible { get; set; }
     private string dialogwidth { get; set; }
     private string dateWidth { get; set; }
     private DateTime today { get; set; }
@@ -82,12 +82,12 @@
 
     private void MenuOverlayClick(OverlayModalClickEventArgs args)
     {
-        hidden = false;
+        visible = false;
     }
 
     private void MenuCancelBtnClick()
     {
-        hidden = false;
+        visible = false;
         currentTotalCal = 0;
         lastSelectItem = string.Empty;
         currentQuantity = 1;
@@ -316,7 +316,7 @@
 
     internal void ShowDialog()
     {
-        hidden = true;
+        visible = true;
         StateHasChanged();
     }
 
@@ -336,7 +336,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SampleService.MenuDialogRef = this;
         dialogwidth = SampleService.IsDevice ? "100%" : "700px";
         dateWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "80%";
         today = DateTime.Now;
