@@ -23,7 +23,8 @@
                 var clientDetails = {
                     isDevice: /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent),
                     innerWidth: window.innerWidth
-                };
+				};
+                window.addEventListener('resize', blazorFitnessTraker.Resize);
                 return JSON.stringify(clientDetails);
 			},
 			renderTabChild: function () {
@@ -40,12 +41,11 @@
                 containerDiv.appendChild(iconDiv);
 				containerDiv.appendChild(titleDiv);
 				document.querySelector('.e-tab .e-tab-header').prepend(containerDiv);
-			}
-		}
-		function onResize() {
-            blazorFitnessTraker.dotnetRef.invokeMethodAsync('OnResize', window.innerWidth);
-		}
-        window.addEventListener('resize', onResize)
+			},
+            Resize: function () {
+                blazorFitnessTraker.dotnetRef.invokeMethodAsync('OnResize', window.innerWidth);
+            }
+		}        
 	</script>
 </head>
 

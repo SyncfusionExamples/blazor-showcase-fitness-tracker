@@ -3,7 +3,7 @@
 @using FitnessTracker.Data
 @inject FitnessService SampleService
 
-<SfDialog ID="fasting-dialog" CssClass="e-fasting-dialog" Header="Fasting" @bind-Visible="@hidden" ShowCloseIcon="true" Width="@fastingDialogwidth" IsModal="true">
+<SfDialog ID="fasting-dialog" CssClass="e-fasting-dialog" Header="Fasting" @bind-Visible="@visible" ShowCloseIcon="true" Width="@fastingDialogwidth" IsModal="true">
     <DialogEvents OnOverlayModalClick="FastingOverlayClick"></DialogEvents>
     <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
     <DialogPositionData X="center" Y="center"></DialogPositionData>
@@ -11,18 +11,18 @@
         <Content>
             <div class="e-fast-start-label">Start Time</div>
             <div class="e-fast-start-date">
-                <SfDateTimePicker TValue="DateTime" ID="fast-start-date" Value="@countStartDate" Min="@minimumDate" Max="@maximumDate">
-                    <DateTimePickerEvents TValue="DateTime" ValueChange="onFastDateChange"></DateTimePickerEvents>
+                <SfDateTimePicker TValue="DateTime" ID="fast-start-date" @bind-Value="@CountStartDate" Min="@minimumDate" Max="@maximumDate">
+                    <DateTimePickerEvents TValue="DateTime" ValueChange="OnFastDateChange"></DateTimePickerEvents>
                 </SfDateTimePicker>
             </div>
             <div class="e-fast-end-label">End Time</div>
             <div class="e-fast-end-date">
-                <SfDateTimePicker TValue="DateTime" ID="fast-end-date" Value="@countDownDate" Min="@minimumDate" Max="@maximumDate">
-                    <DateTimePickerEvents TValue="DateTime" ValueChange="onFastDateChange"></DateTimePickerEvents>
+                <SfDateTimePicker TValue="DateTime" ID="fast-end-date" @bind-Value="@CountDownDate" Min="@minimumDate" Max="@maximumDate">
+                    <DateTimePickerEvents TValue="DateTime" ValueChange="OnFastDateChange"></DateTimePickerEvents>
                 </SfDateTimePicker>
             </div>
             <div class="e-fast-total-label">Total Hours</div>
-            <div class="e-fast-total-value">@(diff +"h")</div>
+            <div class="e-fast-total-value">@(diff + "h")</div>
         </Content>
     </DialogTemplates>
     <DialogButtons>
@@ -32,50 +32,53 @@
 </SfDialog>
 
 @code{
-    private bool hidden { get; set; }
+    [Parameter]
+    public EventCallback StateChange { get; set; }
+
+    [Parameter]
+    public DateTime CountStartDate { get; set; }
+
+    [Parameter]
+    public DateTime CountDownDate { get; set; }
+
+    private bool visible { get; set; }
     private string fastingDialogwidth { get; set; }
     private int diff { get; set; } = 16;
-    private DateTime countStartDate { get; set; }
-    private DateTime countDownDate { get; set; }
     private DateTime minimumDate { get; set; }
     private DateTime maximumDate { get; set; }
 
     private void FastingOverlayClick(OverlayModalClickEventArgs args)
     {
-        hidden = false;
+        visible = false;
     }
 
-    private void onFastDateChange(ChangedEventArgs<DateTime> args)
+    private void OnFastDateChange(ChangedEventArgs<DateTime> args)
     {
-
+        diff = (int)Math.Floor((CountDownDate - CountStartDate).TotalMilliseconds/ (1000 * 60 * 60));
     }
 
     private void FastingCancelBtnClick()
     {
-
+        visible = false;
     }
 
     private void FastingDlgBtnClick()
     {
+        visible = false;
+        StateChange.InvokeAsync();
+    }
 
+    internal void ShowDialog()
+    {
+        visible = true;
+        StateHasChanged();
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         fastingDialogwidth = SampleService.IsDevice ? "100%" : "400px";
-        DateTime currentDate = DateTime.Now;
-        if (currentDate.Hour >= 17)
-        {
-            countStartDate = currentDate.Date.Add(new TimeSpan(18, 0, 0));
-            countDownDate = currentDate.Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
-        }
-        else
-        {
-            countStartDate = currentDate.Date.AddDays(-1).Add(new TimeSpan(18, 0, 0));
-            countDownDate = new DateTime(currentDate.Year, currentDate.Month, countStartDate.Day).Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
-        }
-        minimumDate = currentDate.Date;
+        minimumDate = DateTime.Now.Date;
         maximumDate = minimumDate.AddDays(1).Add(new TimeSpan(24, 0, 0));
     }
 }
