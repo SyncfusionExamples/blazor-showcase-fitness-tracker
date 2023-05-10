@@ -8,16 +8,16 @@ namespace FitnessTracker.Data
         public bool IsSmallDevice { get; set; }
         public double InnerWidth { get; set; }
         public DateTime? CurrentDate { get; set; } = DateTime.Now;
+        public string CurrentTheme { get; set; } = "Light";
         public List<Activity> TodayActivities { get; set; }
         public ProfileInfo ProfileStats { get; set; }
-        
         public int ExpectedCalories { get; set; } = 3000;
-        
         public List<FitnessService> MasterData { get; set; }
         internal ActivitiesData ActivitiesData { get; set; } = new ActivitiesData();
         internal DietData DietData { get; set; } = new DietData();
         internal FastingData FastingData { get; set; } = new FastingData();
         internal ProfileDialog ProfileDialogRef { get; set; }
+        internal Profile ProfileTabRef { get; set; }
 
         internal void GetInitialData()
         {

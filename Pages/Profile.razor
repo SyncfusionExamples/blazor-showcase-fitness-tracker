@@ -84,4 +84,15 @@
     {
         SampleService.ProfileDialogRef?.ShowDialog();
     }
+
+    internal void StateChanged()
+    {
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SampleService.ProfileTabRef = this;
+    }
 }
