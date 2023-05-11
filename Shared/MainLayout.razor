@@ -47,7 +47,7 @@ else
 		{
 			dotnetObjectRef = DotNetObjectReference.Create<object>(this);
 			isRendered = true;
-			string clientDetails = await JSRuntime.InvokeAsync<string>("blazorFitnessTraker.getClientDetails", dotnetObjectRef);
+			string clientDetails = await JSRuntime.InvokeAsync<string>("blazorFitnessTracker.getClientDetails", dotnetObjectRef);
 			if (!string.IsNullOrEmpty(clientDetails))
 			{
 				Dictionary<string, object> clientProps = JsonSerializer.Deserialize<Dictionary<string, object>>(clientDetails);

@@ -43,7 +43,7 @@
                                             <CircularGaugeAnnotations>
                                                 @if (SampleService.IsDevice)
                                                 {
-                                                    <CircularGaugeAnnotation Angle="0" ZIndex="1" Radius="0%">
+                                                    <CircularGaugeAnnotation Angle="290" ZIndex="1" Radius="60%">
                                                         <ContentTemplate>
                                                             <div class="e-fast-ellapsed">Elapsed Time (100%)</div>
                                                             <div class="e-fast-completed">@sliderValue</div>
@@ -71,7 +71,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <CircularGaugeAnnotation Angle="0" ZIndex="1" Radius="0%">
+                                                    <CircularGaugeAnnotation Angle="290" ZIndex="1" Radius="60%">
                                                         <ContentTemplate>
                                                             <div class="e-fast-ellapsed">@("Elapsed Time (" + gaugePercent + "%)")</div>
                                                             <div class="e-fast-completed">@sliderValue</div>
@@ -451,7 +451,7 @@
             ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
             leftTime = leftTime.Date.Add(new TimeSpan(leftHours, leftMinutes, 0));
             timeLeft = leftTime.ToString("HH : mm").Replace(":", "h") + " m";
-        }        
+        }
     }
 
     private void EndFasting()
@@ -482,6 +482,10 @@
             countDownDate = new DateTime(currentDate.Year, currentDate.Month, countStartDate.Day).Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
         }
         UpdateWaterGauge();
+        int gaugePercent = (int)Math.Round(((DateTime.Now - countStartDate).TotalMilliseconds / (double)(countDownDate - countStartDate).TotalMilliseconds) * 100);
+        circularGaugeRangeEnd = gaugePercent > 100 ? 100 : gaugePercent;
+        ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 10;
+        ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
         fastingTimer = new Timer { Interval = 1000, AutoReset = true };
         fastingTimer.Elapsed += OnTimerElapsed;
         fastingTimer.Start();
