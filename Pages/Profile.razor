@@ -53,7 +53,9 @@
     <div>
         <div class="e-journal" style="float: left;">Journals</div>
         <div class="e-journal-date" style="float: right;">
-            <SfDatePicker TValue="DateTime?" ShowClearButton="true" Max="DateTime.Now" @bind-Value="@SampleService.CurrentDate" Width="100%"></SfDatePicker>
+            <SfDatePicker TValue="DateTime?" ShowClearButton="true" Max="DateTime.Now" Value="@SampleService.CurrentDate" Width="100%">
+                <DatePickerEvents TValue="DateTime?" ValueChange="OnDateChange"></DatePickerEvents>
+            </SfDatePicker>
         </div>
     </div>
     <div class="profile-diet-card-container">
@@ -83,6 +85,14 @@
     private void OnProfileEdit()
     {
         SampleService.ProfileDialogRef?.ShowDialog();
+    }
+
+    private void OnDateChange(ChangedEventArgs<DateTime?> args)
+    {
+        if (args.Value != null)
+        {
+            SampleService.DateChanged(args.Value.Value);
+        }
     }
 
     internal void StateChanged()

@@ -1,3 +1,4 @@
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Charts
@@ -13,7 +14,9 @@
                     <div class="e-panel-header col-md-12 col-sm-12 col-xs-12 col-lg-12">
                         <div class="col-md-3 col-sm-6 col-xs-6 col-lg-3 e-my-activities-header">My Activities</div>
                         <div class="col-md-3 col-sm-6 col-xs-6 col-lg-3 e-my-activities-date">
-                            <SfDatePicker TValue="DateTime?" @bind-Value="@SampleService.CurrentDate" Max="DateTime.Now" ShowClearButton="true"></SfDatePicker>
+                            <SfDatePicker TValue="DateTime?" Value="@SampleService.CurrentDate" Max="DateTime.Now" ShowClearButton="true">
+                                <DatePickerEvents TValue="DateTime?" ValueChange="@OnDateChange"></DatePickerEvents>
+                            </SfDatePicker>
                         </div>
                     </div>
                     <div class="e-panel-content e-activity-card-container">
@@ -86,7 +89,7 @@
                         </div>
                     </div>
                     <div class="e-chart-panel-content">
-                        <SfChart CustomClass="e-activity-chart" Width="101%" Height="70%" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                        <SfChart CustomClass="e-activity-chart" Width="101%" Height="70%" Theme="@theme">
                             <ChartEvents SharedTooltipRender="ChartTooltipRender" OnLegendClick="LegendClick"></ChartEvents>
                             <ChartArea>
                                 <ChartAreaBorder Width="0"></ChartAreaBorder>
@@ -161,10 +164,21 @@
     private string gridColumnWidth { get; set; } = "200";
     private bool dietChartVisible { get; set; } = true;
     private bool workoutChartVisible { get; set; } = true;
+    private Theme theme { get; set; } 
     private Dictionary<string, object> CustomAttributes = new Dictionary<string, object>()
     {
         { "class", "completion-color" }
     };
+    private bool isDateChanged { get; set; }
+
+    private void OnDateChange(ChangedEventArgs<DateTime?> args)
+    {
+        if (args.Value != null)
+        {
+            isDateChanged = true;
+            SampleService.DateChanged(args.Value.Value);
+        }
+    }
 
     private void OnDropDownChange(ChangeEventArgs<string, string> args)
     {
@@ -201,9 +215,22 @@
         return Math.Floor(minutes / 60) + "h " + (minutes % 60) + "m";
     }
 
+    internal void CallStateHasChanged()
+    {
+        sleepInHours = getSleepInHours(SampleService.ActivitiesData.SleepInMinutes);
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
+        if (isDateChanged)
+        {
+            isDateChanged = false;
+            return;
+        }
+        StateHasChanged();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         sleepInHours = getSleepInHours(SampleService.ActivitiesData.SleepInMinutes);
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
     }
 }

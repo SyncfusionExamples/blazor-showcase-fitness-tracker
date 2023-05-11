@@ -1,3 +1,4 @@
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.CircularGauge
 @using Syncfusion.Blazor.Inputs
@@ -59,21 +60,21 @@
                             <div class="e-profile-label">Weight</div>
                             <div class="e-profile-value">
                                 <SfTextBox Width="50%" Type="InputType.Text" Value="@(SampleService.ProfileStats.Weight + " " + SampleService.ProfileStats.WeightMes)" Readonly="true" CssClass="@("e-profile-input e-weight-text " + weightEditClass)"></SfTextBox>
-                                <div class="e-weight-change-btn" style="margin-left: 37px" @onclick="ChangeWeight" @onclick:stopPropagation="true">
+                                <div class="e-weight-change-btn" style="margin-left: 12%" @onclick="ChangeWeight" @onclick:stopPropagation="true">
                                     <span>CHANGE</span><span class="e-change-right icon-chevron-right"></span>
                                 </div>
                             </div>
                             <div class="e-profile-label">Set your Goal</div>
                             <div class="e-profile-value">
                                 <SfTextBox Width="50%" Type="InputType.Text" Value="@(SampleService.ProfileStats.Goal + " " + SampleService.ProfileStats.GoalMes)" Readonly="true" CssClass="@("e-profile-input e-goal-text " + goalEditClass)"></SfTextBox>
-                                <div class="e-goal-change-btn" style="margin-left: 37px" @onclick="ChangeGoal" @onclick:stopPropagation="true">
+                                <div class="e-goal-change-btn" style="margin-left: 12%" @onclick="ChangeGoal" @onclick:stopPropagation="true">
                                     <span>CHANGE</span><span class="e-change-right icon-chevron-right"></span>
                                 </div>
                             </div>
                             <div class="e-profile-label">Height</div>
                             <div class="e-profile-value">
                                 <SfTextBox Width="50%" Type="InputType.Text" Value="@(SampleService.ProfileStats.Height + " " + SampleService.ProfileStats.HeightMes)" Readonly="true" CssClass="@("e-profile-input e-height-text " + heightEditClass)"></SfTextBox>
-                                <div class="e-height-change-btn" style="margin-left: 37px" @onclick="ChangeHeight" @onclick:stopPropagation="true">
+                                <div class="e-height-change-btn" style="margin-left: 12%" @onclick="ChangeHeight" @onclick:stopPropagation="true">
                                     <span>CHANGE</span><span class="e-change-right icon-chevron-right"></span>
                                 </div>
                             </div>
@@ -96,16 +97,16 @@
                 <div class="@("e-modify-container col-md-6 col-sm-6 " + modifyContainerClass)">
                     <div class="e-modify-title">@modifyHeaderTitle</div>
                     <div class="@("e-weight-modify-btn-group e-btn-group e-outline " + weightGaugeClass)">
-                        <input type="radio" id="KG" name="modifyunit" value="KG" checked="@SampleService.ProfileStats.WeightMes.ToUpper()" @onchange="HandleChange" />
-                        <label class="e-btn" for="KG">KG</label>
-                        <input type="radio" id="LB" name="modifyunit" value="LB" checked="@SampleService.ProfileStats.WeightMes.ToUpper()" @onchange="HandleChange" />
-                        <label class="e-btn" for="LB">LB</label>
+                        <SfButtonGroup Mode="Syncfusion.Blazor.SplitButtons.SelectionMode.Single">
+                            <ButtonGroupButton Selected="@(currentUnit == "KG")" @onclick="@(() => HandleChange("KG"))">KG</ButtonGroupButton>
+                            <ButtonGroupButton Selected="@(currentUnit == "LB")" @onclick="@(() => HandleChange("LB"))">LB</ButtonGroupButton>
+                        </SfButtonGroup>
                     </div>
                     <div class="@("e-height-modify-btn-group e-btn-group e-outline " + heightGaugeClass)">
-                        <input type="radio" id="CM" name="modifyunit" value="CM" checked="@SampleService.ProfileStats.HeightMes.ToUpper()" @onchange="@HandleChange" />
-                        <label class="e-btn" for="CM">CM</label>
-                        <input type="radio" id="FT" name="modifyunit" value="FT" checked="@SampleService.ProfileStats.HeightMes.ToUpper()" @onchange="HandleChange" />
-                        <label class="e-btn" for="FT">FT</label>
+                        <SfButtonGroup Mode="Syncfusion.Blazor.SplitButtons.SelectionMode.Single">
+                            <ButtonGroupButton Selected="@(currentUnit == "CM")" @onclick="@(() => HandleChange("CM"))">CM</ButtonGroupButton>
+                            <ButtonGroupButton Selected="@(currentUnit == "FT")" @onclick="@(() => HandleChange("FT"))">FT</ButtonGroupButton>
+                        </SfButtonGroup>
                     </div>
                     <div class="@("e-weight-gauge-container " + weightGaugeClass)">
                         @if (isInitialRender)
@@ -147,12 +148,15 @@
                                     </CircularGaugeAxis>
                                 </CircularGaugeAxes>
                             </SfCircularGauge>
-                            <div class="slider-container">
+                        }
+                        <div class="slider-container">
+                            @if (string.IsNullOrEmpty(weightGaugeClass))
+                            {
                                 <SfSlider ID="weightrange" @ref="@weightSliderRef" TValue="int" @bind-Value="@weightGaugeValue" Type="SliderType.MinRange" Width="50%" Min="0" Max="@weightGaugeMaximum" CssClass="weight-slider-container">
                                     <SliderLimits Enabled="true" MinStart="@(currentUnit == "KG" ? 10 : 20)"></SliderLimits>
                                 </SfSlider>
-                            </div>
-                        }
+                            }
+                        </div>
                         <div class="e-add-weight">
                             <SfButton IsPrimary="true" OnClick="UpdateWeight" Content="UPDATE WEIGHT"></SfButton>
                         </div>
@@ -199,14 +203,17 @@
                                         </LinearGaugeAxis>
                                     </LinearGaugeAxes>
                                 </SfLinearGauge>
-                                <div class="slider-container" style="height: 390px; width: 50px; margin-top: 5px;">
-                                    <SfSlider ID="heightrange" @ref="@heightSliderRef" TValue="int" @bind-Value="@heightGaugeValue" Type="SliderType.MinRange" Width="100px" Min="0" Max="@heightGaugeMaximum" CssClass="height-slider-container" Orientation="SliderOrientation.Vertical" Step="@(currentUnit == "CM" ? 1 : 0.1)">
+                            }
+                            <div class="slider-container" style="height: 390px; width: 50px; margin-top: 5px;">
+                                @if (string.IsNullOrEmpty(heightGaugeClass))
+                                {
+                                    <SfSlider ID="heightrange" TValue="int" Value="@heightGaugeValue" Type="SliderType.MinRange" Width="100px" Min="0" Max="@heightGaugeMaximum" CssClass="height-slider-container" Orientation="SliderOrientation.Vertical" Step="@(currentUnit == "CM" ? 1 : 0.1)">
                                         <SliderLimits Enabled="true" MinStart="@(currentUnit == "CM" ? 30 : 1)"></SliderLimits>
                                         <SliderEvents TValue="int" OnChange="SliderHeightChange"></SliderEvents>
                                         <SliderTicks Format="@(currentUnit == "CM" ? "N0" : "#.00")"></SliderTicks>
                                     </SfSlider>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                         <div class="e-add-height">
                             <SfButton IsPrimary="true" OnClick="UpdateHeight" Content="UPDATE HEIGHT"></SfButton>
@@ -223,7 +230,6 @@
 
 @code {
     SfSlider<int> weightSliderRef;
-    SfSlider<int> heightSliderRef;
     private bool visible { get; set; }
     private string editDialogWidth { get; set; }
     private string height { get; set; }
@@ -238,7 +244,7 @@
     private string weightGaugeClass { get; set; } = string.Empty;
     private string heightGaugeClass { get; set; } = string.Empty;
     private bool isGoalEdit { get; set; }
-    private Syncfusion.Blazor.Theme theme { get; set; }
+    private Theme theme { get; set; }
     private int weightGaugeMaximum { get; set; }
     private int weightGaugeValue { get; set; }
     private int heightGaugeValue { get; set; }
@@ -255,31 +261,27 @@
         currentUnit = SampleService.ProfileStats.WeightMes.ToUpper();
         weightGaugeMaximum = currentUnit == "KG" ? 150 : 330;
         weightGaugeValue = SampleService.ProfileStats.Weight;
-        theme = SampleService.CurrentTheme == "Light" ? Syncfusion.Blazor.Theme.Tailwind : Syncfusion.Blazor.Theme.TailwindDark;
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
     }
 
     private void OverlayClick(OverlayModalClickEventArgs args)
     {
-        visible = false;
         ResetOnClose();
-        SampleService.ProfileTabRef.StateChanged();
     }
 
     private async Task DialogOpened(Syncfusion.Blazor.Popups.OpenEventArgs args)
     {
         await weightSliderRef?.RepositionAsync();
-        await heightSliderRef?.RepositionAsync();
     }
 
     private void CloseEditDialog()
     {
-        visible = false;
         ResetOnClose();
-        SampleService.ProfileTabRef.StateChanged();
     }
 
     private void ResetOnClose()
     {
+        visible = false;
         isInitialRender = false;
         isGoalEdit = false;
         heightGaugeClass = "e-hidden";
@@ -291,6 +293,9 @@
         weightEditClass = string.Empty;
         goalEditClass = string.Empty;
         heightEditClass = string.Empty;
+        currentUnit = SampleService.ProfileStats.WeightMes.ToUpper();
+        weightGaugeValue = SampleService.ProfileStats.Weight;
+        SampleService.ProfileTabRef.StateChanged();
     }
 
     private void AgeMinusClick()
@@ -306,15 +311,11 @@
         }
     }
 
-    private async Task ChangeWeight()
+    private void ChangeWeight()
     {
         weightEditClass = "e-edit-color";
         goalEditClass = string.Empty;
         heightEditClass = string.Empty;
-        if (weightGaugeValue == SampleService.ProfileStats.Weight)
-        {
-            await weightSliderRef?.RepositionAsync();
-        }
         currentUnit = SampleService.ProfileStats.WeightMes.ToUpper();
         weightGaugeMaximum = currentUnit == "KG" ? 150 : 330;
         weightGaugeValue = SampleService.ProfileStats.Weight;
@@ -330,30 +331,23 @@
         heightGaugeClass = "e-hidden";
     }
 
-    private async Task ChangeGoal()
+    private void ChangeGoal()
     {
         goalEditClass = "e-edit-color";
         weightEditClass = string.Empty;
         heightEditClass = string.Empty;
-        if (weightGaugeValue == SampleService.ProfileStats.Goal)
-        {
-            await weightSliderRef?.RepositionAsync();
-        }
         currentUnit = SampleService.ProfileStats.GoalMes.ToUpper();
         weightGaugeValue = SampleService.ProfileStats.Goal;
+        weightGaugeMaximum = currentUnit == "KG" ? 150 : 330;
         isGoalEdit = true;
         ShowWeight();
     }
 
-    private async Task ChangeHeight()
+    private void ChangeHeight()
     {
         goalEditClass = string.Empty;
         weightEditClass = string.Empty;
         heightEditClass = "e-edit-color";
-        if (heightGaugeValue == SampleService.ProfileStats.Goal)
-        {
-            await heightSliderRef?.RepositionAsync();
-        }
         currentUnit = SampleService.ProfileStats.HeightMes.ToUpper();
         heightGaugeValue = SampleService.ProfileStats.Height;
         heightGaugeMaximum = currentUnit == "CM" ? 230 : 7.5;
@@ -383,12 +377,44 @@
             weightGaugeBackground = "#414255";
         }
         await JSRuntime.InvokeVoidAsync("blazorFitnessTracker.changeTheme", args.Value);
-        StateHasChanged();
+        SampleService.TabRef.UpdateActiveTab(false);
     }
 
-    private void HandleChange(ChangeEventArgs args)
+    private void HandleChange(string unit)
     {
-
+        if (currentUnit != unit)
+        {
+            if ((unit == "KG" || unit == "LB"))
+            {
+                currentUnit = unit;
+                if (unit == "KG")
+                {
+                    weightGaugeMaximum = 150;
+                    weightGaugeValue = (int)Math.Round(weightGaugeValue / 2.205);
+                }
+                else
+                {
+                    weightGaugeMaximum = 330;
+                    weightGaugeValue = (int)Math.Round(weightGaugeValue * 2.205);
+                }
+            }
+            else if (unit == "CM" || unit == "FT")
+            {
+                currentUnit = unit;
+                if (unit == "CM")
+                {
+                    heightGaugeMaximum = 230;
+                    heightGaugeValue = (int)Math.Round(heightGaugeValue * 30.48);
+                    humanImgStyle = $"height: {(heightGaugeValue * 1.7)}px";
+                }
+                else
+                {
+                    heightGaugeMaximum = 7.5;
+                    heightGaugeValue = (int)Math.Round(heightGaugeValue / 30.48);
+                    humanImgStyle = $"height: {(heightGaugeValue * 52)}px";
+                }
+            }
+        }
     }
 
     private void UpdateWeight()
@@ -434,16 +460,24 @@
         StateHasChanged();
     }
 
+    internal void CallStateHasChanged()
+    {
+        editDialogWidth = SampleService.IsDevice ? "100%" : "1000px";
+        height = SampleService.IsDevice ? "100%" : "auto";
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
+        StateHasChanged();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         SampleService.ProfileDialogRef = this;
-        editDialogWidth = SampleService.IsDevice ? "100%" : "1000px";
-        height = SampleService.IsDevice ? "100%" : "auto";
         heightGaugeClass = "e-hidden";
         currentUnit = SampleService.ProfileStats.WeightMes.ToUpper();
         weightGaugeMaximum = currentUnit == "KG" ? 150 : 330;
         weightGaugeValue = SampleService.ProfileStats.Weight;
-        theme = SampleService.CurrentTheme == "Light" ? Syncfusion.Blazor.Theme.Tailwind : Syncfusion.Blazor.Theme.TailwindDark;
+        editDialogWidth = SampleService.IsDevice ? "100%" : "1000px";
+        height = SampleService.IsDevice ? "100%" : "auto";
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
     }
 }

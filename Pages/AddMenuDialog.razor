@@ -301,15 +301,15 @@
         bool selectedCard = !menu.IsAdded;
         lastSelectItem = selectedCard ?  menu.Item : string.Empty;
         for (var i = 0; i < CurrentMenu.Count; i++) {
-          if (CurrentMenu[i].Item == menu.Item) {
-            if (selectedCard) {
-              CurrentMenu[i].IsAdded = true;
-              CurrentMenu[i].Quantity = currentQuantity;
-            } else {
-              CurrentMenu[i].IsAdded = false;
-              CurrentMenu[i].Quantity = 0;
+            if (CurrentMenu[i].Item == menu.Item) {
+                if (selectedCard) {
+                    CurrentMenu[i].IsAdded = true;
+                    CurrentMenu[i].Quantity = currentQuantity;
+                } else {
+                    CurrentMenu[i].IsAdded = false;
+                    CurrentMenu[i].Quantity = 0;
+                }
             }
-          }
         }
         UpdateTotalCal();
     }
@@ -333,12 +333,17 @@
         }
     }
 
-    protected override void OnInitialized()
+    internal void UpdateProps()
     {
-        base.OnInitialized();
         dialogwidth = SampleService.IsDevice ? "100%" : "700px";
         dateWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "80%";
         today = DateTime.Now;
         timeWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "160px";
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateProps();
     }
 }

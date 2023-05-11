@@ -74,11 +74,17 @@
         StateHasChanged();
     }
 
-    protected override void OnInitialized()
+    internal void UpdateProps()
     {
-        base.OnInitialized();
+        diff = 16;
         fastingDialogwidth = SampleService.IsDevice ? "100%" : "400px";
         minimumDate = DateTime.Now.Date;
         maximumDate = minimumDate.AddDays(1).Add(new TimeSpan(24, 0, 0));
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateProps();
     }
 }

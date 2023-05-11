@@ -28,7 +28,7 @@
                 <TabHeader Text="ACTIVITIES" IconCss="icon-Activities" IconPosition="top"></TabHeader>
             </ChildContent>
             <ContentTemplate>
-                <Activities></Activities>
+                <Activities @ref="activitiesTabRef"></Activities>
             </ContentTemplate>
         </TabItem>
         <TabItem>
@@ -36,7 +36,7 @@
                 <TabHeader Text="DIET" IconCss="icon-Diet" IconPosition="top"></TabHeader>
             </ChildContent>
             <ContentTemplate>
-                <Diet></Diet>
+                <Diet @ref="@dietTabRef"></Diet>
             </ContentTemplate>
         </TabItem>
         <TabItem>
@@ -44,7 +44,7 @@
                 <TabHeader Text="FASTING" IconCss="icon-Fasting" IconPosition="top"></TabHeader>
             </ChildContent>
             <ContentTemplate>
-                <Fasting></Fasting>
+                <Fasting @ref="fastingTabRef"></Fasting>
             </ContentTemplate>
         </TabItem>
         @if (SampleService.IsSmallDevice)
@@ -89,6 +89,9 @@
 </svg>
 
 @code{
+    private Activities activitiesTabRef { get; set; }
+    private Diet dietTabRef { get; set; }
+    private Fasting fastingTabRef { get; set; }
     private int tabSelectedItem { get; set; } = 0;
     private HeaderPosition headerPlacement { get; set; } = HeaderPosition.Top;
 
@@ -97,26 +100,31 @@
         await JSRuntime.InvokeVoidAsync("blazorFitnessTracker.renderTabChild");
     }
 
+    internal void UpdateActiveTab(bool isRefreshProps = true)
+    {
+        if (tabSelectedItem == 0)
+        {
+            activitiesTabRef?.CallStateHasChanged();
+        }
+        else if (tabSelectedItem == 1)
+        {
+            dietTabRef?.CallStateHasChanged();
+        }
+        else if (tabSelectedItem == 2)
+        {
+            fastingTabRef?.CallStateHasChanged(isRefreshProps);
+        }
+        SampleService.ProfileTabRef?.StateChanged();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        SampleService.TabRef = this;
+        SampleService.MasterData = new List<FitnessService>();
         SampleService.ActivitiesData.ActivityChartMonthData = new ChartPeriodData();
         SampleService.ActivitiesData.ActivityChartWeekData = new ChartPeriodData();
-        SampleService.ActivitiesData.ChartData = SampleService.GetChartData("Weekly", "Diet");
-        SampleService.ActivitiesData.ChartDietData = SampleService.GetChartData("Weekly", "Workout");
-        SampleService.ActivitiesData.GridData = SampleService.GetData();
-        Random random = new Random();
-        List<FitnessTracker.Data.MenuItems> currentBreakFastMenu = SampleService.GetBreakfastMenu().OrderBy(x => random.NextDouble()).ToList();
-        SampleService.DietData.CurrentBreakFastMenu = currentBreakFastMenu.Skip(0).Take(3).ToList();
-        List<FitnessTracker.Data.MenuItems> currentSnack1Menu = SampleService.GetSnackMenu().OrderBy(x => random.NextDouble()).ToList();
-        SampleService.DietData.CurrentSnack1Menu = currentSnack1Menu.Skip(0).Take(3).ToList();
-        List<FitnessTracker.Data.MenuItems> currentLunchMenu = SampleService.GetLunchMenu().OrderBy(x => random.NextDouble()).ToList();
-        SampleService.DietData.CurrentLunchMenu = currentLunchMenu.Skip(0).Take(3).ToList();
-        SampleService.FastingData.WeightChartData = SampleService.GetWeightChartData();
-        SampleService.ProfileStats = SampleService.GetProfileStats();
-        SampleService.DietData.IsBreakFastMenuAdded = true;
-        SampleService.DietData.IsSnack1MenuAdded = true;
-        SampleService.DietData.IsLunchMenuAdded = true;
+        SampleService.InitializeData();
         SampleService.UpdateConsumedCalories();
         SampleService.GetInitialData();
     }
