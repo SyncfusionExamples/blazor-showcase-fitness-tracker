@@ -1,3 +1,4 @@
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Charts
 @using FitnessTracker.Data
@@ -223,20 +224,20 @@
                     </div>
                     <div class="e-diet-chart-panel-container e-panel-content">
                         <div class="e-chart-parent-div">
-                            <div class="e-pie-chart-container">
-                                @*<SfAccumulationChart ID="piecontainer" Theme="Syncfusion.Blazor.Theme.Tailwind" Width="100%" Height="80%" EnableSmartLabels="true">
+                            <div class="e-pie-chart-container" style="height: 100%">
+                                <SfAccumulationChart ID="piecontainer" Theme="@theme" Width="100%" Height="80%" EnableSmartLabels="true">
                                     <AccumulationChartLegendSettings Visible="false" Position="LegendPosition.Right" Width="60%" Height="20%" ShapeHeight="20" ShapeWidth="20"></AccumulationChartLegendSettings>
                                     <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
                                     <AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
                                     <AccumulationChartEvents TooltipRender="OnTooltipRender"></AccumulationChartEvents>
                                     <AccumulationChartSeriesCollection>
                                         <AccumulationChartSeries DataSource="@pieData" PointColorMapping="Fill" XName="X" YName="Y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
-                                            <AccumulationDataLabelSettings Visible="true">
+                                            @*<AccumulationDataLabelSettings Visible="true">
                                                 <AccumulationChartDataLabelFont Color="#303343"></AccumulationChartDataLabelFont>
-                                            </AccumulationDataLabelSettings>
+                                            </AccumulationDataLabelSettings>*@
                                         </AccumulationChartSeries>
                                     </AccumulationChartSeriesCollection>
-                                </SfAccumulationChart>*@
+                                </SfAccumulationChart>
                             </div>
                             <div class="e-nutrition-container">
                                 @if (SampleService.InnerWidth < 450)
@@ -378,15 +379,15 @@
 
 @code{
     private AddMenuDialog MenuDialogRef;
-    private bool isToday { get; set; } = true;
+    private bool isToday { get; set; }
     private int breakFastRecom { get; set; } = 440;
     private int snack1Recom { get; set; } = 165; 
     private int lunchRecom { get; set; } = 440;
     private int snack2Recom { get; set; } = 165;
     private int dinnerRecom { get; set; } = 440;
-
     private string pieChartRadius { get; set; }
     private List<PieChartData> pieData { get; set; }
+    private Theme theme { get; set; } = Theme.Tailwind;
 
     private List<PieChartData> GetPieChartData()
     {
@@ -397,7 +398,7 @@
             new PieChartData { X = "CARBOHYDRATES", Y = SampleService.DietData.CurrentTotalCarbs, Fill = "#FFC147" },
             new PieChartData { X = "CALCIUM", Y = SampleService.DietData.CurrentTotalCalcium, Fill = "#E25641" },
             new PieChartData { X = "SODIUM", Y = SampleService.DietData.CurrentTotalSodium, Fill = "#901C53" },
-            new PieChartData { X = "IRON", Y = SampleService.DietData.CurrentTotalIron, Fill = "#CB4967" },
+            new PieChartData { X = "IRON", Y = SampleService.DietData.CurrentTotalIron, Fill = "#CB4967" }
         };
         return sampleChartData;
     }
@@ -523,10 +524,22 @@
         StateHasChanged();
     }
 
+    internal void CallStateHasChanged()
+    {
+        pieChartRadius = SampleService.IsDevice ? "90%" : "80%";
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
+        isToday = SampleService.CurrentDate.Value.Date == DateTime.Today;
+        MenuDialogRef?.UpdateProps();
+        pieData = GetPieChartData();
+        StateHasChanged();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         pieChartRadius = SampleService.IsDevice ? "90%" : "80%";
+        isToday = SampleService.CurrentDate.Value.Date == DateTime.Today;
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
         pieData = GetPieChartData();
     }
 }

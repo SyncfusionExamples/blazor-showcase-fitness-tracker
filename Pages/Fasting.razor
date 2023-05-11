@@ -1,4 +1,5 @@
 @using System.Timers
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.CircularGauge
@@ -19,7 +20,7 @@
                         </div>
                         <div class="e-panel-content">
                             <div class="e-fasting-gauge">
-                                <SfCircularGauge ID="fastingGaugeId" Width="100%" Height="300px" CenterX="50%" CenterY="50%" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                                <SfCircularGauge ID="fastingGaugeId" Width="100%" Height="300px" CenterX="50%" CenterY="50%" Theme="@theme">
                                     <CircularGaugeAxes>
                                         <CircularGaugeAxis Minimum="0" Radius="100%" Maximum="100" StartAngle="5" EndAngle="355">
                                             <CircularGaugeAxisMajorTicks Height="0"></CircularGaugeAxisMajorTicks>
@@ -111,8 +112,8 @@
                                 <div>@fastEndTime</div>
                             </div>
                             <div class="e-fasting-button-container">
-                                <SfButton OnClick="ModifyFasting" CssClass="@("e-fast-time-btn " + fastingBtnCss)" Content="@changeTimeBtnText" width="100%"></SfButton>
-                                <SfButton OnClick="ClearFasting" CssClass="@("e-fast-end-btn" + fastingBtnCss)" Content="END FASTING" width="100%"></SfButton>
+                                <SfButton OnClick="ModifyFasting" CssClass="@("e-fast-time-btn " + fastingBtnCss)" Content="@changeTimeBtnText" Disabled="isDisabled"  width="100%"></SfButton>
+                                <SfButton OnClick="ClearFasting" CssClass="@("e-fast-end-btn" + fastingBtnCss)" Content="END FASTING" width="100%" Disabled="isDisabled"></SfButton>
                             </div>
                         </div>
                     </div>
@@ -126,7 +127,7 @@
                         </div>
                         <div class="e-panel-content">
                             <div class="e-water-gauge">
-                                <SfLinearGauge ID="waterGaugeId" Width="100%" Height="@gaugeHeight" Orientation="@gaugeOrientation" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                                <SfLinearGauge ID="waterGaugeId" Width="100%" Height="@gaugeHeight" Orientation="@gaugeOrientation" Theme="@theme">
                                     <LinearGaugeContainer Width="50" RoundedCornerRadius="35" Type="ContainerType.RoundedRectangle" BackgroundColor="#3993F5"></LinearGaugeContainer>
                                     <LinearGaugeAnnotations>
                                         @if (SampleService.IsDevice)
@@ -231,7 +232,7 @@
                         <div class="e-weight-chart-header-text">Weight Journey</div>
                     </div>
                     <div class="e-panel-content">
-                        <SfChart ID="weightchart" CustomClass="e-weight-chart" Width="100%" Height="70%" Theme="Syncfusion.Blazor.Theme.Tailwind">
+                        <SfChart ID="weightchart" CustomClass="e-weight-chart" Width="100%" Height="70%" Theme="@theme">
                             <ChartArea>
                                 <ChartAreaBorder Width="0"></ChartAreaBorder>
                             </ChartArea>
@@ -288,6 +289,8 @@
     private double gaugePercent { get; set; } = 100;
     private string timeLeft { get; set; } = "Left 00h 00m";
     private List<string> waterHighLightClass { get; set; }
+    private bool isDisabled { get; set; }
+    private Theme theme { get; set; } = Theme.Tailwind;
 
     private void ModifyFasting()
     {
@@ -309,6 +312,10 @@
 
     private void MinusClick()
     {
+        if (isDisabled)
+        {
+            return;
+        }
         int hour = DateTime.Now.Hour;
         string period = hour > 0 && hour < 8 ? "Breakfast Water" : hour > 8 && hour < 16 ? "Lunch Water" : "Evening Water";
         int index = SampleService.TodayActivities.FindIndex(x => x.Name == period);
@@ -337,6 +344,10 @@
 
     private void PlusClick()
     {
+        if (isDisabled)
+        {
+            return;
+        }
         int hour = DateTime.Now.Hour;
         string period = hour > 0 && hour < 8 ? "Breakfast Water" : hour > 8 && hour < 16 ? "Lunch Water" : "Evening Water";
         int index = SampleService.TodayActivities.FindIndex(x => x.Name == period);
@@ -416,6 +427,7 @@
 
     private async void OnTimerElapsed(object source, ElapsedEventArgs e)
     {
+        fastingTimer.Interval = 1000;
         UpdateCircularGaugePros();
         await InvokeAsync(StateHasChanged);
     }
@@ -465,11 +477,22 @@
         ciruclarGaugeAnnotationSecondContent = true;
     }
 
-    protected override void OnInitialized()
+    internal void CallStateHasChanged(bool isPropsRefresh = true)
     {
-        base.OnInitialized();
+        if (isPropsRefresh)
+        {
+            fastingTimer?.Stop();
+            InitializeProps();
+        }
+        FastingDialogRef?.UpdateProps();
         gaugeOrientation = SampleService.IsDevice ? Syncfusion.Blazor.LinearGauge.Orientation.Vertical : Syncfusion.Blazor.LinearGauge.Orientation.Horizontal;
         gaugeHeight = SampleService.IsDevice ? "100%" : "250px";
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
+        StateHasChanged();
+    }
+
+    private void InitializeProps()
+    {
         DateTime currentDate = DateTime.Now;
         if (currentDate.Hour >= 17)
         {
@@ -482,13 +505,37 @@
             countDownDate = new DateTime(currentDate.Year, currentDate.Month, countStartDate.Day).Add(new TimeSpan(countStartDate.Hour + 16, 0, 0));
         }
         UpdateWaterGauge();
-        int gaugePercent = (int)Math.Round(((DateTime.Now - countStartDate).TotalMilliseconds / (double)(countDownDate - countStartDate).TotalMilliseconds) * 100);
-        circularGaugeRangeEnd = gaugePercent > 100 ? 100 : gaugePercent;
-        ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 10;
-        ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
-        fastingTimer = new Timer { Interval = 1000, AutoReset = true };
-        fastingTimer.Elapsed += OnTimerElapsed;
-        fastingTimer.Start();
+        if (SampleService.CurrentDate.Value.Date == DateTime.Today)
+        {
+            isDisabled = false;
+            int gaugePercent = (int)Math.Round(((DateTime.Now - countStartDate).TotalMilliseconds / (double)(countDownDate - countStartDate).TotalMilliseconds) * 100);
+            circularGaugeRangeEnd = gaugePercent > 100 ? 100 : gaugePercent;
+            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 10;
+            ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
+            fastingTimer = new Timer { Interval = 1, AutoReset = true };
+            fastingTimer.Elapsed += OnTimerElapsed;
+            fastingTimer.Start();
+        }
+        else
+        {
+            isDisabled = true;
+            circularGaugeRangeEnd = 100;
+            ciruclarGaugeAnotationAngle = 350;
+            ciruclarGaugeAnnotationSecondContent = true;
+            timeLeft = "Left 00h 00m";
+            sliderValue = "Completed";
+            gaugePercent = 100;
+            fastingBtnCss = string.Empty;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        gaugeOrientation = SampleService.IsDevice ? Syncfusion.Blazor.LinearGauge.Orientation.Vertical : Syncfusion.Blazor.LinearGauge.Orientation.Horizontal;
+        gaugeHeight = SampleService.IsDevice ? "100%" : "250px";
+        theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
+        InitializeProps();
     }
 
     public void Dispose()

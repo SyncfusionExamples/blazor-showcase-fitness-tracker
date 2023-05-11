@@ -37,7 +37,8 @@ else
 	{
 		SampleService.InnerWidth = windowWidth;
 		SampleService.IsSmallDevice = SampleService.InnerWidth <= 820;
-		StateHasChanged();
+		SampleService.TabRef.UpdateActiveTab(false);
+		SampleService.ProfileDialogRef?.CallStateHasChanged();
 	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -18,6 +18,7 @@ namespace FitnessTracker.Data
         internal FastingData FastingData { get; set; } = new FastingData();
         internal ProfileDialog ProfileDialogRef { get; set; }
         internal Profile ProfileTabRef { get; set; }
+        internal Home TabRef { get; set; }
 
         internal void GetInitialData()
         {
@@ -25,95 +26,13 @@ namespace FitnessTracker.Data
             if (MasterData?.Count > 0)
             {
                 data = MasterData.First();
-                ActivitiesData.Steps = data.ActivitiesData.Steps;
-                ActivitiesData.HeartRate = data.ActivitiesData.HeartRate;
-                ActivitiesData.SleepInMinutes = data.ActivitiesData.SleepInMinutes;
-                ActivitiesData.GridData = data.ActivitiesData.GridData;
-                ActivitiesData.ChartDietData = data.ActivitiesData.ChartDietData;
-                ActivitiesData.ChartData = data.ActivitiesData.ChartData;
-                ActivitiesData.ActivityChartMonthData = data.ActivitiesData.ActivityChartMonthData;
-                ActivitiesData.ActivityChartWeekData = data.ActivitiesData.ActivityChartWeekData;  
-                DietData.ConsumedCalories = data.DietData.ConsumedCalories;
-                DietData.BurnedCalories = data.DietData.BurnedCalories;
-                DietData.CurrentBreakFastMenu = data.DietData.CurrentBreakFastMenu;
-                DietData.CurrentBreakFastCalories = data.DietData.CurrentBreakFastCalories;
-                DietData.CurrentBreakFastMenuText = data.DietData.CurrentBreakFastMenuText;
-                DietData.IsBreakFastMenuAdded = data.DietData.IsBreakFastMenuAdded;
-                DietData.CurrentSnack1Menu = data.DietData.CurrentSnack1Menu;
-                DietData.CurrentSnack1Calories = data.DietData.CurrentSnack1Calories;
-                DietData.CurrentSnack1MenuText = data.DietData.CurrentSnack1MenuText;
-                DietData.IsSnack1MenuAdded = data.DietData.IsSnack1MenuAdded;
-                DietData.CurrentLunchMenu = data.DietData.CurrentLunchMenu;
-                DietData.CurrentLunchCalories = data.DietData.CurrentLunchCalories;
-                DietData.CurrentLunchMenuText = data.DietData.CurrentLunchMenuText;
-                DietData.IsLunchMenuAdded = data.DietData.IsLunchMenuAdded;
-                DietData.CurrentTotalProteins = data.DietData.CurrentTotalProteins;
-                DietData.CurrentTotalFat = data.DietData.CurrentTotalFat;
-                DietData.CurrentTotalCarbs = data.DietData.CurrentTotalCarbs;
-                DietData.CurrentTotalCalcium = data.DietData.CurrentTotalCalcium;
-                DietData.CurrentTotalSodium = data.DietData.CurrentTotalSodium;
-                DietData.CurrentTotalIron = data.DietData.CurrentTotalIron;
-                FastingData.ConsumedWaterCount = data.FastingData.ConsumedWaterCount;
-                FastingData.ConsumedWaterAmount = data.FastingData.ConsumedWaterCount * 150;
-                FastingData.WeightChartData = data.FastingData.WeightChartData;
+                UpdateSelectedDateData(data);
             }
             else
             {
-                MasterData = new List<FitnessService>();
-                Random random = new Random();
-                int morningWalk = (int)Math.Round(random.NextDouble() * (3000 - 1000) + 1000);
-                int breakfastWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
-                int lunchWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
-                ActivitiesData.Steps = morningWalk;
-                ActivitiesData.HeartRate = (int)Math.Round(random.NextDouble() * (100 - 70) + 70);
-                ActivitiesData.SleepInMinutes = (int)Math.Round(random.NextDouble() * (480 - 300) + 300);
-                FastingData.ConsumedWaterCount = breakfastWaterTaken + lunchWaterTaken;
-                FastingData.ConsumedWaterAmount = FastingData.ConsumedWaterCount * 150;
-                data.CurrentDate = CurrentDate;
-                data.ActivitiesData.Steps = ActivitiesData.Steps;
-                data.ActivitiesData.HeartRate = ActivitiesData.HeartRate;
-                data.ActivitiesData.SleepInMinutes = ActivitiesData.SleepInMinutes;
-                data.ActivitiesData.ChartDietData = ActivitiesData.ChartDietData;
-                data.ActivitiesData.ChartData = ActivitiesData.ChartData;
-                data.ActivitiesData.GridData = ActivitiesData.GridData;
-                data.ActivitiesData.ActivityChartMonthData = ActivitiesData.ActivityChartMonthData;
-                data.ActivitiesData.ActivityChartWeekData = ActivitiesData.ActivityChartWeekData;
-                data.ActivitiesData.MorningWalk = morningWalk;
-                data.DietData.CurrentBreakFastMenu = DietData.CurrentBreakFastMenu;
-                data.DietData.CurrentBreakFastCalories = DietData.CurrentBreakFastCalories;
-                data.DietData.CurrentBreakFastMenuText = DietData.CurrentBreakFastMenuText;
-                data.DietData.IsBreakFastMenuAdded = DietData.IsBreakFastMenuAdded;
-                data.DietData.CurrentSnack1Menu = DietData.CurrentSnack1Menu;
-                data.DietData.CurrentSnack1Calories = DietData.CurrentSnack1Calories;
-                data.DietData.CurrentSnack1MenuText = DietData.CurrentSnack1MenuText;
-                data.DietData.IsSnack1MenuAdded = DietData.IsSnack1MenuAdded;
-                data.DietData.CurrentLunchMenu = DietData.CurrentLunchMenu;
-                data.DietData.CurrentLunchCalories = DietData.CurrentLunchCalories;
-                data.DietData.CurrentLunchMenuText = DietData.CurrentLunchMenuText;
-                data.DietData.IsLunchMenuAdded = DietData.IsLunchMenuAdded;
-                data.DietData.ConsumedCalories = DietData.ConsumedCalories;
-                data.DietData.BurnedCalories = DietData.BurnedCalories;
-                data.DietData.BreakfastWaterTaken = breakfastWaterTaken;
-                data.DietData.LunchWaterTaken = lunchWaterTaken;
-                data.DietData.CurrentTotalProteins = DietData.CurrentTotalProteins;
-                data.DietData.CurrentTotalFat = DietData.CurrentTotalFat;
-                data.DietData.CurrentTotalCarbs = DietData.CurrentTotalCarbs;
-                data.DietData.CurrentTotalCalcium = DietData.CurrentTotalCalcium;
-                data.DietData.CurrentTotalSodium = DietData.CurrentTotalSodium;
-                data.DietData.CurrentTotalIron = DietData.CurrentTotalIron;
-                data.FastingData.WeightChartData = FastingData.WeightChartData;
-                data.FastingData.ConsumedWaterCount = FastingData.ConsumedWaterCount;
-                MasterData.Add(data);
+                UpdateMasterData(data);
             }
-            TodayActivities = new List<Activity>()
-            {
-                new Activity { Name = "Morning Walk", ActivityType ="Morning Walk", Duration = "30m", Distance = ((double)data.ActivitiesData.MorningWalk / 1312).ToString("0.00").Replace(".00", string.Empty) + "Km", Percentage = (((double)data.ActivitiesData.MorningWalk / 6000) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "7:00 AM" },
-                new Activity { Name = "Breakfast Water", ActivityType ="Water Taken", Count = data.DietData.BreakfastWaterTaken, Amount = data.DietData.BreakfastWaterTaken + " Glasses", Percentage = ((((double)data.DietData.BreakfastWaterTaken * 150) / data.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "7:40 AM" },
-                new Activity { Name = "Breakfast", ActivityType ="Breakfast", Amount = data.DietData.CurrentBreakFastMenuText, Percentage = (((double)data.DietData.CurrentBreakFastCalories / ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "9:00 AM" },
-                new Activity { Name = "Snack1", ActivityType ="Snack", Amount = data.DietData.CurrentSnack1MenuText, Percentage = (((double)data.DietData.CurrentSnack1Calories / ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "11:00 AM" },
-                new Activity { Name = "Lunch Water", ActivityType ="Water Taken", Count = data.DietData.LunchWaterTaken, Amount = data.DietData.LunchWaterTaken + " Glasses", Percentage = ((((double)data.DietData.LunchWaterTaken * 150) / data.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "12:00 PM" },
-                new Activity { Name = "Lunch", ActivityType ="Lunch", Amount = data.DietData.CurrentLunchMenuText, Percentage = (((double)data.DietData.CurrentLunchCalories / ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "1:00 PM" }
-            };
+            SetTodayActivities(data);
         }
         internal void UpdateConsumedCalories()
         {
@@ -370,6 +289,183 @@ namespace FitnessTracker.Data
                 sampleChartData.Add(data);
             }
             return sampleChartData;
+        }
+
+        internal void DateChanged(DateTime selectedDate)
+        {
+            CurrentDate = selectedDate;
+            bool isToday = CurrentDate.Value.Date == DateTime.Now.Date;
+            FitnessService data = new FitnessService();
+            if (!isToday)
+            {
+                data = MasterData.FirstOrDefault(x => x.CurrentDate == CurrentDate);
+                Random random = new Random();
+                int eveningWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
+                int eventingWalk = (int)Math.Round(random.NextDouble() * (3000 - 1000) + 1000);
+                if (data != null)
+                {
+                    UpdateSelectedDateData(data);
+                }
+                else
+                {
+                    data = new FitnessService();
+                    InitializeData();
+                    List<MenuItems> currentSnack2Menu = GetSnackMenu().OrderBy(x => random.NextDouble()).ToList();
+                    DietData.CurrentSnack2Menu = currentSnack2Menu.Skip(0).Take(3).ToList();
+                    List<MenuItems> currentDinnerMenu = GetLunchMenu().OrderBy(x => random.NextDouble()).ToList();
+                    DietData.CurrentDinnerMenu = currentDinnerMenu.Skip(0).Take(3).ToList();
+                    DietData.IsSnack2MenuAdded = true;
+                    DietData.IsDinnerMenuAdded = true;
+                    UpdateConsumedCalories();
+                    UpdateMasterData(data);
+                    ActivitiesData.Steps = ActivitiesData.Steps + eventingWalk;
+                    FastingData.ConsumedWaterCount = FastingData.ConsumedWaterCount + eveningWaterTaken;
+                    FastingData.ConsumedWaterAmount = FastingData.ConsumedWaterCount * 150;
+                    data.ActivitiesData.Steps = ActivitiesData.Steps;
+                    data.FastingData.ConsumedWaterCount = FastingData.ConsumedWaterCount;
+                    data.FastingData.ConsumedWaterAmount = FastingData.ConsumedWaterAmount;
+                    MasterData.Add(data);
+                }
+                SetTodayActivities(data);
+                List<Activity> activity = new List<Activity>
+                {
+                    new Activity { Name = "Snack2", ActivityType ="Snack", Amount = DietData.CurrentSnack2MenuText, Percentage = ((DietData.CurrentSnack2Calories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "3:00 PM" },
+                    new Activity { Name = "Evening Water", ActivityType ="Water Taken", Count = eveningWaterTaken, Amount = eveningWaterTaken + " Glasses", Percentage = (((eveningWaterTaken * 150) / (double)data.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "4:00 PM" },
+                    new Activity { Name = "Evening Walk", ActivityType ="Evening Walk", Duration = "30 m", Distance = (eventingWalk / (double)1312).ToString("0.00").Replace(".00", string.Empty) + "Km", Percentage = ((eventingWalk / (double)6000) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "5:30 PM" },
+                    new Activity { Name = "Dinner", ActivityType ="Dinner", Amount = DietData.CurrentDinnerMenuText, Percentage = ((DietData.CurrentDinnerCalories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "8:00 PM" }
+                };
+                TodayActivities.AddRange(activity);
+            }
+            else
+            {
+                InitializeData();
+                UpdateConsumedCalories();
+                GetInitialData();
+            }
+            TabRef.UpdateActiveTab();
+        }
+
+        private void SetTodayActivities(FitnessService data)
+        {
+            TodayActivities = new List<Activity>()
+            {
+                new Activity { Name = "Morning Walk", ActivityType ="Morning Walk", Duration = "30m", Distance = (data.ActivitiesData.MorningWalk / (double)1312).ToString("0.00").Replace(".00", string.Empty) + "Km", Percentage = ((data.ActivitiesData.MorningWalk / (double)6000) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "7:00 AM" },
+                new Activity { Name = "Breakfast Water", ActivityType ="Water Taken", Count = data.DietData.BreakfastWaterTaken, Amount = data.DietData.BreakfastWaterTaken + " Glasses", Percentage = (((data.DietData.BreakfastWaterTaken * 150) / (double)data.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "7:40 AM" },
+                new Activity { Name = "Breakfast", ActivityType ="Breakfast", Amount = data.DietData.CurrentBreakFastMenuText, Percentage = ((data.DietData.CurrentBreakFastCalories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "9:00 AM" },
+                new Activity { Name = "Snack1", ActivityType ="Snack", Amount = data.DietData.CurrentSnack1MenuText, Percentage = ((data.DietData.CurrentSnack1Calories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "11:00 AM" },
+                new Activity { Name = "Lunch Water", ActivityType ="Water Taken", Count = data.DietData.LunchWaterTaken, Amount = data.DietData.LunchWaterTaken + " Glasses", Percentage = (((data.DietData.LunchWaterTaken * 150) / (double)data.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "12:00 PM" },
+                new Activity { Name = "Lunch", ActivityType ="Lunch", Amount = data.DietData.CurrentLunchMenuText, Percentage = ((data.DietData.CurrentLunchCalories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "1:00 PM" }
+            };
+        }
+
+        private void UpdateMasterData(FitnessService data)
+        {
+            Random random = new Random();
+            int morningWalk = (int)Math.Round(random.NextDouble() * (3000 - 1000) + 1000); 
+            int breakfastWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
+            int lunchWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
+            ActivitiesData.Steps = morningWalk;
+            ActivitiesData.HeartRate = (int)Math.Round(random.NextDouble() * (100 - 70) + 70);
+            ActivitiesData.SleepInMinutes = (int)Math.Round(random.NextDouble() * (480 - 300) + 300);
+            FastingData.ConsumedWaterCount = breakfastWaterTaken + lunchWaterTaken;
+            FastingData.ConsumedWaterAmount = FastingData.ConsumedWaterCount * 150;
+            data.CurrentDate = CurrentDate;
+            data.ActivitiesData.Steps = ActivitiesData.Steps;
+            data.ActivitiesData.HeartRate = ActivitiesData.HeartRate;
+            data.ActivitiesData.SleepInMinutes = ActivitiesData.SleepInMinutes;
+            data.ActivitiesData.ChartDietData = ActivitiesData.ChartDietData;
+            data.ActivitiesData.ChartData = ActivitiesData.ChartData;
+            data.ActivitiesData.GridData = ActivitiesData.GridData;
+            data.ActivitiesData.ActivityChartMonthData = ActivitiesData.ActivityChartMonthData;
+            data.ActivitiesData.ActivityChartWeekData = ActivitiesData.ActivityChartWeekData;
+            data.ActivitiesData.MorningWalk = morningWalk;
+            data.DietData.CurrentBreakFastMenu = DietData.CurrentBreakFastMenu;
+            data.DietData.CurrentBreakFastCalories = DietData.CurrentBreakFastCalories;
+            data.DietData.CurrentBreakFastMenuText = DietData.CurrentBreakFastMenuText;
+            data.DietData.IsBreakFastMenuAdded = DietData.IsBreakFastMenuAdded;
+            data.DietData.CurrentSnack1Menu = DietData.CurrentSnack1Menu;
+            data.DietData.CurrentSnack1Calories = DietData.CurrentSnack1Calories;
+            data.DietData.CurrentSnack1MenuText = DietData.CurrentSnack1MenuText;
+            data.DietData.IsSnack1MenuAdded = DietData.IsSnack1MenuAdded;
+            data.DietData.CurrentLunchMenu = DietData.CurrentLunchMenu;
+            data.DietData.CurrentLunchCalories = DietData.CurrentLunchCalories;
+            data.DietData.CurrentLunchMenuText = DietData.CurrentLunchMenuText;
+            data.DietData.IsLunchMenuAdded = DietData.IsLunchMenuAdded;
+            data.DietData.ConsumedCalories = DietData.ConsumedCalories;
+            data.DietData.BurnedCalories = DietData.BurnedCalories;
+            data.DietData.BreakfastWaterTaken = breakfastWaterTaken;
+            data.DietData.LunchWaterTaken = lunchWaterTaken;
+            data.DietData.CurrentTotalProteins = DietData.CurrentTotalProteins;
+            data.DietData.CurrentTotalFat = DietData.CurrentTotalFat;
+            data.DietData.CurrentTotalCarbs = DietData.CurrentTotalCarbs;
+            data.DietData.CurrentTotalCalcium = DietData.CurrentTotalCalcium;
+            data.DietData.CurrentTotalSodium = DietData.CurrentTotalSodium;
+            data.DietData.CurrentTotalIron = DietData.CurrentTotalIron;
+            data.FastingData.WeightChartData = FastingData.WeightChartData;
+            data.FastingData.ConsumedWaterCount = FastingData.ConsumedWaterCount;
+            MasterData.Add(data);
+        }
+
+        private void UpdateSelectedDateData(FitnessService data)
+        {
+            ActivitiesData.Steps = data.ActivitiesData.Steps;
+            ActivitiesData.HeartRate = data.ActivitiesData.HeartRate;
+            ActivitiesData.SleepInMinutes = data.ActivitiesData.SleepInMinutes;
+            ActivitiesData.GridData = data.ActivitiesData.GridData;
+            ActivitiesData.ChartData = data.ActivitiesData.ChartData;
+            ActivitiesData.ChartDietData = data.ActivitiesData.ChartDietData;
+            ActivitiesData.ActivityChartMonthData = data.ActivitiesData.ActivityChartMonthData;
+            ActivitiesData.ActivityChartWeekData = data.ActivitiesData.ActivityChartWeekData;
+            DietData.ConsumedCalories = data.DietData.ConsumedCalories;
+            DietData.BurnedCalories = data.DietData.BurnedCalories;
+            DietData.CurrentBreakFastMenu = data.DietData.CurrentBreakFastMenu;
+            DietData.CurrentBreakFastCalories = data.DietData.CurrentBreakFastCalories;
+            DietData.CurrentBreakFastMenuText = data.DietData.CurrentBreakFastMenuText;
+            DietData.IsBreakFastMenuAdded = data.DietData.IsBreakFastMenuAdded;
+            DietData.CurrentSnack1Menu = data.DietData.CurrentSnack1Menu;
+            DietData.CurrentSnack1Calories = data.DietData.CurrentSnack1Calories;
+            DietData.CurrentSnack1MenuText = data.DietData.CurrentSnack1MenuText;
+            DietData.IsSnack1MenuAdded = data.DietData.IsSnack1MenuAdded;
+            DietData.CurrentLunchMenu = data.DietData.CurrentLunchMenu;
+            DietData.CurrentLunchCalories = data.DietData.CurrentLunchCalories;
+            DietData.CurrentLunchMenuText = data.DietData.CurrentLunchMenuText;
+            DietData.IsLunchMenuAdded = data.DietData.IsLunchMenuAdded;
+            DietData.CurrentSnack2Menu = data.DietData.CurrentSnack2Menu;
+            DietData.CurrentSnack2Calories = data.DietData.CurrentSnack2Calories;
+            DietData.CurrentSnack2MenuText = data.DietData.CurrentSnack2MenuText;
+            DietData.IsSnack2MenuAdded = data.DietData.IsSnack2MenuAdded;
+            DietData.CurrentDinnerMenu = data.DietData.CurrentDinnerMenu;
+            DietData.CurrentDinnerCalories = data.DietData.CurrentDinnerCalories;
+            DietData.CurrentDinnerMenuText = data.DietData.CurrentDinnerMenuText;
+            DietData.IsDinnerMenuAdded = data.DietData.IsDinnerMenuAdded;
+            DietData.CurrentTotalProteins = data.DietData.CurrentTotalProteins;
+            DietData.CurrentTotalFat = data.DietData.CurrentTotalFat;
+            DietData.CurrentTotalCarbs = data.DietData.CurrentTotalCarbs;
+            DietData.CurrentTotalCalcium = data.DietData.CurrentTotalCalcium;
+            DietData.CurrentTotalSodium = data.DietData.CurrentTotalSodium;
+            DietData.CurrentTotalIron = data.DietData.CurrentTotalIron;
+            FastingData.WeightChartData = data.FastingData.WeightChartData;
+            FastingData.ConsumedWaterCount = data.FastingData.ConsumedWaterCount;
+            FastingData.ConsumedWaterAmount = FastingData.ConsumedWaterCount * 150;
+        }
+
+        internal void InitializeData()
+        {
+            ActivitiesData.ChartData = GetChartData("Weekly", "Diet");
+            ActivitiesData.ChartDietData = GetChartData("Weekly", "Workout");
+            ActivitiesData.GridData = GetData();
+            Random random = new Random();
+            List<MenuItems> currentBreakFastMenu = GetBreakfastMenu().OrderBy(x => random.NextDouble()).ToList();
+            DietData.CurrentBreakFastMenu = currentBreakFastMenu.Skip(0).Take(3).ToList();
+            List<MenuItems> currentSnack1Menu = GetSnackMenu().OrderBy(x => random.NextDouble()).ToList();
+            DietData.CurrentSnack1Menu = currentSnack1Menu.Skip(0).Take(3).ToList();
+            List<MenuItems> currentLunchMenu = GetLunchMenu().OrderBy(x => random.NextDouble()).ToList();
+            DietData.CurrentLunchMenu = currentLunchMenu.Skip(0).Take(3).ToList();
+            FastingData.WeightChartData = GetWeightChartData();
+            ProfileStats = GetProfileStats();
+            DietData.IsBreakFastMenuAdded = true;
+            DietData.IsSnack1MenuAdded = true;
+            DietData.IsLunchMenuAdded = true;
         }
     }
 }
