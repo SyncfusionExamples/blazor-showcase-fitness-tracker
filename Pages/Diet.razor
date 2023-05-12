@@ -229,12 +229,12 @@
                                     <AccumulationChartLegendSettings Visible="false" Position="LegendPosition.Right" Width="60%" Height="20%" ShapeHeight="20" ShapeWidth="20"></AccumulationChartLegendSettings>
                                     <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
                                     <AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
-                                    <AccumulationChartEvents TooltipRender="OnTooltipRender"></AccumulationChartEvents>
+                                    <AccumulationChartEvents TooltipRender="OnTooltipRender" OnDataLabelRender="OnTextRender"></AccumulationChartEvents>
                                     <AccumulationChartSeriesCollection>
                                         <AccumulationChartSeries DataSource="@pieData" PointColorMapping="Fill" XName="X" YName="Y" StartAngle="325" EndAngle="325" InnerRadius="50%" Radius="@pieChartRadius" Explode="true" ExplodeOffset="10%">
-                                            @*<AccumulationDataLabelSettings Visible="true">
+                                            <AccumulationDataLabelSettings Visible="true">
                                                 <AccumulationChartDataLabelFont Color="#303343"></AccumulationChartDataLabelFont>
-                                            </AccumulationDataLabelSettings>*@
+                                            </AccumulationDataLabelSettings>
                                         </AccumulationChartSeries>
                                     </AccumulationChartSeriesCollection>
                                 </SfAccumulationChart>
@@ -388,6 +388,7 @@
     private string pieChartRadius { get; set; }
     private List<PieChartData> pieData { get; set; }
     private Theme theme { get; set; } = Theme.Tailwind;
+    private double sumoftheChartSeries { get; set; }
 
     private List<PieChartData> GetPieChartData()
     {
@@ -400,6 +401,7 @@
             new PieChartData { X = "SODIUM", Y = SampleService.DietData.CurrentTotalSodium, Fill = "#901C53" },
             new PieChartData { X = "IRON", Y = SampleService.DietData.CurrentTotalIron, Fill = "#CB4967" }
         };
+        sumoftheChartSeries = sampleChartData.Sum(x => x.Y);
         return sampleChartData;
     }
 
@@ -515,7 +517,16 @@
 
     private void OnTooltipRender(TooltipRenderEventArgs args)
     {
+        args.Text = args.Data.PointX + ": " + ((double)args.Data.PointY < 1 ? ((double)args.Data.PointY * 1000) + " mg" : (args.Data.PointY + " gm"));
+    }
 
+    private void OnTextRender(AccumulationTextRenderEventArgs args)
+    {
+        if (args.Point.Y > 0)
+        {
+            double value = (double)(args.Point.Y / sumoftheChartSeries * 100);
+            args.Text = Math.Ceiling(value).ToString() + '%';
+        }
     }
 
     private void StateChange()
