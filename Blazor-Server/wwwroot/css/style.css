@@ -309,7 +309,6 @@ body {
 }
 
 .e-dashboardlayout-container {
-  padding: 0 5px;
   overflow-x: hidden;
   overflow-y: auto;
   height: calc(100vh - 75px) !important;
