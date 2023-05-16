@@ -155,7 +155,7 @@
         SampleService.TabRef = this;
         SampleService.MasterData = new List<FitnessService>();
         DateTime currentDate = DateTime.Now;
-        if (currentDate.Hour >= 17)
+        if (currentDate.Hour >= 18)
         {
             SampleService.FastingData.CountStartDate = currentDate.Date.Add(new TimeSpan(18, 0, 0));
             SampleService.FastingData.CountDownDate = currentDate.Date.Add(new TimeSpan(SampleService.FastingData.CountStartDate.Hour + 16, 0, 0));

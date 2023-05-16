@@ -33,8 +33,8 @@
             <div class="e-edit-dialog-container col-md-12 col-sm-12">
                 <div class="e-profile-container col-md-6 col-sm-6">
                     <div class="col-md-12 col-sm-12">
-                        <div class="e-profile-back" @onclick="CloseEditDialog" @onclick:stopPropagation="true">
-                            <span class="icon-arrow-left"></span><span class="e-profile-back-text">
+                        <div class="e-profile-back">
+                            <span class="icon-arrow-left" @onclick="CloseEditDialog" @onclick:stopPropagation="true"></span><span class="e-profile-back-text">
                                 Back to Dashboard
                             </span>
                         </div>
@@ -254,6 +254,7 @@
     private double heightGaugeMaximum { get; set; }
     private string heightLabelStyle { get; set; }
     private bool isInitialRender { get; set; }
+    private bool isDialogOpened { get; set; }
 
     private void DialogOpen(BeforeOpenEventArgs args)
     {
@@ -268,18 +269,23 @@
 
     private void OverlayClick(OverlayModalClickEventArgs args)
     {
+        if (!isDialogOpened)
+        {
+            return;
+        }
         ResetOnClose();
     }
 
     private async Task DialogOpened(Syncfusion.Blazor.Popups.OpenEventArgs args)
     {
-        if (weightSliderRef != null)
-        {
-            await weightSliderRef.RepositionAsync();
-        }
+        isDialogOpened = true;
         if (weightGaugeRef != null)
         {
             await weightGaugeRef.RefreshAsync();
+        }
+        if (weightSliderRef != null)
+        {
+            await weightSliderRef.RepositionAsync();
         }
     }
 
@@ -290,6 +296,7 @@
 
     private void ResetOnClose()
     {
+        isDialogOpened = false;
         visible = false;
         isInitialRender = false;
         isGoalEdit = false;
