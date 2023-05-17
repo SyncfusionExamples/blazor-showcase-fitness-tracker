@@ -470,7 +470,6 @@ namespace FitnessTracker.Data
             List<MenuItems> currentLunchMenu = GetLunchMenu().OrderBy(x => random.NextDouble()).ToList();
             DietData.CurrentLunchMenu = currentLunchMenu.Skip(0).Take(3).ToList();
             FastingData.WeightChartData = GetWeightChartData();
-            ProfileStats = GetProfileStats();
             DietData.IsBreakFastMenuAdded = true;
             DietData.IsSnack1MenuAdded = true;
             DietData.IsLunchMenuAdded = true;
