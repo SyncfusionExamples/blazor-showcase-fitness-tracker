@@ -6,7 +6,7 @@
 <div>
     <div class="e-card e-custom-card">
         <div class="e-card-header">
-            <div class="e-avatar e-avatar-circle">
+            <div class="e-avatar e-avatar-circle" @onclick="OnProfileEdit" @onclick:stopPropagation="true">
                 <img src="css/assets/Profile/02.png" alt="JW" />
             </div>
             <SfButton CssClass="e-profile-edit-btn" IconCss="icon-edit-2" OnClick="OnProfileEdit"></SfButton>

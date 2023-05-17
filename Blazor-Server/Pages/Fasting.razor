@@ -42,62 +42,31 @@
                                                 <CircularGaugeRange Start="2" End="98" Radius="91%" StartWidth="5" EndWidth="5" Color="#FFFFFF" RoundedCornerRadius="2" Opacity="0.35"></CircularGaugeRange>
                                             </CircularGaugeRanges>
                                             <CircularGaugeAnnotations>
-                                                @if (SampleService.IsDevice)
-                                                {
-                                                    <CircularGaugeAnnotation Angle="290" ZIndex="1" Radius="60%">
-                                                        <ContentTemplate>
-                                                            <div class="e-fast-ellapsed">Elapsed Time (100%)</div>
-                                                            <div class="e-fast-completed">@sliderValue</div>
-                                                            <div class="e-fast-left">Left 00h 00m</div>
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                    <CircularGaugeAnnotation Angle="@ciruclarGaugeAnotationAngle" ZIndex="1" Radius="91%">
-                                                        <ContentTemplate>
-                                                            @if (ciruclarGaugeAnnotationSecondContent)
-                                                            {
-                                                                <div class="e-gauge-percent-img icon-Calories"></div>
-                                                            }
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                    <CircularGaugeAnnotation Angle="60" ZIndex="1" Radius="91%">
-                                                        <ContentTemplate>
-                                                            <div class="e-gauge-status-img icon-Diet"></div>
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                    <CircularGaugeAnnotation Angle="280" ZIndex="1" Radius="91%">
-                                                        <ContentTemplate>
-                                                            <div class="e-gauge-status-img icon-Thunder"></div>
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                }
-                                                else
-                                                {
-                                                    <CircularGaugeAnnotation Angle="290" ZIndex="1" Radius="60%">
-                                                        <ContentTemplate>
-                                                            <div class="e-fast-ellapsed">@("Elapsed Time (" + gaugePercent + "%)")</div>
-                                                            <div class="e-fast-completed">@sliderValue</div>
-                                                            <div class="e-fast-left">@timeLeft</div>
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                    <CircularGaugeAnnotation Angle="@ciruclarGaugeAnotationAngle" ZIndex="1" Radius="90%">
-                                                        <ContentTemplate>
-                                                            @if (ciruclarGaugeAnnotationSecondContent)
-                                                            {
-                                                                <div class="e-gauge-percent-img icon-Calories"></div>
-                                                            }
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                    <CircularGaugeAnnotation Angle="60" ZIndex="1" Radius="89%">
-                                                        <ContentTemplate>
-                                                            <div class="e-gauge-status-img icon-Diet"></div>
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                    <CircularGaugeAnnotation Angle="280" ZIndex="1" Radius="89%">
-                                                        <ContentTemplate>
-                                                            <div class="e-gauge-status-img icon-Thunder"></div>
-                                                        </ContentTemplate>
-                                                    </CircularGaugeAnnotation>
-                                                }
+                                                <CircularGaugeAnnotation Angle="290" ZIndex="1" Radius="60%">
+                                                    <ContentTemplate>
+                                                        <div class="e-fast-ellapsed">@("Elapsed Time (" + gaugePercent + "%)")</div>
+                                                        <div class="e-fast-completed">@sliderValue</div>
+                                                        <div class="e-fast-left">@timeLeft</div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="@(ciruclarGaugeAnotationAngle)" ZIndex="1" Radius="108%">
+                                                    <ContentTemplate>
+                                                        @if (ciruclarGaugeAnnotationSecondContent)
+                                                        {
+                                                            <div class="e-gauge-percent-img icon-Calories"></div>
+                                                        }
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="60" ZIndex="1" Radius="86%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-status-img icon-Diet"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
+                                                <CircularGaugeAnnotation Angle="275" ZIndex="1" Radius="97%">
+                                                    <ContentTemplate>
+                                                        <div class="e-gauge-status-img icon-Thunder"></div>
+                                                    </ContentTemplate>
+                                                </CircularGaugeAnnotation>
                                             </CircularGaugeAnnotations>
                                         </CircularGaugeAxis>
                                     </CircularGaugeAxes>
@@ -465,8 +434,8 @@
             int seconds = (int)Math.Floor((distance % (1000 * 60)) / (double)1000);
             DateTime leftTime = DateTime.Today.Date.Add(new TimeSpan(hours, minutes, seconds));
             sliderValue = leftTime.ToString("HH : mm : ss");
-            circularGaugeRangeEnd = gaugePercent;
-            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 10;
+            circularGaugeRangeEnd = gaugePercent < 1 || gaugePercent > 3  ? gaugePercent : 4;
+            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 12;
             ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
             leftTime = leftTime.Date.Add(new TimeSpan(leftHours, leftMinutes, 0));
             timeLeft = leftTime.ToString("HH : mm").Replace(":", "h") + " m";
@@ -480,7 +449,7 @@
         gaugePercent = 100;
         timeLeft = "Left 00h 00m";
         circularGaugeRangeEnd = 100;
-        ciruclarGaugeAnotationAngle = (int)Math.Round((circularGaugeRangeEnd / (double)100) * 340) + 10;
+        ciruclarGaugeAnotationAngle = (int)Math.Round((circularGaugeRangeEnd / (double)100) * 340) + 5;
         ciruclarGaugeAnnotationSecondContent = true;
     }
 
@@ -512,7 +481,7 @@
             isDisabled = false;
             int gaugePercent = (int)Math.Round(((DateTime.Now - SampleService.FastingData.CountStartDate).TotalMilliseconds / (double)(SampleService.FastingData.CountDownDate - SampleService.FastingData.CountStartDate).TotalMilliseconds) * 100);
             circularGaugeRangeEnd = gaugePercent > 100 ? 100 : gaugePercent;
-            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 10;
+            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 5;
             ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
             fastingTimer = new Timer { Interval = 1, AutoReset = true };
             fastingTimer.Elapsed += OnTimerElapsed;
@@ -522,7 +491,7 @@
         {
             isDisabled = true;
             circularGaugeRangeEnd = 100;
-            ciruclarGaugeAnotationAngle = 350;
+            ciruclarGaugeAnotationAngle = 345;
             ciruclarGaugeAnnotationSecondContent = true;
             timeLeft = "Left 00h 00m";
             sliderValue = "Completed";

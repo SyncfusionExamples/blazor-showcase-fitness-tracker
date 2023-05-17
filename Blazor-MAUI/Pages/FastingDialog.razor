@@ -12,13 +12,13 @@
             <div class="e-fast-start-label">Start Time</div>
             <div class="e-fast-start-date">
                 <SfDateTimePicker TValue="DateTime" ID="fast-start-date" @bind-Value="@CountStartDate" Min="@minimumDate" Max="@maximumDate">
-                    <DateTimePickerEvents TValue="DateTime" ValueChange="OnFastDateChange"></DateTimePickerEvents>
+                    <DateTimePickerEvents TValue="DateTime" ValueChange="@((e) => OnFastDateChange(e, "startDate"))"></DateTimePickerEvents>
                 </SfDateTimePicker>
             </div>
             <div class="e-fast-end-label">End Time</div>
             <div class="e-fast-end-date">
                 <SfDateTimePicker TValue="DateTime" ID="fast-end-date" @bind-Value="@CountDownDate" Min="@CountStartDate" Max="@maximumDate">
-                    <DateTimePickerEvents TValue="DateTime" ValueChange="OnFastDateChange"></DateTimePickerEvents>
+                    <DateTimePickerEvents TValue="DateTime" ValueChange="@((e) => OnFastDateChange(e, "endDate"))"></DateTimePickerEvents>
                 </SfDateTimePicker>
             </div>
             <div class="e-fast-total-label">Total Hours</div>
@@ -48,11 +48,15 @@
         visible = false;
     }
 
-    private void OnFastDateChange(ChangedEventArgs<DateTime> args)
+    private void OnFastDateChange(ChangedEventArgs<DateTime> args, string changedDateString)
     {
         if (CountDownDate < CountStartDate)
         {
             CountDownDate = CountStartDate;
+            if (changedDateString == "startDate")
+            {
+                CountDownDate = CountStartDate.Add(new TimeSpan(16, 0, 0));
+            }
         }
         diff = (int)Math.Floor((CountDownDate - CountStartDate).TotalMilliseconds/ (1000 * 60 * 60));
     }
