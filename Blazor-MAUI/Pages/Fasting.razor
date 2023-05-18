@@ -314,6 +314,7 @@
             {
                 SampleService.TodayActivities.RemoveAt(index);
             }
+            SampleService.ProfileTabRef?.StateChanged();
         }
     }
 
@@ -343,6 +344,7 @@
             SampleService.FastingData.ConsumedWaterAmount = SampleService.FastingData.ConsumedWaterCount * 150;
             UpdateWaterGauge();
         }
+        SampleService.ProfileTabRef?.StateChanged();
     }
 
     private void UpdateWaterGauge()

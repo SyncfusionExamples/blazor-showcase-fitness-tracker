@@ -177,6 +177,7 @@
     {
         if (args.Value != null)
         {
+            SampleService.UpdateTodayData();
             isDateChanged = true;
             SampleService.DateChanged(args.Value.Value);
         }

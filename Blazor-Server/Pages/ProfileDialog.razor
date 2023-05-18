@@ -327,7 +327,10 @@
 
     private void AgeMinusClick()
     {
-        SampleService.ProfileStats.Age = SampleService.ProfileStats.Age > 0 ? SampleService.ProfileStats.Age - 1 : 0;
+        if (SampleService.ProfileStats.Age > 5)
+        {
+            SampleService.ProfileStats.Age -= 1;
+        }
     }
 
     private void AgePlusClick()
