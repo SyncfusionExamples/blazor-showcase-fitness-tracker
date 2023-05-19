@@ -228,7 +228,7 @@
     </div>
     @if (!SampleService.IsSmallDevice)
     {
-        <div class="col-md-3">
+        <div class="col-md-3 e-dashboard-profile">
             <div class="col-md-12 col-sm-12">
                 <div id="fasting-profile-panel-id" class="e-panel e-fasting-profile-panel" data-row="0" data-col="4" data-sizeX="1" data-sizeY="3">
                     <div class="e-panel-container">
@@ -251,7 +251,7 @@
     private string gaugeHeight { get; set; }
     private string sliderValue { get; set; } = "Completed";
     private double circularGaugeRangeEnd { get; set; } = 100;
-    private double ciruclarGaugeAnotationAngle { get; set; } = 350;
+    private double ciruclarGaugeAnotationAngle { get; set; } = 342;
     private bool ciruclarGaugeAnnotationSecondContent { get; set; } = true;
     private string fastingBtnCss { get; set; } = string.Empty;
     private Timer fastingTimer { get; set; }
@@ -314,6 +314,7 @@
             {
                 SampleService.TodayActivities.RemoveAt(index);
             }
+            SampleService.ProfileTabRef?.StateChanged();
         }
     }
 
@@ -343,6 +344,7 @@
             SampleService.FastingData.ConsumedWaterAmount = SampleService.FastingData.ConsumedWaterCount * 150;
             UpdateWaterGauge();
         }
+        SampleService.ProfileTabRef?.StateChanged();
     }
 
     private void UpdateWaterGauge()
@@ -436,6 +438,7 @@
             sliderValue = leftTime.ToString("HH : mm : ss");
             circularGaugeRangeEnd = gaugePercent < 1 || gaugePercent > 3  ? gaugePercent : 4;
             ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 12;
+            ciruclarGaugeAnotationAngle = ciruclarGaugeAnotationAngle > 342 ? 342 : ciruclarGaugeAnotationAngle;
             ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
             leftTime = leftTime.Date.Add(new TimeSpan(leftHours, leftMinutes, 0));
             timeLeft = leftTime.ToString("HH : mm").Replace(":", "h") + " m";
@@ -449,7 +452,7 @@
         gaugePercent = 100;
         timeLeft = "Left 00h 00m";
         circularGaugeRangeEnd = 100;
-        ciruclarGaugeAnotationAngle = (int)Math.Round((circularGaugeRangeEnd / (double)100) * 340) + 5;
+        ciruclarGaugeAnotationAngle = (int)Math.Round((circularGaugeRangeEnd / (double)100) * 340) + 2;
         ciruclarGaugeAnnotationSecondContent = true;
     }
 
@@ -481,7 +484,7 @@
             isDisabled = false;
             int gaugePercent = (int)Math.Round(((DateTime.Now - SampleService.FastingData.CountStartDate).TotalMilliseconds / (double)(SampleService.FastingData.CountDownDate - SampleService.FastingData.CountStartDate).TotalMilliseconds) * 100);
             circularGaugeRangeEnd = gaugePercent > 100 ? 100 : gaugePercent;
-            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 5;
+            ciruclarGaugeAnotationAngle = (int)Math.Round((gaugePercent / (double)100) * 340) + 2;
             ciruclarGaugeAnnotationSecondContent = gaugePercent > 80;
             fastingTimer = new Timer { Interval = 1, AutoReset = true };
             fastingTimer.Elapsed += OnTimerElapsed;
@@ -491,7 +494,7 @@
         {
             isDisabled = true;
             circularGaugeRangeEnd = 100;
-            ciruclarGaugeAnotationAngle = 345;
+            ciruclarGaugeAnotationAngle = 342;
             ciruclarGaugeAnnotationSecondContent = true;
             timeLeft = "Left 00h 00m";
             sliderValue = "Completed";

@@ -4,7 +4,7 @@
 @inject FitnessService SampleService
 
 <SfDialog ID="add-menu-dialog" CssClass="e-add-menu-dialog" @bind-Visible="@visible" ShowCloseIcon="true" Width="@dialogwidth" IsModal="true" Header="@CurrentMenuHeader">
-    <DialogEvents OnOverlayModalClick="MenuOverlayClick"></DialogEvents>
+    <DialogEvents OnOverlayModalClick="MenuOverlayClick" OnClose="DialogClose"></DialogEvents>
     <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
     <DialogPositionData X="center" Y="center"></DialogPositionData>
     <DialogTemplates>
@@ -34,14 +34,10 @@
                     </div>
                 </div>
                 <div class="e-quantity-total-container">
-                    <div class="e-quantity-total">@(
-                        currentTotalCal + " kcal"
-                        )</div>
+                    <div class="e-quantity-total">@(currentTotalCal + " kcal")</div>
                 </div>
                 <div class="e-quantity-recom-container">
-                    <div class="e-quantity-recom">@(
-                        CurrentRecom + " kcal"
-                        )</div>
+                    <div class="e-quantity-recom">@(CurrentRecom + " kcal")</div>
                 </div>
             </div>
             <div class="e-quantity-date-label-container">
@@ -50,10 +46,10 @@
             </div>
             <div class="e-quantity-date-value-container">
                 <div class="e-quantity-date-value">
-                    <SfDatePicker ID="quantity-datepicker" Width="@dateWidth" Value="@today" Enabled="false"></SfDatePicker>
+                    <SfDatePicker ID="quantity-datepicker" Width="@dateWidth" Value="@CurrentTime" Enabled="false"></SfDatePicker>
                 </div>
                 <div class="e-quantity-time-value">
-                    <SfTimePicker ID="quantity-timepicker" Width="@timeWidth" Value="@today"></SfTimePicker>
+                    <SfTimePicker ID="quantity-timepicker" Width="@timeWidth" @bind-Value="@CurrentTime"></SfTimePicker>
                 </div>
             </div>
         </Content>
@@ -70,7 +66,6 @@
     private bool visible { get; set; }
     private string dialogwidth { get; set; }
     private string dateWidth { get; set; }
-    private DateTime today { get; set; }
     private string timeWidth { get; set; }
     private int currentQuantity { get; set; } = 1;
     private int currentTotalCal { get; set; } = 0;
@@ -79,10 +74,16 @@
     internal string CurrentMenuHeader { get; set; }
     internal List<MenuItems> CurrentMenu { get; set; }
     internal string CurrentAddedMenu { get; set; }
+    internal DateTime CurrentTime { get; set; }
 
     private void MenuOverlayClick(OverlayModalClickEventArgs args)
     {
-        visible = false;
+        MenuCancelBtnClick();
+    }
+
+    private void DialogClose(BeforeCloseEventArgs args)
+    {
+        MenuCancelBtnClick();
     }
 
     private void MenuCancelBtnClick()
@@ -98,23 +99,29 @@
         switch(CurrentAddedMenu)
         {
             case "Breakfast":
+                SampleService.DietData.CurrentBreakFastTime = CurrentTime;
                 UpdateBreakfastMenu();
                 break;
             case "Snack 1":
+                SampleService.DietData.CurrentSnack1Time = CurrentTime;
                 UpdatefirstSnackMenu();
                 break;
             case "Lunch":
+                SampleService.DietData.CurrentLunchTime = CurrentTime;
                 UpdateLunchMenu();
                 break;
             case "Snack 2":
+                SampleService.DietData.CurrentSnack2Time = CurrentTime;
                 UpdateSecondSnackMenu();
                 break;
             case "Dinner":
+                SampleService.DietData.CurrentDinnerTime = CurrentTime;
                 UpdateDinnerMenu();
                 break;
         }
         SampleService.UpdateConsumedCalories();
         MenuCancelBtnClick();
+        SampleService.ProfileTabRef?.StateChanged();
         StateChange.InvokeAsync();
     }
 
@@ -124,7 +131,7 @@
         SampleService.DietData.CurrentBreakFastMenuText = string.Join(", ", GetMenuText(SampleService.DietData.CurrentBreakFastMenu));
         SampleService.DietData.CurrentBreakFastCalories = currentTotalCal;
         SampleService.DietData.IsBreakFastMenuAdded = SampleService.DietData.CurrentBreakFastMenu.Any();
-        Activity activity = new Activity { Name = "Breakfast", ActivityType = "Breakfast", Amount = SampleService.DietData.CurrentBreakFastMenuText, Percentage = (((double)SampleService.DietData.CurrentBreakFastCalories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = today.ToString("hh:mm tt") };
+        Activity activity = new Activity { Name = "Breakfast", ActivityType = "Breakfast", Amount = SampleService.DietData.CurrentBreakFastMenuText, Percentage = (((double)SampleService.DietData.CurrentBreakFastCalories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = CurrentTime.ToString("hh:mm tt") };
         bool isExist = false;
         for (int i = 0; i < SampleService.TodayActivities.Count; i++)
         {
@@ -154,7 +161,7 @@
         SampleService.DietData.CurrentSnack1MenuText = string.Join(", ", GetMenuText(SampleService.DietData.CurrentSnack1Menu));
         SampleService.DietData.CurrentSnack1Calories = currentTotalCal;
         SampleService.DietData.IsSnack1MenuAdded = SampleService.DietData.CurrentSnack1Menu.Any();
-        Activity activity = new Activity { Name = "Snack1", ActivityType = "Snack", Amount = SampleService.DietData.CurrentSnack1MenuText, Percentage = (((double)SampleService.DietData.CurrentSnack1Calories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = today.ToString("hh:mm tt") };
+        Activity activity = new Activity { Name = "Snack1", ActivityType = "Snack", Amount = SampleService.DietData.CurrentSnack1MenuText, Percentage = (((double)SampleService.DietData.CurrentSnack1Calories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = CurrentTime.ToString("hh:mm tt") };
         bool isExist = false;
         for (int i = 0; i < SampleService.TodayActivities.Count; i++)
         {
@@ -184,7 +191,7 @@
         SampleService.DietData.CurrentLunchMenuText = string.Join(", ", GetMenuText(SampleService.DietData.CurrentLunchMenu));
         SampleService.DietData.CurrentLunchCalories = currentTotalCal;
         SampleService.DietData.IsLunchMenuAdded = SampleService.DietData.CurrentLunchMenu.Any();
-        Activity activity = new Activity { Name = "Lunch", ActivityType = "Lunch", Amount = SampleService.DietData.CurrentLunchMenuText, Percentage = (((double)SampleService.DietData.CurrentLunchCalories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = today.ToString("hh:mm tt") };
+        Activity activity = new Activity { Name = "Lunch", ActivityType = "Lunch", Amount = SampleService.DietData.CurrentLunchMenuText, Percentage = (((double)SampleService.DietData.CurrentLunchCalories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = CurrentTime.ToString("hh:mm tt") };
         bool isExist = false;
         for (int i = 0; i < SampleService.TodayActivities.Count; i++)
         {
@@ -214,7 +221,7 @@
         SampleService.DietData.CurrentSnack2MenuText = string.Join(", ", GetMenuText(SampleService.DietData.CurrentSnack2Menu));
         SampleService.DietData.CurrentSnack2Calories = currentTotalCal;
         SampleService.DietData.IsSnack2MenuAdded = SampleService.DietData.CurrentSnack2Menu.Any();
-        Activity activity = new Activity { Name = "Snack2", ActivityType = "Snack", Amount = SampleService.DietData.CurrentSnack2MenuText, Percentage = (((double)SampleService.DietData.CurrentSnack2Calories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = today.ToString("hh:mm tt") };
+        Activity activity = new Activity { Name = "Snack2", ActivityType = "Snack", Amount = SampleService.DietData.CurrentSnack2MenuText, Percentage = (((double)SampleService.DietData.CurrentSnack2Calories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = CurrentTime.ToString("hh:mm tt") };
         bool isExist = false;
         for (int i = 0; i < SampleService.TodayActivities.Count; i++)
         {
@@ -244,7 +251,7 @@
         SampleService.DietData.CurrentDinnerMenuText = string.Join(", ", GetMenuText(SampleService.DietData.CurrentDinnerMenu));
         SampleService.DietData.CurrentDinnerCalories = currentTotalCal;
         SampleService.DietData.IsDinnerMenuAdded = SampleService.DietData.CurrentDinnerMenu.Any();
-        Activity activity = new Activity { Name = "Dinner", ActivityType = "Dinner", Amount = SampleService.DietData.CurrentDinnerMenuText, Percentage = (((double)SampleService.DietData.CurrentDinnerCalories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = today.ToString("hh:mm tt") };
+        Activity activity = new Activity { Name = "Dinner", ActivityType = "Dinner", Amount = SampleService.DietData.CurrentDinnerMenuText, Percentage = (((double)SampleService.DietData.CurrentDinnerCalories / SampleService.ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = CurrentTime.ToString("hh:mm tt") };
         bool isExist = false;
         for (int i = 0; i < SampleService.TodayActivities.Count; i++)
         {
@@ -286,6 +293,10 @@
 
     private void QuantityPlusClick()
     {
+        if (string.IsNullOrEmpty(lastSelectItem))
+        {
+            return;
+        }
         currentQuantity += 1;
         for (int i = 0; i < CurrentMenu.Count; i++) {
             if (CurrentMenu[i].Item == lastSelectItem) {
@@ -323,21 +334,23 @@
     internal void UpdateTotalCal()
     {
         currentTotalCal = 0;
+        string lastItem = string.Empty;
         for (int i = 0; i < CurrentMenu.Count; i++)
         {
             if (CurrentMenu[i].IsAdded)
             {
                 int quantity = CurrentMenu[i].Quantity.HasValue ? CurrentMenu[i].Quantity.Value : 1;
                 currentTotalCal += (CurrentMenu[i].Cal *  quantity);
+                lastItem = CurrentMenu[i].Item;
             }
         }
+        lastSelectItem = string.IsNullOrEmpty(lastSelectItem) ? lastItem : lastSelectItem;
     }
 
     internal void UpdateProps()
     {
         dialogwidth = SampleService.IsDevice ? "100%" : "700px";
         dateWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "80%";
-        today = DateTime.Now;
         timeWidth = SampleService.IsDevice && SampleService.InnerWidth < 450 ? "100%" : "160px";
     }
 

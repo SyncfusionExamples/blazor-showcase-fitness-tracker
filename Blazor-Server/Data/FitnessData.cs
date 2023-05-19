@@ -113,6 +113,11 @@ namespace FitnessTracker.Data
         public double CurrentTotalCalcium { get; set; }
         public double CurrentTotalIron { get; set; }
         public double CurrentTotalSodium { get; set; }
+        public DateTime CurrentBreakFastTime { get; set; }
+        public DateTime CurrentSnack1Time { get; set; }
+        public DateTime CurrentLunchTime { get; set; }
+        public DateTime CurrentSnack2Time { get; set; }
+        public DateTime CurrentDinnerTime { get; set; }
     }
 
     public class FastingData

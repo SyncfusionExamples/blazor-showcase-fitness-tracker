@@ -323,7 +323,8 @@ body {
 .e-dashboard-content,
 .e-control-wrapper.e-slider-container.e-vertical,
 .e-activity-chart-header-text,
-.e-meals-panel .e-panel-header {
+.e-meals-panel .e-panel-header,
+.e-dashboard-profile {
   padding: 0 !important;
 }
 
