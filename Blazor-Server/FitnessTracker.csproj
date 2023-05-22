@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Syncfusion.Blazor" Version="21.2.4" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.Charts" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.CircularGauge" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.LinearGauge" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="*" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="*" />
   </ItemGroup>
 
 </Project>
