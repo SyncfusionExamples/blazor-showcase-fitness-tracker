@@ -2257,10 +2257,6 @@ body.e-dark .e-calendar .e-content td.e-today span.e-day {
     width: 100% !important;
   }
 
-  .e-card-header-image {
-    display: none !important;
-  }
-
   .e-meals-card .e-card-header .e-card-header-image {
     display: block !important;
   }
@@ -2611,10 +2607,6 @@ body.e-dark .e-calendar .e-content td.e-today span.e-day {
   .e-profile-container {
     padding-left: 0px !important;
     padding-right: 0px !important;
-  }
-
-  .e-progress-annotation {
-    display: none;
   }
 
   .e-input-group-icon,
