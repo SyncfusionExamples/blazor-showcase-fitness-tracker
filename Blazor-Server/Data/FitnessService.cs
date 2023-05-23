@@ -9,20 +9,20 @@ namespace FitnessTracker.Data
         public double InnerWidth { get; set; }
         public DateTime? CurrentDate { get; set; } = DateTime.Now;
         public string CurrentTheme { get; set; } = "Light";
-        public List<Activity> TodayActivities { get; set; }
-        public ProfileInfo ProfileStats { get; set; }
+        public List<Activity> TodayActivities { get; set; } = new List<Activity>();
+        public ProfileInfo ProfileStats { get; set; } = new ProfileInfo();
         public int ExpectedCalories { get; set; } = 3000;
-        public List<FitnessService> MasterData { get; set; }
+        public List<FitnessService> MasterData { get; set; } = new List<FitnessService>();
         internal ActivitiesData ActivitiesData { get; set; } = new ActivitiesData();
         internal DietData DietData { get; set; } = new DietData();
         internal FastingData FastingData { get; set; } = new FastingData();
-        internal ProfileDialog ProfileDialogRef { get; set; }
-        internal Profile ProfileTabRef { get; set; }
-        internal Home TabRef { get; set; }
+        internal ProfileDialog? ProfileDialogRef { get; set; }
+        internal Profile? ProfileTabRef { get; set; }
+        internal Home? TabRef { get; set; }
 
         internal void GetInitialData()
         {
-            FitnessService data = new FitnessService();
+            FitnessService data = new();
             if (MasterData?.Count > 0)
             {
                 data = MasterData.First();
@@ -52,42 +52,42 @@ namespace FitnessTracker.Data
             if (DietData.IsBreakFastMenuAdded)
             {
                 currentMenuData = GetMenuData(DietData.CurrentBreakFastMenu);
-                DietData.CurrentBreakFastMenuText = string.Join(", ", currentMenuData["menuText"] as List<string>);
+                DietData.CurrentBreakFastMenuText = string.Join(", ", currentMenuData["menuText"] as List<string> ?? new List<string>());
                 DietData.CurrentBreakFastCalories = (int)currentMenuData["calories"];
                 DietData.ConsumedCalories += DietData.CurrentBreakFastCalories;
             }
             if (DietData.IsSnack1MenuAdded)
             {
                 currentMenuData = GetMenuData(DietData.CurrentSnack1Menu);
-                DietData.CurrentSnack1MenuText = string.Join(", ", currentMenuData["menuText"] as List<string>);
+                DietData.CurrentSnack1MenuText = string.Join(", ", currentMenuData["menuText"] as List<string> ?? new List<string>());
                 DietData.CurrentSnack1Calories = (int)currentMenuData["calories"];
                 DietData.ConsumedCalories += DietData.CurrentSnack1Calories;
             }
             if (DietData.IsLunchMenuAdded)
             {
                 currentMenuData = GetMenuData(DietData.CurrentLunchMenu);
-                DietData.CurrentLunchMenuText = string.Join(", ", currentMenuData["menuText"] as List<string>);
+                DietData.CurrentLunchMenuText = string.Join(", ", currentMenuData["menuText"] as List<string> ?? new List<string>());
                 DietData.CurrentLunchCalories = (int)currentMenuData["calories"];
                 DietData.ConsumedCalories += DietData.CurrentLunchCalories;
             }
             if (DietData.IsSnack2MenuAdded)
             {
                 currentMenuData = GetMenuData(DietData.CurrentSnack2Menu);
-                DietData.CurrentSnack2MenuText = string.Join(", ", currentMenuData["menuText"] as List<string>);
+                DietData.CurrentSnack2MenuText = string.Join(", ", currentMenuData["menuText"] as List<string> ?? new List<string>());
                 DietData.CurrentSnack2Calories = (int)currentMenuData["calories"];
                 DietData.ConsumedCalories += DietData.CurrentSnack2Calories;
             }
             if (DietData.IsDinnerMenuAdded)
             {
                 currentMenuData = GetMenuData(DietData.CurrentDinnerMenu);
-                DietData.CurrentDinnerMenuText = string.Join(", ", currentMenuData["menuText"] as List<string>);
+                DietData.CurrentDinnerMenuText = string.Join(", ", currentMenuData["menuText"] as List<string> ?? new List<string>());
                 DietData.CurrentDinnerCalories = (int)currentMenuData["calories"];
                 DietData.ConsumedCalories += DietData.CurrentDinnerCalories;
             }
         }
         private Dictionary<string, object> GetMenuData(List<MenuItems> menuItem)
         {
-            List<string> menuText = new List<string>();
+            List<string> menuText = new();
             double proteins = 0;
             double fat = 0;
             double carbs = 0;
@@ -118,7 +118,7 @@ namespace FitnessTracker.Data
                 { "calories", calories }
             };
         }
-        internal ProfileInfo GetProfileStats()
+        internal static ProfileInfo GetProfileStats()
         {
             return new ProfileInfo
             {
@@ -135,7 +135,7 @@ namespace FitnessTracker.Data
             };
         }
 
-        internal List<MenuItems> GetBreakfastMenu()
+        internal static List<MenuItems> GetBreakfastMenu()
         {
             return new List<MenuItems>()
             {
@@ -150,7 +150,7 @@ namespace FitnessTracker.Data
             };
         }
 
-        internal List<MenuItems> GetSnackMenu()
+        internal static List<MenuItems> GetSnackMenu()
         {
             return new List<MenuItems>()
             {
@@ -165,7 +165,7 @@ namespace FitnessTracker.Data
             };
         }
 
-        internal List<MenuItems> GetLunchMenu()
+        internal static List<MenuItems> GetLunchMenu()
         {
             return new List<MenuItems>()
             {
@@ -180,7 +180,7 @@ namespace FitnessTracker.Data
 
         internal List<GridListData> GetData()
         {
-            List<GridListData> sampleData = new List<GridListData>();
+            List<GridListData> sampleData = new ();
             string[] workout = new string[] { "Running", "Swimming", "Walking", "Yoga" };
             int[] average = new int[] { 10, 18, 22 };
             int[] hours = new int[] { 8, 7, 6, 6 };
@@ -188,20 +188,20 @@ namespace FitnessTracker.Data
             int[] caloriesBurned = new int[] { 10, 15, 30 };
             int count = 1;
             DietData.BurnedCalories = 0;
-            DateTime date = CurrentDate.HasValue ? CurrentDate.Value : DateTime.Now;
-            Random random = new Random();
+            DateTime date = CurrentDate ?? DateTime.Now;
+            Random random = new ();
             for (int i = 0; i < count; i++)
             {
                 for (int j = 0; j < workout.Length; j++)
                 {
-                    TimeSpan span = new TimeSpan(hours[j], minutes[j], 0);
+                    TimeSpan span = new (hours[j], minutes[j], 0);
                     DateTime time = date.Date.Add(span);
                     double? distance = workout[j] == "Yoga" ? null : workout[j] == "Running" ? random.NextDouble() * (5 - 1) + 1 : random.NextDouble() * (2 - 1) + 1;
-                    GridListData data = new GridListData()
+                    GridListData data = new ()
                     {
                         Workout = workout[j],
                         Distance = distance,
-                        Duration = workout[j] == "Yoga" ? random.NextDouble() * (30 - 10) + 10 : (distance.Value * average[j]),
+                        Duration = workout[j] == "Yoga" ? random.NextDouble() * (30 - 10) + 10 : ((distance ?? 1) * average[j]),
                         Date = time,
                         Completion = random.NextDouble() * (30 - 10) + 10
                     };
@@ -215,7 +215,7 @@ namespace FitnessTracker.Data
         internal List<ChartData> GetChartData(string chartDropDownValue, string action)
         {
             int count = chartDropDownValue == "Monthly" ? 30 : 7;
-            List<ChartData> sampleChartData = new List<ChartData>();
+            List<ChartData> sampleChartData = new();
             if (chartDropDownValue == "Monthly")
             {
                 if (action == "Diet" && ActivitiesData.ActivityChartMonthData.Diet?.Count > 0)
@@ -242,11 +242,11 @@ namespace FitnessTracker.Data
             {
                 return sampleChartData;
             }
-            Random random = new Random();
-            DateTime date = CurrentDate.HasValue ? CurrentDate.Value : DateTime.Now;
+            Random random = new ();
+            DateTime date = CurrentDate ?? DateTime.Now;
             for (int i = count - 1; i >= 0; i--)
             {
-                ChartData currentData = new ChartData()
+                ChartData currentData = new ()
                 {
                     X = date.Date.AddDays(-i),
                     Y = Convert.ToDouble((random.NextDouble() * (90 - 50) + 50).ToString("0.00").Replace(".00", string.Empty))
@@ -280,13 +280,13 @@ namespace FitnessTracker.Data
 
         internal List<ChartData> GetWeightChartData()
         {
-            List<ChartData> sampleChartData = new List<ChartData>();
+            List<ChartData> sampleChartData = new ();
             int count = 12;
-            Random random = new Random();
-            DateTime date = CurrentDate.HasValue ? CurrentDate.Value : DateTime.Now;
+            Random random = new ();
+            DateTime date = CurrentDate ?? DateTime.Now;
             for (int i = count - 1; i >= 0; i--)
             {
-                ChartData data = new ChartData()
+                ChartData data = new ()
                 {
                     X = date.AddMonths(-i),
                     Y = Math.Round(70 + (i * (random.NextDouble() * (3.5 - 2) + 2)))
@@ -298,10 +298,10 @@ namespace FitnessTracker.Data
 
         internal void DateChanged(DateTime selectedDate)
         {
-            FitnessService data = new FitnessService();
-            data = MasterData.FirstOrDefault(x => x.CurrentDate.Value.Date == selectedDate.Date);
+            FitnessService? data = new ();
+            data = MasterData.FirstOrDefault(x => x.CurrentDate?.Date == selectedDate.Date);
             CurrentDate = selectedDate.Date == DateTime.Today ? selectedDate.Date.Add(DateTime.Now.TimeOfDay) : selectedDate.Date;
-            Random random = new Random();
+            Random random = new ();
             int eveningWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
             int eventingWalk = (int)Math.Round(random.NextDouble() * (3000 - 1000) + 1000);
             if (data != null)
@@ -336,7 +336,7 @@ namespace FitnessTracker.Data
                 data.DietData.IsDinnerMenuAdded = DietData.IsDinnerMenuAdded;
             }
             SetTodayActivities(data);
-            List<Activity> activity = new List<Activity>
+            List<Activity> activity = new ()
             {
                 new Activity { Name = "Snack2", ActivityType ="Snack", Amount = DietData.CurrentSnack2MenuText, Percentage = ((DietData.CurrentSnack2Calories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "3:00 PM" },
                 new Activity { Name = "Evening Water", ActivityType ="Water Taken", Count = eveningWaterTaken, Amount = eveningWaterTaken + " Glasses", Percentage = (((eveningWaterTaken * 150) / (double)data.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "4:00 PM" },
@@ -344,12 +344,12 @@ namespace FitnessTracker.Data
                 new Activity { Name = "Dinner", ActivityType ="Dinner", Amount = DietData.CurrentDinnerMenuText, Percentage = ((DietData.CurrentDinnerCalories / (double)ExpectedCalories) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = "8:00 PM" }
             };
             TodayActivities.AddRange(activity);
-            TabRef.UpdateActiveTab();
+            TabRef?.UpdateActiveTab();
         }
 
         internal void UpdateTodayData()
         {
-            if (DateTime.Now.Date == CurrentDate.Value.Date)
+            if (DateTime.Now.Date == CurrentDate?.Date)
             {
                 FitnessService data = MasterData.First();
                 data.DietData.CurrentBreakFastMenu = DietData.CurrentBreakFastMenu;
@@ -404,7 +404,7 @@ namespace FitnessTracker.Data
 
         private void UpdateMasterData(FitnessService data)
         {
-            Random random = new Random();
+            Random random = new ();
             int morningWalk = (int)Math.Round(random.NextDouble() * (3000 - 1000) + 1000); 
             int breakfastWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
             int lunchWaterTaken = (int)Math.Round(random.NextDouble() * (5 - 2) + 2);
@@ -413,7 +413,7 @@ namespace FitnessTracker.Data
             ActivitiesData.SleepInMinutes = (int)Math.Round(random.NextDouble() * (480 - 300) + 300);
             FastingData.ConsumedWaterCount = breakfastWaterTaken + lunchWaterTaken;
             FastingData.ConsumedWaterAmount = FastingData.ConsumedWaterCount * 150;
-            data.CurrentDate = CurrentDate.Value.Date;
+            data.CurrentDate = CurrentDate?.Date;
             data.ActivitiesData.Steps = ActivitiesData.Steps;
             data.ActivitiesData.HeartRate = ActivitiesData.HeartRate;
             data.ActivitiesData.SleepInMinutes = ActivitiesData.SleepInMinutes;
@@ -506,7 +506,7 @@ namespace FitnessTracker.Data
             ActivitiesData.ChartData = GetChartData(ActivitiesData.ChartDropDownValue, "Diet");
             ActivitiesData.ChartDietData = GetChartData(ActivitiesData.ChartDropDownValue, "Workout");
             ActivitiesData.GridData = GetData();
-            Random random = new Random();
+            Random random = new ();
             List<MenuItems> currentBreakFastMenu = GetBreakfastMenu().OrderBy(x => random.NextDouble()).ToList();
             DietData.CurrentBreakFastMenu = currentBreakFastMenu.Skip(0).Take(3).ToList();
             List<MenuItems> currentSnack1Menu = GetSnackMenu().OrderBy(x => random.NextDouble()).ToList();

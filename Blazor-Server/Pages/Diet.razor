@@ -18,7 +18,7 @@
                                 <div class="e-card-header-img-container e-breakfast-card-container">
                                     <div class="e-card-header-image icon-Breakfast"></div>
                                 </div>
-                                @if (SampleService.DietData.IsBreakFastMenuAdded && isToday && SampleService.DietData.CurrentSnack1Time > SampleService.CurrentDate.Value)
+                                @if (SampleService.DietData.IsBreakFastMenuAdded && isToday && SampleService.DietData.CurrentSnack1Time > SampleService.CurrentDate)
                                 {
                                     <div class="e-meals-edit">
                                         <div class="e-breakfast-edit icon-edit-2" @onclick="@(() => EditMenu("breakfast"))" @onclick:stopPropagation="true"></div>
@@ -57,7 +57,7 @@
                                 <div class="e-card-header-img-container e-snack1-card-container">
                                     <div class="e-card-header-image icon-Snack-1"></div>
                                 </div>
-                                @if (SampleService.DietData.IsSnack1MenuAdded && isToday && SampleService.DietData.CurrentLunchTime > SampleService.CurrentDate.Value)
+                                @if (SampleService.DietData.IsSnack1MenuAdded && isToday && SampleService.DietData.CurrentLunchTime > SampleService.CurrentDate)
                                 {
                                     <div class="e-meals-edit">
                                         <div class="e-snack1-edit icon-edit-2" @onclick="@(() => EditMenu("snack1"))" @onclick:stopPropagation="true"></div>
@@ -94,7 +94,7 @@
                                 <div class="e-card-header-img-container e-lunch-card-container">
                                     <div class="e-card-header-image icon-Lunch"></div>
                                 </div>
-                                @if (SampleService.DietData.IsLunchMenuAdded && isToday && SampleService.DietData.CurrentSnack2Time > SampleService.CurrentDate.Value)
+                                @if (SampleService.DietData.IsLunchMenuAdded && isToday && SampleService.DietData.CurrentSnack2Time > SampleService.CurrentDate)
                                 {
                                     <div class="e-meals-edit">
                                         <div class="e-lunch-edit icon-edit-2" @onclick="@(() => EditMenu("lunch"))" @onclick:stopPropagation="true"></div>
@@ -131,7 +131,7 @@
                                 <div class="e-card-header-img-container e-snack2-card-container">
                                     <div class="e-card-header-image icon-Snack-2"></div>
                                 </div>
-                                @if (SampleService.DietData.IsSnack2MenuAdded && isToday && SampleService.DietData.CurrentDinnerTime > SampleService.CurrentDate.Value)
+                                @if (SampleService.DietData.IsSnack2MenuAdded && isToday && SampleService.DietData.CurrentDinnerTime > SampleService.CurrentDate)
                                 {
                                     <div class="e-meals-edit">
                                         <div class="e-snack2-edit icon-edit-2" @onclick="@(() => EditMenu("snack2"))" @onclick:stopPropagation="true"></div>
@@ -168,7 +168,7 @@
                                 <div class="e-card-header-img-container e-dinner-card-container">
                                     <div class="e-card-header-image icon-Dinner"></div>
                                 </div>
-                                @if (SampleService.DietData.IsDinnerMenuAdded && isToday && DateTime.Today.Date.AddDays(1) > SampleService.CurrentDate.Value)
+                                @if (SampleService.DietData.IsDinnerMenuAdded && isToday && DateTime.Today.Date.AddDays(1) > SampleService.CurrentDate)
                                 {
                                     <div class="e-meals-edit">
                                         <div class="e-dinner-edit icon-edit-2" @onclick="@(() => EditMenu("dinner"))" @onclick:stopPropagation="true"></div>
@@ -380,15 +380,15 @@
 <AddMenuDialog @ref="@MenuDialogRef" StateChange="StateChange" />
 
 @code{
-    private AddMenuDialog MenuDialogRef;
+    private AddMenuDialog? MenuDialogRef;
     private bool isToday { get; set; }
     private int breakFastRecom { get; set; } = 440;
     private int snack1Recom { get; set; } = 165; 
     private int lunchRecom { get; set; } = 440;
     private int snack2Recom { get; set; } = 165;
     private int dinnerRecom { get; set; } = 440;
-    private string pieChartRadius { get; set; }
-    private List<PieChartData> pieData { get; set; }
+    private string pieChartRadius { get; set; } = string.Empty;
+    private List<PieChartData> pieData { get; set; } = new List<PieChartData>();
     private Theme theme { get; set; } = Theme.Tailwind;
     private double sumoftheChartSeries { get; set; }
 
@@ -415,7 +415,7 @@
             {
                 case "breakfast":
                     MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetBreakfastMenu();
                     MenuDialogRef.CurrentRecom = breakFastRecom;
                     MenuDialogRef.CurrentAddedMenu = "Breakfast";
                     MenuDialogRef.CurrentTime = SampleService.DietData.CurrentBreakFastTime;
@@ -423,7 +423,7 @@
                 case "snack1":
                 case "snack2":
                     MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetSnackMenu();
                     if (clickedMenu == "snack1")
                     {
                         MenuDialogRef.CurrentRecom = snack1Recom;
@@ -439,14 +439,14 @@
                     break;
                 case "lunch":
                     MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetLunchMenu();
                     MenuDialogRef.CurrentRecom = lunchRecom;
                     MenuDialogRef.CurrentAddedMenu = "Lunch";
                     MenuDialogRef.CurrentTime = SampleService.DietData.CurrentLunchTime;
                     break;
                 case "dinner":
                     MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetLunchMenu();
                     MenuDialogRef.CurrentRecom = dinnerRecom;
                     MenuDialogRef.CurrentAddedMenu = "Dinner";
                     MenuDialogRef.CurrentTime = SampleService.DietData.CurrentDinnerTime;
@@ -464,7 +464,7 @@
             {
                 case "breakfast":
                     MenuDialogRef.CurrentMenuHeader = "Add Breakfast Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetBreakfastMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetBreakfastMenu();
                     UpdateCurrentMenu(SampleService.DietData.CurrentBreakFastMenu);
                     MenuDialogRef.CurrentRecom = breakFastRecom;
                     MenuDialogRef.CurrentAddedMenu = "Breakfast";
@@ -473,7 +473,7 @@
                 case "snack1":
                 case "snack2":
                     MenuDialogRef.CurrentMenuHeader = "Add Snack Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetSnackMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetSnackMenu();
                     if (clickedMenu == "snack1")
                     {
                         UpdateCurrentMenu(SampleService.DietData.CurrentSnack1Menu);
@@ -491,7 +491,7 @@
                     break;
                 case "lunch":
                     MenuDialogRef.CurrentMenuHeader = "Add Lunch Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetLunchMenu();
                     UpdateCurrentMenu(SampleService.DietData.CurrentLunchMenu);
                     MenuDialogRef.CurrentRecom = lunchRecom;
                     MenuDialogRef.CurrentAddedMenu = "Lunch";
@@ -499,7 +499,7 @@
                     break;
                 case "dinner":
                     MenuDialogRef.CurrentMenuHeader = "Add Dinner Menu";
-                    MenuDialogRef.CurrentMenu = SampleService.GetLunchMenu();
+                    MenuDialogRef.CurrentMenu = FitnessService.GetLunchMenu();
                     UpdateCurrentMenu(SampleService.DietData.CurrentDinnerMenu);
                     MenuDialogRef.CurrentRecom = dinnerRecom;
                     MenuDialogRef.CurrentAddedMenu = "Dinner";
@@ -515,12 +515,12 @@
     {
         for (int i = 0; i < menu.Count; i++)
         {
-            for (int j = 0; j < MenuDialogRef.CurrentMenu.Count; j++)
+            for (int j = 0; j < MenuDialogRef?.CurrentMenu.Count; j++)
             {
                 if (menu[i].Item == MenuDialogRef.CurrentMenu[j].Item)
                 {
                     MenuDialogRef.CurrentMenu[j].IsAdded = true;
-                    MenuDialogRef.CurrentMenu[j].Quantity = menu[i].Quantity.HasValue ? menu[i].Quantity.Value : 1;
+                    MenuDialogRef.CurrentMenu[j].Quantity = menu[i].Quantity ?? 1;
                     break;
                 }
             }
@@ -551,7 +551,7 @@
     {
         pieChartRadius = SampleService.IsDevice ? "90%" : "80%";
         theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
-        isToday = SampleService.CurrentDate.Value.Date == DateTime.Today;
+        isToday = SampleService.CurrentDate?.Date == DateTime.Today;
         MenuDialogRef?.UpdateProps();
         pieData = GetPieChartData();
         StateHasChanged();
@@ -561,7 +561,7 @@
     {
         base.OnInitialized();
         pieChartRadius = SampleService.IsDevice ? "90%" : "80%";
-        isToday = SampleService.CurrentDate.Value.Date == DateTime.Today;
+        isToday = SampleService.CurrentDate?.Date == DateTime.Today;
         theme = SampleService.CurrentTheme == "Light" ? Theme.Tailwind : Theme.TailwindDark;
         pieData = GetPieChartData();
     }

@@ -64,16 +64,16 @@
     [Parameter]
     public EventCallback StateChange { get; set; }
     private bool visible { get; set; }
-    private string dialogwidth { get; set; }
-    private string dateWidth { get; set; }
-    private string timeWidth { get; set; }
+    private string? dialogwidth { get; set; }
+    private string? dateWidth { get; set; }
+    private string? timeWidth { get; set; }
     private int currentQuantity { get; set; } = 1;
     private int currentTotalCal { get; set; } = 0;
     private string lastSelectItem { get; set; } = string.Empty;
     internal int CurrentRecom { get; set; } = 0;
-    internal string CurrentMenuHeader { get; set; }
-    internal List<MenuItems> CurrentMenu { get; set; }
-    internal string CurrentAddedMenu { get; set; }
+    internal string? CurrentMenuHeader { get; set; }
+    internal List<MenuItems> CurrentMenu { get; set; } = new List<MenuItems>();
+    internal string? CurrentAddedMenu { get; set; }
     internal DateTime CurrentTime { get; set; }
 
     private void MenuOverlayClick(OverlayModalClickEventArgs args)
@@ -143,7 +143,11 @@
                 }
                 else
                 {
-                    SampleService.TodayActivities.Remove(SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Breakfast"));
+                    Activity? breakfast = SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Breakfast");
+                    if (breakfast != null)
+                    {
+                        SampleService.TodayActivities.Remove(breakfast);
+                    }
                 }
                 isExist = true;
                 break;
@@ -173,7 +177,11 @@
                 }
                 else
                 {
-                    SampleService.TodayActivities.Remove(SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Snack1"));
+                    Activity? snack = SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Snack1");
+                    if (snack != null)
+                    {
+                        SampleService.TodayActivities.Remove(snack);
+                    }
                 }
                 isExist = true;
                 break;
@@ -203,7 +211,11 @@
                 }
                 else
                 {
-                    SampleService.TodayActivities.Remove(SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Lunch"));
+                    Activity? lunch = SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Lunch");
+                    if (lunch != null)
+                    {
+                        SampleService.TodayActivities.Remove(lunch);
+                    }
                 }
                 isExist = true;
                 break;
@@ -233,7 +245,11 @@
                 }
                 else
                 {
-                    SampleService.TodayActivities.Remove(SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Snack2"));
+                    Activity? snack = SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Snack2");
+                    if (snack != null)
+                    {
+                        SampleService.TodayActivities.Remove(snack);
+                    }
                 }
                 isExist = true;
                 break;
@@ -263,7 +279,11 @@
                 }
                 else
                 {
-                    SampleService.TodayActivities.Remove(SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Dinner"));
+                    Activity? dinner = SampleService.TodayActivities.SingleOrDefault(x => x.Name == "Dinner");
+                    if (dinner != null)
+                    {
+                        SampleService.TodayActivities.Remove(dinner);
+                    }
                 }
                 isExist = true;
                 break;
@@ -339,7 +359,7 @@
         {
             if (CurrentMenu[i].IsAdded)
             {
-                int quantity = CurrentMenu[i].Quantity.HasValue ? CurrentMenu[i].Quantity.Value : 1;
+                int quantity = CurrentMenu[i].Quantity ?? 1;
                 currentTotalCal += (CurrentMenu[i].Cal *  quantity);
                 lastItem = CurrentMenu[i].Item;
             }

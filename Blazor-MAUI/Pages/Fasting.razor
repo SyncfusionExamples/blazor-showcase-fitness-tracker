@@ -243,21 +243,21 @@
 <FastingDialog @ref="@FastingDialogRef" StateChange="StateChange" />
 
 @code{
-    private FastingDialog FastingDialogRef;
-    private string fastStartTime { get; set; }
-    private string fastEndTime { get; set; }
+    private FastingDialog? FastingDialogRef;
+    private string? fastStartTime { get; set; }
+    private string? fastEndTime { get; set; }
     private string changeTimeBtnText { get; set; } = "CHANGE TIME";
     private Syncfusion.Blazor.LinearGauge.Orientation gaugeOrientation { get; set; } 
-    private string gaugeHeight { get; set; }
-    private string sliderValue { get; set; } = "Completed";
+    private string? gaugeHeight { get; set; }
+    private string? sliderValue { get; set; } = "Completed";
     private double circularGaugeRangeEnd { get; set; } = 100;
     private double ciruclarGaugeAnotationAngle { get; set; } = 342;
     private bool ciruclarGaugeAnnotationSecondContent { get; set; } = true;
     private string fastingBtnCss { get; set; } = string.Empty;
-    private Timer fastingTimer { get; set; }
+    private Timer? fastingTimer { get; set; }
     private double gaugePercent { get; set; } = 100;
     private string timeLeft { get; set; } = "Left 00h 00m";
-    private List<string> waterHighLightClass { get; set; }
+    private List<string> waterHighLightClass { get; set; } = new List<string>();
     private bool isDisabled { get; set; }
     private Theme theme { get; set; } = Theme.Tailwind;
 
@@ -393,8 +393,8 @@
     {
         changeTimeBtnText = "CHANGE TIME";
         fastingBtnCss = string.Empty;
-        SampleService.FastingData.CountStartDate = FastingDialogRef.CountStartDate;
-        SampleService.FastingData.CountDownDate = FastingDialogRef.CountDownDate;
+        SampleService.FastingData.CountStartDate = FastingDialogRef?.CountStartDate ?? SampleService.FastingData.CountStartDate;
+        SampleService.FastingData.CountDownDate = FastingDialogRef?.CountDownDate ?? SampleService.FastingData.CountDownDate;
         fastingTimer?.Stop();
         fastingTimer = new Timer { Interval = 1000, AutoReset = true };
         fastingTimer.Elapsed += OnTimerElapsed;
@@ -402,9 +402,12 @@
         StateHasChanged();
     }
 
-    private async void OnTimerElapsed(object source, ElapsedEventArgs e)
+    private async void OnTimerElapsed(object? source, ElapsedEventArgs e)
     {
-        fastingTimer.Interval = 1000;
+        if (fastingTimer != null)
+        {
+            fastingTimer.Interval = 1000;
+        }
         UpdateCircularGaugePros();
         await InvokeAsync(StateHasChanged);
     }
@@ -474,7 +477,7 @@
     private void InitializeProps()
     {
         UpdateWaterGauge();
-        if (SampleService.CurrentDate.Value.Date == DateTime.Today)
+        if (SampleService.CurrentDate?.Date == DateTime.Today)
         {
             if (SampleService.FastingData.IsFastingEnded)
             {
