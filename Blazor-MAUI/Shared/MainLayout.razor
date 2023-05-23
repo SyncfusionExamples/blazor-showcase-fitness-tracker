@@ -11,7 +11,7 @@
 <Home IsInitialized="@isCompoenentInitialized"></Home>
 
 @code{
-	private DotNetObjectReference<object> dotnetObjectRef { get; set; }
+	private DotNetObjectReference<object>? dotnetObjectRef { get; set; }
 
 	private bool isCompoenentInitialized { get; set; }
 
@@ -22,7 +22,10 @@
 		SampleService.IsSmallDevice = SampleService.InnerWidth <= 820;
 		SampleService.TabRef?.CallStateHasChanged();
 		SampleService.TabRef?.UpdateActiveTab(false);
-		await SampleService.ProfileDialogRef.RefreshDialog();
+		if (SampleService.ProfileDialogRef != null)
+		{
+			await SampleService.ProfileDialogRef.RefreshDialog();
+		}
 		SampleService.ProfileDialogRef?.CallStateHasChanged();
 	}
 
@@ -36,12 +39,18 @@
 			string clientDetails = await JSRuntime.InvokeAsync<string>("blazorFitnessTracker.getClientDetails", dotnetObjectRef);
 			if (!string.IsNullOrEmpty(clientDetails))
 			{
-				Dictionary<string, object> clientProps = JsonSerializer.Deserialize<Dictionary<string, object>>(clientDetails);
-				SampleService.IsDevice = Convert.ToBoolean(clientProps["isDevice"].ToString());
-				SampleService.InnerWidth = Convert.ToDouble(clientProps["innerWidth"].ToString());
+				Dictionary<string, object>? clientProps = JsonSerializer.Deserialize<Dictionary<string, object>>(clientDetails);
+				if (clientProps != null)
+				{
+					SampleService.IsDevice = Convert.ToBoolean(clientProps["isDevice"].ToString());
+					SampleService.InnerWidth = Convert.ToDouble(clientProps["innerWidth"].ToString());
+				}
 				SampleService.IsSmallDevice = SampleService.InnerWidth <= 820;
 			}
-			SampleService.TabRef.HeaderPlacement = SampleService.IsDevice ? Syncfusion.Blazor.Navigations.HeaderPosition.Bottom : Syncfusion.Blazor.Navigations.HeaderPosition.Top;
+			if (SampleService.TabRef != null)
+			{
+				SampleService.TabRef.HeaderPlacement = SampleService.IsDevice ? Syncfusion.Blazor.Navigations.HeaderPosition.Bottom : Syncfusion.Blazor.Navigations.HeaderPosition.Top;
+			}
 			StateHasChanged();
 		}
 	}

@@ -98,10 +98,10 @@
                                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                                 <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
                             </ChartPrimaryXAxis>
-                            <ChartPrimaryXAxis Interval="50" Maximum="100" IntervalType="@IntervalType.Days" LabelFormat="{value}%">
+                            <ChartPrimaryYAxis Interval="50" Maximum="100" LabelFormat="{value}%">
                                 <ChartAxisMajorGridLines DashArray="10,5"></ChartAxisMajorGridLines>
                                 <ChartAxisLabelStyle Size="16px" Color="#56648A" FontFamily="Inter" FontWeight="500"></ChartAxisLabelStyle>
-                            </ChartPrimaryXAxis>
+                            </ChartPrimaryYAxis>
                             <ChartLegendSettings Position="@LegendPosition.Top"></ChartLegendSettings>
                             <ChartTooltipSettings Enable="true" Shared="true" Format="${series.name} : ${point.y}">
                                 <ChartTooltipTextStyle FontFamily="Inter"></ChartTooltipTextStyle>
@@ -160,7 +160,7 @@
 </div>
 
 @code{
-    private string sleepInHours { get; set; }
+    private string? sleepInHours { get; set; }
     private string[] dropDownData { get; set; } = new string[] { "Weekly", "Monthly" };
     private string gridColumnWidth { get; set; } = "200";
     private bool dietChartVisible { get; set; } = true;

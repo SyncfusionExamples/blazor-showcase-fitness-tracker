@@ -240,12 +240,12 @@
 </SfDialog>
 
 @code {
-    SfDialog dialogRef;
-    SfSlider<int> weightSliderRef;
-    SfCircularGauge weightGaugeRef;
+    SfDialog? dialogRef;
+    SfSlider<int>? weightSliderRef;
+    SfCircularGauge? weightGaugeRef;
     private bool visible { get; set; }
-    private string editDialogWidth { get; set; }
-    private string height { get; set; }
+    private string? editDialogWidth { get; set; }
+    private string? height { get; set; }
     private string modifyHeaderTitle { get; set; } = "Change Your Weight";
     private string weightGaugeBackground { get; set; } = "#FFF7EC";
     private string currentUnit { get; set; } = "KG";
@@ -261,9 +261,9 @@
     private int weightGaugeMaximum { get; set; }
     private int weightGaugeValue { get; set; }
     private int heightGaugeValue { get; set; }
-    private string humanImgStyle { get; set; }
+    private string? humanImgStyle { get; set; }
     private double heightGaugeMaximum { get; set; }
-    private string heightLabelStyle { get; set; }
+    private string? heightLabelStyle { get; set; }
     private bool isInitialRender { get; set; }
     private bool isDialogOpened { get; set; }
 
@@ -322,7 +322,7 @@
         heightEditClass = string.Empty;
         currentUnit = SampleService.ProfileStats.WeightMes.ToUpper();
         weightGaugeValue = SampleService.ProfileStats.Weight;
-        SampleService.ProfileTabRef.StateChanged();
+        SampleService.ProfileTabRef?.StateChanged();
     }
 
     private void AgeMinusClick()
@@ -407,7 +407,7 @@
             weightGaugeBackground = "#414255";
         }
         await JSRuntime.InvokeVoidAsync("blazorFitnessTracker.changeTheme", args.Value);
-        SampleService.TabRef.UpdateActiveTab(false);
+        SampleService.TabRef?.UpdateActiveTab(false);
     }
 
     private void HandleChange(string unit)

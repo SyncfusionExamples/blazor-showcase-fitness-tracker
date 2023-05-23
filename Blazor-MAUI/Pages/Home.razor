@@ -106,9 +106,9 @@
     [Parameter]
     public bool IsInitialized { get; set; }
     private bool isRendered { get; set; }
-    private Activities activitiesTabRef { get; set; }
-    private Diet dietTabRef { get; set; }
-    private Fasting fastingTabRef { get; set; }
+    private Activities? activitiesTabRef { get; set; }
+    private Diet? dietTabRef { get; set; }
+    private Fasting? fastingTabRef { get; set; }
     private int tabSelectedItem { get; set; } = 0;
     internal HeaderPosition HeaderPlacement { get; set; }
 
@@ -165,7 +165,7 @@
             SampleService.FastingData.CountStartDate = currentDate.Date.AddDays(-1).Add(new TimeSpan(18, 0, 0));
             SampleService.FastingData.CountDownDate = new DateTime(currentDate.Year, currentDate.Month, SampleService.FastingData.CountStartDate.Day).Add(new TimeSpan(SampleService.FastingData.CountStartDate.Hour + 16, 0, 0));
         }
-        SampleService.ProfileStats = SampleService.GetProfileStats();
+        SampleService.ProfileStats = FitnessService.GetProfileStats();
         SampleService.DietData.CurrentBreakFastTime = currentDate.Date.Add(new TimeSpan(8, 30, 0));
         SampleService.DietData.CurrentSnack1Time = currentDate.Date.Add(new TimeSpan(11, 0, 0));
         SampleService.DietData.CurrentLunchTime = currentDate.Date.Add(new TimeSpan(13, 0, 0));
