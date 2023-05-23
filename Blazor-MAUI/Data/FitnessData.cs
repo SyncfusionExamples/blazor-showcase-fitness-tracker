@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace FitnessTracker.Data
 {
     public class ProfileInfo
