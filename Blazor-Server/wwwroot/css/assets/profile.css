@@ -23,6 +23,7 @@
   height: 80px;
   width: 80px;
   top: calc(0% - 1em);
+  cursor: pointer;
 }
 
 .e-profile-editor .e-profile-inner-editor div {

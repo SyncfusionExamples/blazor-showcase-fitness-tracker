@@ -672,6 +672,7 @@ body {
 
 .e-profile-back-text {
   margin-left: 10px;
+  cursor: default;
 }
 
 .e-weight-change-btn,
@@ -693,6 +694,7 @@ body {
   align-items: center;
   padding-left: 16px !important;
   padding-right: 16px !important;
+  cursor: pointer;
 }
 
 .e-weight-change-btn:active,
