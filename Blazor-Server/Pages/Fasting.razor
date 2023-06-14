@@ -307,7 +307,7 @@
             }
             if (SampleService.TodayActivities[index].Count > 1)
             {
-                Activity activity = new Activity { Name = period, ActivityType = "Water Taken", Count = SampleService.TodayActivities[index].Count - 1, Amount = (SampleService.TodayActivities[index].Count - 1) + " Glasses", Percentage = (((SampleService.TodayActivities[index].Count - 1) * 150 / SampleService.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = SampleService.TodayActivities[index].Time };
+                Activity activity = new Activity { Name = period, ActivityType = "Water Taken", Count = SampleService.TodayActivities[index].Count - 1, Amount = (SampleService.TodayActivities[index].Count - 1) + " Glasses", Percentage = (((SampleService.TodayActivities[index].Count - 1) * 150 / (double)SampleService.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = SampleService.TodayActivities[index].Time };
                 SampleService.TodayActivities[index] = activity;
             }
             else
@@ -330,12 +330,12 @@
         Activity activity;
         if (index > -1)
         {
-            activity = new Activity { Name = period, ActivityType = "Water Taken", Count = SampleService.TodayActivities[index].Count + 1, Amount = (SampleService.TodayActivities[index].Count + 1) + " Glasses", Percentage = (((SampleService.TodayActivities[index].Count + 1) * 150 / SampleService.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = DateTime.Now.ToString("h:mm tt") };
+            activity = new Activity { Name = period, ActivityType = "Water Taken", Count = SampleService.TodayActivities[index].Count + 1, Amount = (SampleService.TodayActivities[index].Count + 1) + " Glasses", Percentage = (((SampleService.TodayActivities[index].Count + 1) * 150 / (double)SampleService.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = DateTime.Now.ToString("h:mm tt") };
             SampleService.TodayActivities[index] = activity;
         }
         else
         {
-            activity = new Activity { Name = period, ActivityType = "Water Taken", Count = 1, Amount = 1 + " Glasses", Percentage = ((1 * 150 / SampleService.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = DateTime.Now.ToString("h:mm tt") };
+            activity = new Activity { Name = period, ActivityType = "Water Taken", Count = 1, Amount = 1 + " Glasses", Percentage = ((1 * 150 / (double)SampleService.FastingData.ExpectedWaterAmount) * 100).ToString("0.00").Replace(".00", string.Empty) + "%", Time = DateTime.Now.ToString("h:mm tt") };
             SampleService.TodayActivities.Add(activity);
         }
         if (SampleService.FastingData.ConsumedWaterCount < 20)
